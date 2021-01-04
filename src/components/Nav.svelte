@@ -19,6 +19,7 @@
 	div.title img {
 		vertical-align: middle;
 		padding: 0 0.5em 12px 0;
+		height: 50px;
 	}
 
 	ul {
@@ -54,12 +55,29 @@
 	a:hover span {
 		border-bottom-color: hsl(194, 70%, 48%);
 	}
+
+	@media (max-width: 1024px) {
+		div.title {
+			display: block;
+			text-align: center;
+		}
+
+		div.title img {
+			padding: 0 0.5em 4px 0;
+			height: 30px;
+		}
+		ul {
+			display: block;
+			text-align: center;
+			margin: 0;
+		}
+	}
 </style>
 
 <nav>
 	<div class="title">
 		<a href="/" rel="prefetch">
-			<img alt="Ture Hounds" src={tureHoundsLogo} height="50" />
+			<img alt="Ture Hounds" src={tureHoundsLogo} />
 			PuppyCam
 		</a>
 	</div>

@@ -26,6 +26,23 @@
 	.details {
 		padding: 0 1em;
 	}
+
+	@media (max-width: 1024px) {
+		.layout {
+			display: block;
+		}
+
+		.aspect-root {
+			/* ensures a 16:9 aspect ratio */
+			width: min(100vw - 1rem, (100vh - 5rem) * 1.77778);
+			height: min(100vh - 5rem, (100vw - 1rem) / 1.77778);
+			margin-bottom: 2rem;
+		}
+
+		.details {
+			padding: 0;
+		}
+	}
 </style>
 
 <svelte:head>
@@ -55,8 +72,10 @@
 		<p>Blue, Red, Yellow, White, Green...</p>
 		<p>
 			Current puppy weather:<br />
-			&nbsp;&nbsp;&nbsp;temperature: <b>XX&deg;F</b><br />
-			&nbsp;&nbsp;&nbsp;humidity: <b>XX%</b>
+			&nbsp;&nbsp;&nbsp;temperature:
+			<b>XX&deg;F</b><br />
+			&nbsp;&nbsp;&nbsp;humidity:
+			<b>XX%</b>
 		</p>
 	</div>
 </div>
