@@ -1,50 +1,62 @@
-<script>
-	import successkid from 'images/successkid.jpg';
+<script lang="ts">
+	// import tureHoundsLogo from "images/ture-hounds-logo.png";
+	let dummy = true;
+	// let dummy = false;
 </script>
 
 <style>
-	h1, figure, p {
-		text-align: center;
-		margin: 0 auto;
+	/* * {
+		border: 1px solid red;
+	} */
+
+	.aspect-root {
+		/* ensures a 16:9 aspect ratio */
+		width: min(100vw - 10rem, (100vh - 10rem) * 1.77778);
+		height: min(100vh - 10rem, (100vw - 10rem) / 1.77778);
 	}
 
-	h1 {
-		font-size: 2.8em;
-		text-transform: uppercase;
-		font-weight: 700;
-		margin: 0 0 0.5em 0;
+	.dummy {
+		background-color: hsl(0, 100%, 50%, 0.2);
 	}
 
-	figure {
-		margin: 0 0 1em 0;
+	.layout {
+		display: flex;
 	}
 
-	img {
-		width: 100%;
-		max-width: 400px;
-		margin: 0 0 1em 0;
-	}
-
-	p {
-		margin: 1em auto;
-	}
-
-	@media (min-width: 480px) {
-		h1 {
-			font-size: 4em;
-		}
+	.details {
+		padding: 0 1em;
 	}
 </style>
 
 <svelte:head>
-	<title>Sapper project template</title>
+	<title>Ture Hounds PuppyCam!</title>
 </svelte:head>
 
-<h1>Great success!</h1>
+<!-- <h1>Video?</h1> -->
 
-<figure>
-	<img alt="Success Kid" src="{successkid}">
-	<figcaption>Have fun with Sapper!</figcaption>
-</figure>
+<!-- <p>Let's see if this works...</p> -->
 
-<p><strong>Try editing this file (src/routes/index.svelte) to test live reloading.</strong></p>
+<div class="layout">
+	{#if dummy}
+		<div class="aspect-root dummy">DUMMY</div>
+	{:else}
+		<iframe
+			title="Eye in the Sky"
+			type="text/html"
+			class="aspect-root"
+			frameborder="0"
+			src="https://video.nest.com/embedded/live/jqbAk2MNMd?autoplay=1"
+			allowfullscreen />
+	{/if}
+
+	<div class="details">
+		<h1>Details...</h1>
+		<p>Here’s where some details would go…</p>
+		<p>Blue, Red, Yellow, White, Green...</p>
+		<p>
+			Current puppy weather:<br />
+			&nbsp;&nbsp;&nbsp;temperature: <b>XX&deg;F</b><br />
+			&nbsp;&nbsp;&nbsp;humidity: <b>XX%</b>
+		</p>
+	</div>
+</div>

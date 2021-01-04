@@ -1,6 +1,6 @@
 {
-  "name": "TODO",
-  "description": "TODO",
+  "name": "Ture Hounds PuppyCam",
+  "description": "Ture Hounds PuppyCam",
   "version": "0.0.1",
   "scripts": {
     "dev": "sapper dev",
