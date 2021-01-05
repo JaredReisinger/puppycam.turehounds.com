@@ -20,7 +20,8 @@
 		position: absolute;
 		width: 30%;
 		height: 30%;
-		bottom: 0;
+		/* bottom: 5%; */
+		top: 0;
 		right: 0;
 		margin: 0.5em;
 		border: 0.5em solid white;
@@ -39,7 +40,8 @@
 	}
 
 	.details {
-		padding: 0 1em;
+		padding: 0.5em 1em;
+		flex: auto;
 	}
 
 	@media (max-width: 1024px) {
@@ -55,7 +57,7 @@
 		}
 		.aspect-child {
 			margin: 0.25em;
-			border: 0.25em solid white;
+			border-width: 0.25em;
 		}
 
 		.details {
