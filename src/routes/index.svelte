@@ -96,7 +96,7 @@
 					type="text/html"
 					class="fill-parent"
 					frameborder="0"
-					src="https://video.nest.com/embedded/live/jqbAk2MNMd?autoplay=1"
+					src="https://video.nest.com/embedded/live/dAYyHiFXJU?autoplay=1"
 					allowfullscreen />
 			{/if}
 		</div>
