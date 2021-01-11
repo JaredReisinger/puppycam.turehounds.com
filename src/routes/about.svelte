@@ -47,12 +47,10 @@
 	<h2>Technical details</h2>
 
 	<p>
-		This is going to get
-		<em>waaaaaay</em>
-		too technical; I (Jared) write software for a living, though, and
-		I enjoy it enough that I also do it in my “spare” time. Any excuse to
-		write some bespoke software, or learn a new technology, is a good thing
-		in my opinion.
+		I (Jared) write software for a living, and I enjoy it enough that I also
+		do it in my spare time. Any excuse to write some bespoke software or
+		learn a new technology is a good thing in my opinion. As a result, this
+		site might be considered a gratuitous use of technology. 😉
 	</p>
 
 	<p>
@@ -63,7 +61,7 @@
 		<li><a href="about#front-end">front-end web site</a></li>
 		<li><a href="about#live-video">live video feed</a></li>
 		<li><a href="about#puppy-details">puppy details</a></li>
-		<li><a href="about#puppy-weather">"puppy weather" information</a></li>
+		<li><a href="about#puppy-weather">“puppy weather” information</a></li>
 		<li><a href="about#more">maybe more?</a></li>
 	</ul>
 
@@ -81,10 +79,10 @@
 		anything. The nice thing about having nothing running on the server is
 		that it means we can host it for free on
 		<a href="https://netlify.com" target="_blank">Netlify</a>. One other
-		nice thing about Netlify is that I have it set to watching the source
-		code for any changes. As soon as I push a change to the code, Netlify
-		automatically grabs that change, rebuilds the site, and redeploys it,
-		all in a matter of seconds.
+		nice thing about Netlify is that it auto-updates when there’s a change
+		to the source code. As soon as I push a change to the code, Netlify
+		grabs that change, rebuilds the site, and redeploys it, all in a matter
+		of seconds.
 	</p>
 
 	<p>
@@ -144,8 +142,10 @@
 	<p>
 		Okay... now
 		<em>this</em>
-		part of the site is actually a completely gratuitous use of technology.
-		It's a complete sub-system in and of itself. It comprises:
+		part of the site is a
+		<em><strong>completely</strong></em>
+		gratuitous use of technology. It's a complete sub-system in and of
+		itself. It comprises:
 	</p>
 	<ul>
 		<li>
