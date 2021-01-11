@@ -16,13 +16,13 @@
         color: hsl(60, 80%, 45%);
     }
     .white {
-        color: hsl(0, 0%, 50%);
+        color: hsl(0, 0%, 70%);
     }
     .green {
         color: hsl(100, 80%, 30%);
     }
-    .brown {
-        color: hsl(50, 80%, 30%);
+    .pink-purple {
+        color: hsl(320, 80%, 70%);
     }
 </style>
 
@@ -66,8 +66,8 @@
             <td>???</td>
             <td>???</td>
         </tr>
-        <tr class="brown">
-            <td>Brown</td>
+        <tr class="pink-purple">
+            <td>Pink/Purple</td>
             <td>???</td>
             <td>???</td>
             <td>???</td>
