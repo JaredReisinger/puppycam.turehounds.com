@@ -174,54 +174,56 @@
 
 	<p>
 		SensorPush also exposes a programmatic API so that you can get the raw
-		data they have recorded into the cloud. It’s rather complex, however,
-		and also requires performing proper authentication using your personal
-		SensorPush password. Since (a) I don’t want to expose my password even
-		within the source of the web page, (b) the PuppyCam site only needs the
-		most-recent temperature/humidity reading, and (c) when the PuppyCam goes
-		viral it could start requesting the information
+		data they have saved from the individual sensors. Their API is rather
+		complex, however, and also requires performing proper authentication
+		using your (my!) personal SensorPush password. Since (a) I don’t want to
+		expose my password even within the source of the web page, (b) the
+		PuppyCam site only needs the most-recent temperature/humidity reading,
+		and (c) when the PuppyCam goes viral it could start requesting the
+		information
 		<em>millions</em>
-		of times, the “most sane” thing to do is to run a tiny one-off web
+		of times 😉, the “most sane” thing to do is to run a tiny one-off web
 		server whose job is to peridocially poke the SensorPush API to get the
-		latest reading, and also to serve that information publically.
+		latest reading, and to also serve that information publically.
 	</p>
 
-	<p>Which means it’s a…</p>
+	<p>All of which means it’s a…</p>
 
 	<h4 id="proxy">Bespoke data proxy</h4>
 
 	<p>
 		I’ve written a small program/web-server in
 		<a href="https://golang.org/" target="_blank">Go</a>
-		that performs all of the necessary stuff for getting the temperature and
+		that performs all of the necessary work for getting the temperature and
 		humidity from the SensorPush API, and then turns around and exposes it
-		as a simple website at
+		as a simple web page at
 		<a
 			href="https://puppycam-sensor.spudnoggin.com/sensor"
 			target="_blank"><code>https://puppycam-sensor.spudnoggin.com/sensor</code></a>.
-		(If you visit that link, you’ll see some additional potential data
+		If you visit that link, you’ll see some additional potential data
 		metrics without values: altitude, barometric pressure, and so on.
 		SensorPush has some newer sensors that report those values, but ours
-		only includes the temperature and humidity.)
+		only includes the temperature and humidity.
 	</p>
 
 	<p>
 		This small program runs on spare hardware that’s been cobbled together
 		over the years and turned into a little Linux box running my own
 		personal private “cloud”. It could just as easily run “in the (real)
-		cloud”—and in reality would, if the PuppyCam actually went viral!—but it
+		cloud”—and in would/will, if the PuppyCam actually goes viral!—but it
 		doesn’t cost anything (more) to run it on a machine that I already have
-		and that is already selectively exposed to the internet as half-a-dozen
-		other virtual servers.
+		and that is already exposed to the internet as half-a-dozen other
+		virtual servers.
 	</p>
 
 	<h4 id="weather-component">Auto-updating in-browser logic</h4>
 
 	<p>
-		So now there’s easy and open access to the temperature/humidity data,
-		and it’s just a matter of getting that to show up in your browser. The
-		Svelte component I’ve written simply tells the browser to retrieve the
-		data from the bespoke data proxy every 30 seconds, and then updates the
+		So given that there’s now easy and open access to the
+		temperature/humidity data, it’s just a matter of getting that
+		information to show up in your browser. The Svelte component I’ve
+		written for this site simply tells the browser to retrieve the data from
+		the bespoke data proxy every 30 seconds, and then updates the
 		information on the page. Updating the page is something that Svelte was
 		designed to do, so this is a lot easier than it might sound.
 	</p>
