@@ -16,16 +16,15 @@
 		position: relative;
 	}
 
-	.aspect-child {
+	/* .aspect-child {
 		position: absolute;
 		width: 30%;
 		height: 30%;
-		/* bottom: 5%; */
 		top: 0;
 		right: 0;
 		margin: 0.5em;
 		border: 0.5em solid white;
-	}
+	} */
 
 	.layout {
 		display: flex;
@@ -56,10 +55,11 @@
 			height: min(100vh - 5rem, (100vw - 1rem) / 1.77778);
 			margin-bottom: 2rem;
 		}
-		.aspect-child {
+		
+		/* .aspect-child {
 			margin: 0.25em;
 			border-width: 0.25em;
-		}
+		} */
 
 		.details {
 			padding: 0;
@@ -74,9 +74,9 @@
 <div class="layout">
 	<div class="aspect-root">
 		<Video title="Eye in the Sky" videoId="jqbAk2MNMd" />
-		<div class="aspect-child">
-			<Video title="PuppyCam 2" videoId="dAYyHiFXJU" />
-		</div>
+		<!-- <div class="aspect-child">
+			<Video title="PuppyCam 2 (coming soon)" videoId="dAYyHiFXJU" dummy />
+		</div> -->
 	</div>
 
 	<div class="details">

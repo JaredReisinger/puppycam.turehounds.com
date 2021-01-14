@@ -2,10 +2,10 @@
     export let title: string;
     export let videoId: string;
 
-    let dummy = process.env.NODE_ENV === 'development';
+    export let dummy = process.env.NODE_ENV === 'development';
     // uncomment to force on/off
     // dummy = true;
-    // dummy = false;
+    // export let dummy = false;
 </script>
 
 <style>
@@ -14,7 +14,7 @@
 		height: 100%;
 	}
 	.dummy {
-		background-color: hsl(0, 100%, 50%, 0.2);
+		background-color: hsl(0, 100%, 90%);
 	}
 </style>
 
