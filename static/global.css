@@ -46,3 +46,22 @@ code {
     font-size: 16.85px;
   }
 }
+
+.blue {
+  color: hsl(220, 80%, 50%);
+}
+.red {
+  color: hsl(0, 80%, 50%);
+}
+.yellow {
+  color: hsl(60, 80%, 45%);
+}
+.white {
+  color: hsl(0, 0%, 70%);
+}
+.green {
+  color: hsl(100, 80%, 30%);
+}
+.pink {
+  color: hsl(320, 80%, 70%);
+}
