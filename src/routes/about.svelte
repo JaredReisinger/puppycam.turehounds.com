@@ -221,10 +221,10 @@
   </p>
 </div>
 
-<style>
+<style type="scss">
   .wrapper {
     max-width: 50em;
-    /* font-weight: 400; */
+    // font-weight: 400;
   }
 
   .example {
