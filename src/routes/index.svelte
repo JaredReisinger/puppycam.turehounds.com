@@ -1,7 +1,7 @@
 <script lang="ts">
   import Video from "../components/Video.svelte";
-  import PuppyWeather from "../components/PuppyWeather.svelte";
   import PuppyDetails from "../components/PuppyDetails.svelte";
+  import PuppyWeather from "../components/PuppyWeather.svelte";
 </script>
 
 <svelte:head>
@@ -18,17 +18,16 @@
 
   <div class="details">
     <h3>The puppies</h3>
+
     <PuppyDetails />
+    <a href="about#puppy-details" class="what">what?!</a>
+
     <PuppyWeather title="Current puppy weather" />
     <a href="about#puppy-weather" class="what">what?!</a>
   </div>
 </div>
 
 <style type="scss">
-  //   * {
-  //     border: 1px solid red;
-  //   }
-
   .aspect-root {
     /* ensures a 16:9 aspect ratio */
     width: min(100vw - 10rem, (100vh - 10rem) * 1.77778);
@@ -36,15 +35,15 @@
     position: relative;
   }
 
-  //   .aspect-child {
-  //     position: absolute;
-  //     width: 30%;
-  //     height: 30%;
-  //     top: 0;
-  //     right: 0;
-  //     margin: 0.5em;
-  //     border: 0.5em solid white;
-  //   }
+  // .aspect-child {
+  //   position: absolute;
+  //   width: 30%;
+  //   height: 30%;
+  //   top: 0;
+  //   right: 0;
+  //   margin: 0.5em;
+  //   border: 0.5em solid white;
+  // }
 
   .layout {
     display: flex;

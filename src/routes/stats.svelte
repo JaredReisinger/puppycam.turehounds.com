@@ -30,6 +30,14 @@
   <PuppyWeights />
 
   <p>
+    Yeah, yeah… the puppies’ weights are measure in grams. Why? Because our
+    scale can measure to gram-level accuracy, or to eighth-of-an-ounce accuracy.
+    Since 1 gram is about 1/28th of an ounce, using grams is <em>waaaaay</em>
+    more accurate. I could convert to ounces here (like I do for puppy details),
+    or add a secondary axis on the right… I just haven’t (yet).
+  </p>
+
+  <p>
     The analogous data for Disa’s previous litter was recorded in an Excel file,
     and was only for us. Since this site is an excuse to play with some
     technology, I’m playing with some data-visualization tools purely for the
@@ -40,10 +48,10 @@
     <PuppyDetails />
   {/if}
 
-  <p class="aside">
+  <p class="aside final">
     Have an idea for something else to chart? Drop me a line and let me know!
     (For the record, I’m already thinking about adding historical “puppy
-    weather” data, since that information is can/be available through the same
+    weather” data, since that information is/can-be available through the same
     mechanism that yields the “current” weather.)
   </p>
 </div>
@@ -55,12 +63,16 @@
   }
 
   .aside {
-    margin: 2em 0 1em;
+    margin: 1em 0;
     border: 1px solid hsl(0, 0%, 80%);
     border-radius: 0.5em;
     background-color: hsl(0, 0%, 90%);
     padding: 1em;
     font-style: italic;
     color: hsl(0, 0%, 40%);
+  }
+
+  .aside.final {
+    margin-top: 2em;
   }
 </style>

@@ -1,5 +1,6 @@
 <script lang="ts">
   import Video from "../components/Video.svelte";
+  import PuppyDetails from "../components/PuppyDetails.svelte";
   import PuppyWeather from "../components/PuppyWeather.svelte";
 </script>
 
@@ -103,13 +104,27 @@
   <h3 id="puppy-details">Puppy details</h3>
 
   <p>
-    The details about the puppies is just content that I’ve typed into the site
-    by hand… there’s nothing magic or particularly technical for this part. It
-    would be awesome if the puppy weights could auto-update, but that would mean
-    some kind of weight-measuring pad, being able to track which puppy is on the
-    pad at any given moment, and so on… I mean, that would be
+    For the first few days, the details about the puppies had been typed in by
+    hand. As of late Saturday, January 16, however, much of it is driven from
+    some data. This data, including relatively up-to-date weight measurements,
+    is still typed in by hand… but it’s entered in a very concise and minimal
+    way. It would be awesome if the puppy weights could truly auto-update, but
+    that would mean some kind of weight-measuring pad, being able to track which
+    puppy is on the pad at any given moment, and so on… I mean, that would be
     <em>undeniably</em>
     cool, but it’s beyond my reach at the moment.
+  </p>
+
+  <p>That said, the table is now data-driven, showing only the lastest data:</p>
+
+  <div class="example auto">
+    <PuppyDetails />
+  </div>
+
+  <p>
+    Why bother? Because the historical data is now available to drive the <a
+      href="stats">statistics page</a
+    >!
   </p>
 
   <h3 id="puppy-weather">“Puppy weather” information</h3>
@@ -229,13 +244,19 @@
 
   .example {
     width: 16em;
+    max-width: 100%;
     margin: 1em auto;
-    border: 1px solid hsl(0, 0%, 60%);
+    border: 1px solid hsl(0, 0%, 80%);
     border-radius: 1em;
-    background-color: hsl(0, 0%, 60%, 0.25);
+    background-color: hsl(0, 0%, 80%, 0.2);
     padding: 0.5em;
     box-sizing: content-box;
   }
+
+  .example.auto {
+    width: fit-content;
+  }
+
   .video {
     height: 9em;
   }
