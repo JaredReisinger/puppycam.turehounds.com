@@ -22,6 +22,13 @@
     </li>
     <li>
       <a
+        aria-current={segment === "stats" ? "page" : undefined}
+        href="stats"
+        rel="prefetch"><span>Stats</span></a
+      >
+    </li>
+    <li>
+      <a
         aria-current={segment === "about" ? "page" : undefined}
         href="about"
         rel="prefetch"><span>About</span></a

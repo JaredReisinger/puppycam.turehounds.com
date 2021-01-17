@@ -4,7 +4,7 @@
 </script>
 
 <svelte:head>
-  <title>About</title>
+  <title>About - Ture Hound PuppyCam!</title>
 </svelte:head>
 <div class="wrapper">
   <h1>About PuppyCam</h1>

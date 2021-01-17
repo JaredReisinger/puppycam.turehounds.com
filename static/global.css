@@ -20,7 +20,7 @@ h6 {
 }
 
 h1:first-child {
-	margin-top: 0;
+  margin-top: 0;
 }
 
 a {
@@ -47,6 +47,8 @@ code {
   }
 }
 
+/* ideally, we'd have SCSS for this, so we're not re-defining the colors... */
+
 .blue {
   color: hsl(220, 80%, 50%);
 }
@@ -64,4 +66,42 @@ code {
 }
 .pink {
   color: hsl(320, 80%, 70%);
+}
+
+.stroke-blue {
+  stroke: hsl(220, 80%, 50%);
+}
+.stroke-red {
+  stroke: hsl(0, 80%, 50%);
+}
+.stroke-yellow {
+  stroke: hsl(60, 80%, 45%);
+}
+.stroke-white {
+  stroke: hsl(0, 0%, 70%);
+}
+.stroke-green {
+  stroke: hsl(100, 80%, 30%);
+}
+.stroke-pink {
+  stroke: hsl(320, 80%, 70%);
+}
+
+.fill-blue {
+  fill: hsl(220, 80%, 50%);
+}
+.fill-red {
+  fill: hsl(0, 80%, 50%);
+}
+.fill-yellow {
+  fill: hsl(60, 80%, 45%);
+}
+.fill-white {
+  fill: hsl(0, 0%, 70%);
+}
+.fill-green {
+  fill: hsl(100, 80%, 30%);
+}
+.fill-pink {
+  fill: hsl(320, 80%, 70%);
 }

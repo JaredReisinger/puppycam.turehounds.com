@@ -99,6 +99,8 @@ type FixedArray<T, N extends number> = GrowToSize<T, [], N>;
 const weighings: [ShortDateTime, ...FixedArray<Weight, 6>][] = [
   ["01-14T09:00", 252, 244, 239, 240, 257, 236],
   ["01-14T23:19", 274, 271, 262, 264, 282, 252],
+  ["01-15T20:55", 315, 302, 305, 298, 320, 298],
+  ["01-16T12:15", 335, 341, 328, 330, 361, 313],
 ];
 
 // ===========================================================================
@@ -158,9 +160,16 @@ const data = {
 
 export default data;
 
-
 const gramsPerOunce = 0.03527392;
 
 export function gramsToOunces(grams: number): number {
   return grams * gramsPerOunce;
+}
+
+export function capitalize(s: string):string {
+  return `${s[0].toUpperCase()}${s.substring(1)}`;
+}
+
+export function properName(dog: DogInfo): string {
+  return `${dog.sex === Sex.M ? 'Mr.' : 'Miss'} ${capitalize(dog.collar)}`;
 }
