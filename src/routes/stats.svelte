@@ -30,11 +30,11 @@
   <PuppyWeights />
 
   <p>
-    Yeah, yeah… the puppies’ weights are measure in grams. Why? Because our
-    scale can measure to gram-level accuracy, or to eighth-of-an-ounce accuracy.
+    The puppies’ weights are shown in ounces, since most viewers are in the
+    United States. We actually measure in grams, though, because our scale can
+    measure to either one-gram-level accuracy or to eighth-of-an-ounce accuracy.
     Since 1 gram is about 1/28th of an ounce, using grams is <em>waaaaay</em>
-    more accurate. I could convert to ounces here (like I do for puppy details),
-    or add a secondary axis on the right… I just haven’t (yet).
+    more accurate. We convert these measurement to ounces purely for display.
   </p>
 
   <p>

@@ -11,7 +11,7 @@
   import Axis from "./Axis.svelte";
 
   import { store as dataStore } from "./puppy-data.js";
-  import { properName } from "./puppy-data-utils.js";
+  import { properName, gramsToOunces } from "./puppy-data-utils.js";
   import type { DogInfo } from "./puppy-data-utils.js";
 
   // I orginally tried to create a "LineChart" component, but there's so much
@@ -50,7 +50,7 @@
         ([date, weight]) =>
           ({
             date: date.toJSDate(),
-            value: weight,
+            value: gramsToOunces(weight),
           } as DataPoint)
       ),
     }));
@@ -188,7 +188,7 @@
       <text
         class="axis-label-left"
         transform="translate(10,{(chart.top + chart.bottom) / 2}) rotate(-90)"
-        >weight (grams)</text
+        >weight (ounces)</text
       >
 
       <!-- include the target growth line... -->

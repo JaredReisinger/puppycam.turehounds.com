@@ -115,14 +115,20 @@
     cool, but it’s beyond my reach at the moment.
   </p>
 
-  <p>That said, the table is now data-driven, showing only the lastest data:</p>
+  <p>
+    That said, the table is now not only data-driven, but it also checks every
+    30 minutes or so to see if there's any updated data. If it has, the table
+    will auto-update to reflect the latest weights, without requiring you to
+    refresh the page. While I'm not likely to update the weights every 30
+    minutes, this ensures that the page will always be current.
+  </p>
 
   <div class="example auto">
     <PuppyDetails />
   </div>
 
   <p>
-    Why bother? Because the historical data is now available to drive the <a
+    Having all of the raw data also means that it is now available to drive the <a
       href="stats">statistics page</a
     >!
   </p>
