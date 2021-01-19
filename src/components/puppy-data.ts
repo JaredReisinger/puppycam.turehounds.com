@@ -31,7 +31,7 @@ const defaultDelay = Duration.fromISO("PT30M"); // every half-hour
 // const defaultDelay = Duration.fromISO("PT10S"); // every 10 seconds
 // const defaultDelay = Duration.fromISO("PT2S"); // every 2 seconds
 
-export const store = readable(sta, (set) => {
+export const store = readable(state, (set) => {
   // We have two very distinct paths depending on whether we can really
   // refresh or not.  If we can, we do so and set up auto-refresh.  If we
   // can't, we're pretty much done and will always have the initial state.
