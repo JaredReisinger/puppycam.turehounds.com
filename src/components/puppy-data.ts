@@ -1,175 +1,100 @@
-// I tried using YAML and JSON, but couldn't get the rollup plugin to work. I
-// kept seeing "unexpected token (you need a plugin)" despite *having* the
-// plugin.  Ah, well... JS works as well... (as does ts!)
+// This is an "auto-updating store" that gets the raw puppy stats JSON data
+// and massages it into our usable form.  We could theoretically build a
+// "self-updating fetch-backed store", but for now this is a one-off.
+import { readable } from "svelte/store";
+import { DateTime, Duration } from "luxon";
 
-import { DateTime } from "luxon";
+import { massageData, PuppyData } from "./puppy-data-utils.js";
+import type { RawPuppyData } from "./puppy-data-utils.js";
 
-// There's an interesting set of conflicting constraints: there's enough data
-// that it needs to be efficient and non-verbose to author/edit it, *and* it
-// needs to be exposed in an easy-to-use format.  To that end, we author it in
-// one form, and then expose a transformed version of it.  Types are defined as
-// we go, just as they are needed.  By-and-large, the data entry will be done in
-// tuples, to vastly reduce the needed typing (on the keyboard, not Typescript
-// types).
+// *Pages* can expose a "preload" that can take advantage of server-side
+// "this.fetch()", but general components can't.  I've gone back and forth
+// attempting to find a good way to seed initial data from the server, but
+// there's no clean mechanism to propagate a page-preload's "this.fetch" down
+// into a component.
 
-/** The valid collar colors. */
-enum Collar {
-  blue,
-  red,
-  yellow,
-  white,
-  green,
-  pink,
+const statsUrl = "puppy-stats.json";
+
+export interface PuppyDataStore {
+  lastChecked: DateTime;
+  lastModified: DateTime;
+  puppyData: PuppyData;
 }
 
-/** Collar colors as keys (a set of valid strings) */
-type CollarKey = keyof typeof Collar;
+let state: PuppyDataStore = {
+  lastChecked: undefined,
+  lastModified: undefined,
+  puppyData: undefined,
+};
 
-// const CollarNames = Object.keys(Collar);
-// const CollarCount = CollarNames.length;
+const defaultDelay = Duration.fromISO("PT30M"); // every half-hour
+// const defaultDelay = Duration.fromISO("PT10S"); // every 10 seconds
+// const defaultDelay = Duration.fromISO("PT2S"); // every 2 seconds
 
-const collarCount = 6;
-
-/** Valid sexes. */
-const enum Sex {
-  M = "M",
-  F = "F",
-}
-
-// /** Sex as a string value. */
-// type SexValue = keyof typeof Sex;
-
-/** Known colors */
-const enum Color {
-  Red = "Red & White",
-  // Tri = "Tri-colored (Black, White, & Tan)",
-  Tri = "Tri-colored",
-}
-
-// /** Color as a short string */
-// type ColorKey = keyof typeof Color;
-
-/** A date/time in ISO representation, but *without* the year and offset. */
-type ShortDateTime = string;
-
-const assumedYear = "2021";
-const assumedOffset = "-0700";
-
-/** Converts our short date/time into a real Luxon DateTime. */
-function shortToDateTime(date: ShortDateTime): DateTime {
-  return DateTime.fromISO(`${assumedYear}${date}${assumedOffset}`);
-}
-
-/** A weight in grams. */
-type Weight = number;
-
-/**
- * The birth info, in compact form.
- *
- * Note that the tuple order was chosen purely to keep the columns lined up.
- */
-const birthInfo: [ShortDateTime, Sex, Color, Weight, CollarKey][] = [
-  ["01-13T16:13", Sex.F, Color.Red, 231, "blue"],
-  ["01-13T16:30", Sex.M, Color.Red, 219, "red"],
-  ["01-13T16:42", Sex.F, Color.Red, 219, "yellow"],
-  ["01-13T16:54", Sex.F, Color.Red, 224, "white"],
-  ["01-13T17:51", Sex.M, Color.Red, 229, "green"],
-  ["01-13T19:51", Sex.F, Color.Tri, 215, "pink"],
-];
-
-// ===========================================================================
-// MAGIC TYPESCRIPT from
-// https://stackoverflow.com/questions/41139763/how-to-declare-a-fixed-length-array-in-typescript...
-// I'm not sure how this works...
-type Grow<T, A extends Array<T>> = ((x: T, ...xs: A) => void) extends (
-  ...a: infer X
-) => void
-  ? X
-  : never;
-type GrowToSize<T, A extends Array<T>, N extends number> = {
-  0: A;
-  1: GrowToSize<T, Grow<T, A>, N>;
-}[A["length"] extends N ? 0 : 1];
-
-type FixedArray<T, N extends number> = GrowToSize<T, [], N>;
-// ===========================================================================
-
-// Weighings (after the birth weight!) are conducted at one point in time, and
-// include a weight for each dog in canonical order.
-const weighings: [ShortDateTime, ...FixedArray<Weight, 6>][] = [
-  ["01-14T09:00", 252, 244, 239, 240, 257, 236],
-  ["01-14T23:19", 274, 271, 262, 264, 282, 252],
-  ["01-15T20:55", 315, 302, 305, 298, 320, 298],
-  ["01-16T12:15", 335, 341, 328, 330, 361, 313],
-];
-
-// ===========================================================================
-// Now... generate the actual "public" data in a nicely structured form
-
-export type Weighing = [DateTime, Weight];
-
-/** information about a single dog */
-export interface DogInfo {
-  /** collar color for the dog */
-  collar: CollarKey;
-  /** hurr... duh, the birthdate */
-  birthdate: DateTime;
-  /** the sex of the dog */
-  sex: Sex;
-  /** the color of the dog */
-  color: Color;
-  /** weight (in grams) at birth */
-  birthweight: number;
-  /** all weights for this dog */
-  weights: Weighing[];
-}
-
-const dogs: DogInfo[] = birthInfo.map(
-  ([shortBirthdate, sex, color, birthweight, collar]) => {
-    // get *this* dog's weights...
-    const collarIndex = Collar[collar];
-    const birthdate = shortToDateTime(shortBirthdate);
-    const weights: Weighing[] = weighings.map(([shortDate, ...w]) => [
-      shortToDateTime(shortDate),
-      w[collarIndex],
-    ]);
-    // unshift the birth weight onto the front...
-    weights.unshift([birthdate, birthweight]);
-
-    const info: DogInfo = {
-      collar,
-      birthdate,
-      sex,
-      color,
-      birthweight,
-      weights,
+export const store = readable(sta, (set) => {
+  // We have two very distinct paths depending on whether we can really
+  // refresh or not.  If we can, we do so and set up auto-refresh.  If we
+  // can't, we're pretty much done and will always have the initial state.
+  if (!canRefreshData()) {
+    // nothing to do for unsubscribe in this case!
+    return () => {
+      // console.log("PUPPY-DATA: unsubscribe non-refresh case");
     };
-
-    return info;
   }
-);
 
-const byCollar = Object.fromEntries(dogs.map((dog) => [dog.collar, dog]));
+  // We use setInterval to refresh the data periodically.  If we've never seen
+  // the data, or if it's been more than 3/4 of the normal refresh time (if the
+  // expected refresh is in the past, or within 1/4 of the delay in the future),
+  // we'll also perform an immedate refresh.
+  let immediateRefresh = true;
 
-const data = {
-  dogs,
-  byCollar,
+  if (state.lastChecked) {
+    const nextCheck = state.lastChecked.plus(defaultDelay);
+    const expectedDelay = nextCheck.diffNow().valueOf();
+
+    immediateRefresh = expectedDelay < (defaultDelay.valueOf() / 4);
+  }
+
+  if (immediateRefresh) {
+    // console.log("PUPPY-DATA: performing immediate data refresh");
+    refreshData(set);
+  }
+
+  // Now set up the interval-based refresh...
+  const interval = setInterval(() => {
+    // console.log("PUPPY-DATA: interval...");
+    refreshData(set);
+  }, defaultDelay.valueOf());
+
+  // get the data, and set up a refresh every 30 minutes?
+  return () => {
+    // console.log("PUPPY-DATA: no more subscriptions");
+    clearInterval(interval);
+  };
+});
+
+function canRefreshData() {
+  return typeof setTimeout !== "undefined" && typeof fetch !== "undefined";
 }
 
-// console.log("DOG INFO", data);
+async function refreshData(set) {
+  const lastChecked = DateTime.local();
+  const { lastModified, rawData } = await fetchRawData();
+  const puppyData = massageData(rawData);
 
-export default data;
+  // mutate state in-place?
+  state = {
+    lastChecked,
+    lastModified,
+    puppyData,
+  };
 
-const gramsPerOunce = 0.03527392;
-
-export function gramsToOunces(grams: number): number {
-  return grams * gramsPerOunce;
+  set(state);
 }
 
-export function capitalize(s: string):string {
-  return `${s[0].toUpperCase()}${s.substring(1)}`;
-}
-
-export function properName(dog: DogInfo): string {
-  return `${dog.sex === Sex.M ? 'Mr.' : 'Miss'} ${capitalize(dog.collar)}`;
+async function fetchRawData() {
+  const res = await fetch(statsUrl);
+  const lastModified = DateTime.fromHTTP(res.headers.get("Last-Modified"));
+  const rawData: RawPuppyData = await res.json();
+  return { lastModified, rawData };
 }

@@ -10,8 +10,9 @@
 
   import Axis from "./Axis.svelte";
 
-  import puppyData, { gramsToOunces, properName } from "./puppy-data.js";
-  //   import LineChart from "./LineChart.svelte";
+  import { store as dataStore } from "./puppy-data.js";
+  import { properName } from "./puppy-data-utils.js";
+  import type { DogInfo } from "./puppy-data-utils.js";
 
   // I orginally tried to create a "LineChart" component, but there's so much
   // styling specific to *this* chart that it makes more sense to do this as a
@@ -22,46 +23,63 @@
     value: number;
   }
 
-  //   interface Series {
-  //     color: string;
-  //     label: string;
-  //     points: DataPoint[];
-  //   }
-
-  const allSeries = puppyData.dogs.map((dog) => ({
-    collar: dog.collar,
-    label: properName(dog),
-    points: dog.weights.map(
-      ([date, weight]) =>
-        ({
-          date: date.toJSDate(),
-          value: weight,
-        } as DataPoint)
-    ),
-  }));
+  interface Series {
+    collar: string;
+    label: string;
+    points: DataPoint[];
+  }
 
   // To calculate the "target growth", we start from the "average birth" and
   // double the weight over the course of 1 week.
-  const averageBirthPoint: DataPoint = {
-    date: DateTime.fromMillis(
-      mean(allSeries, (s) => s.points[0].date)
-    ).toJSDate(),
-    value: mean(allSeries, (s) => s.points[0].value),
-  };
+  let dogs: DogInfo[] = [];
+  let allSeries: Series[] = [];
+  // To calculate the "target growth", we start from the "average birth" and
+  // double the weight over the course of 1 week.
+  let averageBirthPoint: DataPoint;
+  let averageDoublePoint: DataPoint;
 
-  const averageDoublePoint: DataPoint = {
-    date: DateTime.fromJSDate(averageBirthPoint.date)
-      .plus({ weeks: 1 })
-      .toJSDate(),
-    value: averageBirthPoint.value * 2,
-  };
+  let flatPoints: DataPoint[];
 
-  // In order to calculate the full chart extents, we need a flattened version
-  // of the points.
-  const flatPoints = allSeries.map(({ points }) => points).flat();
+  $: {
+    dogs = $dataStore.puppyData ? $dataStore.puppyData.dogs : [];
 
-  // We also include the "target growth" points...
-  flatPoints.push(averageBirthPoint, averageDoublePoint);
+    allSeries = dogs.map((dog) => ({
+      collar: dog.collar,
+      label: properName(dog),
+      points: dog.weights.map(
+        ([date, weight]) =>
+          ({
+            date: date.toJSDate(),
+            value: weight,
+          } as DataPoint)
+      ),
+    }));
+
+    if (allSeries.length > 0) {
+      averageBirthPoint = {
+        date: DateTime.fromMillis(
+          mean(allSeries, (s) => s.points[0].date.valueOf())
+        ).toJSDate(),
+        value: mean(allSeries, (s) => s.points[0].value),
+      };
+
+      averageDoublePoint = {
+        date: DateTime.fromJSDate(averageBirthPoint.date)
+          .plus({ weeks: 1 })
+          .toJSDate(),
+        value: averageBirthPoint.value * 2,
+      };
+
+      // In order to calculate the full chart extents, we need a flattened version
+      // of the points.
+      flatPoints = allSeries.map(({ points }) => points).flat();
+
+      // We also include the "target growth" points...
+      flatPoints.push(averageBirthPoint, averageDoublePoint);
+    } else {
+      flatPoints = [];
+    }
+  }
 
   // TODO: come up with a useful "rect"?  I suspect the margin should *not* be
   // a part of it, since that conflates the meaning of "width", etc.
@@ -102,7 +120,7 @@
   $: chart.right = chart.width - chart.margin;
   $: chart.bottom = chart.height - chart.margin;
 
-  $: legend.height = (puppyData.dogs.length + 2) * legend.lineHeight;
+  $: legend.height = (dogs.length + 2) * legend.lineHeight;
   $: legend.right = chart.right - legend.margin;
   $: legend.bottom = chart.bottom - legend.margin;
   $: legend.left = legend.right - legend.width;
@@ -115,24 +133,27 @@
 
   // should the incoming data be x/y instead of date/value?
   $: {
-    xScale = scaleTime()
-      .domain(extent(flatPoints, ({ date }) => date))
-      .range([chart.margin, chart.width - chart.margin])
-      .nice(timeDay.every(1));
-    // I thought we'd want a custom tickFormat, but with a "nice" range, I think
-    // we're okay.
+    if (flatPoints.length > 0) {
+      xScale = scaleTime()
+        .domain(extent(flatPoints, ({ date }) => date))
+        .range([chart.margin, chart.width - chart.margin])
+        .nice(timeDay.every(1));
+      // I thought we'd want a custom tickFormat, but with a "nice" range, I think
+      // we're okay.
 
-    yScale = scaleLinear()
-      .domain([0, max(flatPoints, ({ value }) => +value)])
-      .range([chart.height - chart.margin, chart.margin])
-      .nice();
+      yScale = scaleLinear()
+        .domain([0, max(flatPoints, ({ value }) => +value)])
+        .range([chart.height - chart.margin, chart.margin])
+        .nice();
 
-    lineGenerator = line<DataPoint>()
-      .x(({ date }) => xScale(date))
-      .y(({ value }) => yScale(+value))
-      .curve(curveCatmullRom);
+      lineGenerator = line<DataPoint>()
+        .x(({ date }) => xScale(date))
+        .y(({ value }) => yScale(+value))
+        .curve(curveCatmullRom);
 
-    symbolGenerator = symbol().size(32);
+      // This doesn't need to be recalculated!
+      symbolGenerator = symbol().size(32);
+    }
   }
 </script>
 
@@ -145,31 +166,38 @@
         >Puppy weights over time</text
       >
 
-      <Axis
-        width={chart.width}
-        height={chart.height}
-        margin={chart.margin}
-        scale={xScale}
-        position="bottom"
-      />
-      <Axis
-        width={chart.width}
-        height={chart.height}
-        margin={chart.margin}
-        scale={yScale}
-        position="left"
-      />
+      {#if xScale}
+        <Axis
+          width={chart.width}
+          height={chart.height}
+          margin={chart.margin}
+          scale={xScale}
+          position="bottom"
+        />
+      {/if}
+      {#if yScale}
+        <Axis
+          width={chart.width}
+          height={chart.height}
+          margin={chart.margin}
+          scale={yScale}
+          position="left"
+        />
+
+      {/if}
       <text
         class="axis-label-left"
         transform="translate(10,{(chart.top + chart.bottom) / 2}) rotate(-90)"
-        >Puppy weight (grams)</text
+        >weight (grams)</text
       >
 
       <!-- include the target growth line... -->
+      {#if averageBirthPoint && averageDoublePoint}
       <path
         d={lineGenerator([averageBirthPoint, averageDoublePoint])}
         class="target"
       />
+      {/if}
       {#each allSeries as series}
         <path
           d={lineGenerator(series.points)}
@@ -220,14 +248,14 @@
             <!-- svelte-ignore component-name-lowercase -->
             <line
               x1="0"
-              y1={(puppyData.dogs.length + 0.5) * legend.lineHeight}
+              y1={(dogs.length + 0.5) * legend.lineHeight}
               x2="30"
-              y2={(puppyData.dogs.length + 0.5) * legend.lineHeight}
+              y2={(dogs.length + 0.5) * legend.lineHeight}
               class="target"
             />
             <text
               x="40"
-              y={(puppyData.dogs.length + 0.5) * legend.lineHeight}
+              y={(dogs.length + 0.5) * legend.lineHeight}
               class="target-label">target growth</text
             >
           </g>
@@ -244,20 +272,6 @@
     </svg>
   {/if}
 </div>
-
-{#if false}
-  {#each puppyData.dogs as { collar, weights }}
-    <h2>{collar}</h2>
-
-    {#each weights as [date, weight]}
-      <div>
-        {date.toLocaleString(DateTime.DATETIME_SHORT)}: {weight}g - {gramsToOunces(
-          weight
-        ).toFixed(1)}oz
-      </div>
-    {/each}
-  {/each}
-{/if}
 
 <style type="scss">
   .title {
