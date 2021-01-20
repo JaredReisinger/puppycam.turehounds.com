@@ -1,8 +1,11 @@
 <script lang="ts">
+  import GoogleAnalytics from "../components/GoogleAnalytics.svelte";
   import Nav from "../components/Nav.svelte";
 
   export let segment: string;
 </script>
+
+<GoogleAnalytics trackingId="{process.env.APP_GOOGLE_TRACKING_ID}" />
 
 <Nav {segment} />
 
