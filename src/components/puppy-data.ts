@@ -13,7 +13,7 @@ import type { RawPuppyData } from "./puppy-data-utils.js";
 // there's no clean mechanism to propagate a page-preload's "this.fetch" down
 // into a component.
 
-const statsUrl = "puppy-stats.json";
+const dataUrl = "puppy-data.json";
 
 export interface PuppyDataStore {
   lastChecked: DateTime;
@@ -93,7 +93,7 @@ async function refreshData(set) {
 }
 
 async function fetchRawData() {
-  const res = await fetch(statsUrl);
+  const res = await fetch(dataUrl);
   const lastModified = DateTime.fromHTTP(res.headers.get("Last-Modified"));
   const rawData: RawPuppyData = await res.json();
   return { lastModified, rawData };

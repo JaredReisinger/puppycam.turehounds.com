@@ -26,11 +26,12 @@ const legacy = !!process.env.SAPPER_LEGACY_BUILD;
 //     .map(([name, value]) => [`process.env.${name}`, JSON.stringify(value)])
 // );
 
-// console.log("env replacements:", envReplacements);
 const envReplacements = {
   "process.env.NODE_ENV": JSON.stringify(mode),
   "process.env.APP_GOOGLE_TRACKING_ID": JSON.stringify(process.env.APP_GOOGLE_TRACKING_ID),
-}
+};
+
+console.log("env replacements:", envReplacements);
 
 const onwarn = (warning, onwarn) =>
   (warning.code === "MISSING_EXPORT" && /'preload'/.test(warning.message)) ||
