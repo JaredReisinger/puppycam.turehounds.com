@@ -16,17 +16,21 @@ const mode = process.env.NODE_ENV;
 const dev = mode === "development";
 const legacy = !!process.env.SAPPER_LEGACY_BUILD;
 
-// Expose environment variables by default?  Maybe only those with certain
-// prefixes?
-const passthroughEnvs = ["NODE_ENV", /^APP_/];
+// // Expose environment variables by default?  Maybe only those with certain
+// // prefixes?
+// const passthroughEnvs = ["NODE_ENV", /^APP_/];
 
-const envReplacements = Object.fromEntries(
-  Object.entries(process.env)
-    .filter(([name]) => isMatch(name, passthroughEnvs))
-    .map(([name, value]) => [`process.env.${name}`, JSON.stringify(value)])
-);
+// const envReplacements = Object.fromEntries(
+//   Object.entries(process.env)
+//     .filter(([name]) => isMatch(name, passthroughEnvs))
+//     .map(([name, value]) => [`process.env.${name}`, JSON.stringify(value)])
+// );
 
-console.log("env replacements:", envReplacements);
+// console.log("env replacements:", envReplacements);
+const envReplacements = {
+  "process.env.NODE_ENV": JSON.stringify(mode),
+  "process.env.APP_GOOGLE_TRACKING_ID": JSON.stringify(process.env.APP_GOOGLE_TRACKING_ID),
+}
 
 const onwarn = (warning, onwarn) =>
   (warning.code === "MISSING_EXPORT" && /'preload'/.test(warning.message)) ||
@@ -151,18 +155,18 @@ export default {
   },
 };
 
-function isMatch(candidate, allowList) {
-  return allowList.some((a) => {
-    if (a instanceof RegExp) {
-      return a.test(candidate);
-    }
+// function isMatch(candidate, allowList) {
+//   return allowList.some((a) => {
+//     if (a instanceof RegExp) {
+//       return a.test(candidate);
+//     }
 
-    switch (typeof a) {
-      case "string":
-        return a === candidate;
+//     switch (typeof a) {
+//       case "string":
+//         return a === candidate;
 
-      default:
-        throw new Error("expected string or RegExp in allowList");
-    }
-  });
-}
+//       default:
+//         throw new Error("expected string or RegExp in allowList");
+//     }
+//   });
+// }
