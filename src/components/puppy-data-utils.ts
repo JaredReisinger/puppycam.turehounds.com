@@ -1,4 +1,5 @@
 import { DateTime } from "luxon";
+import pluralize from "pluralize";
 
 /** The valid collar colors. */
 export enum Collar {
@@ -101,7 +102,7 @@ export interface RawPuppyData {
 }
 
 export interface PuppyData {
-    dogs: DogInfo[];
+  dogs: DogInfo[];
 }
 
 export function massageData(rawData: RawPuppyData) {
@@ -144,6 +145,107 @@ const gramsPerOunce = 0.03527392;
 
 export function gramsToOunces(grams: number): number {
   return grams * gramsPerOunce;
+}
+
+export function gramsToPounds(grams: number): number {
+  return gramsToOunces(grams) / 16;
+}
+
+export function formatGramsAsPounds(grams: number): string {
+  // let ounces = gramsToOunces(grams);
+  // let pounds = Math.floor(ounces / 16);
+  // ounces = ounces - pounds * 16;
+
+  // const parts: string[] = [];
+
+  // if (pounds) {
+  //   parts.push(pluralize("lb", pounds, true));
+  // }
+
+  // if (ounces) {
+  //   const whole = Math.floor(ounces);
+  //   const fraction = asFraction(ounces - whole, 8);
+
+  //   let fractionText = "";
+  //   if (fraction) {
+  //     fractionText = fraction.unicode || `${whole ? " " : ""}${fraction.plain}`;
+  //   }
+  //   parts.push(`${whole}${fractionText} oz`);
+  // }
+
+  // return parts.join(" ");
+  return formatPoundsOunces(gramsToPounds(grams));
+}
+
+export function formatPoundsOunces(pounds: number): string {
+  const wholePounds = Math.floor(pounds);
+  let ounces = (pounds - wholePounds) * 16;
+
+  const parts: string[] = [];
+
+  if (wholePounds) {
+    parts.push(pluralize("lb", wholePounds, true));
+  }
+
+  if (ounces) {
+    const wholeOunces = Math.floor(ounces);
+    const fraction = asFraction(ounces - wholeOunces, 8);
+
+    let fractionText = "";
+    if (fraction) {
+      fractionText = fraction.unicode || `${wholeOunces ? " " : ""}${fraction.plain}`;
+    }
+    parts.push(`${wholeOunces}${fractionText} oz`);
+  }
+
+  return parts.join(" ");
+}
+
+const unicodeFractions = {
+  "1/8": "⅛",
+  "1/4": "¼",
+  "3/8": "⅜",
+  "1/2": "½",
+  "5/8": "⅝",
+  "3/4": "¾",
+  "7/8": "⅞",
+};
+
+export function asFraction(
+  decimal: number,
+  denominatorMax: number,
+  reduce = true
+): { plain: string; unicode: string } | null {
+  let denominator = denominatorMax;
+  let numerator = Math.round(decimal * denominator);
+
+  if (!numerator) {
+    return null;
+  }
+
+  if (reduce) {
+    // Should find GCD,
+    const gcd = findGCD(denominator, numerator);
+    numerator /= gcd;
+    denominator /= gcd;
+  }
+
+  const plain = `${numerator}/${denominator}`;
+
+  return { plain, unicode: unicodeFractions[plain] };
+}
+
+// find GCD using euclidean algorihm...
+function findGCD(a: number, b: number): number {
+  if (a === 0 || b === 0) {
+    return b || a;
+  }
+
+  if (a < b) {
+    return findGCD(b, a);
+  }
+
+  return findGCD(b, a % b);
 }
 
 export function capitalize(s: string): string {

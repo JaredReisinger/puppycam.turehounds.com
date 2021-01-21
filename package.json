@@ -18,6 +18,7 @@
     "d3-shape": "^2.0.0",
     "d3-time": "^2.0.0",
     "luxon": "^1.25.0",
+    "pluralize": "^8.0.0",
     "polka": "next",
     "sirv": "^1.0.0"
   },
@@ -43,6 +44,7 @@
     "@types/d3-time": "^2.0.0",
     "@types/luxon": "^1.25.1",
     "@types/node": "^14.11.1",
+    "@types/pluralize": "0.0.29",
     "@types/polka": "^0.5.1",
     "dotenv": "^8.2.0",
     "rollup": "^2.3.4",

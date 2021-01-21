@@ -11,7 +11,11 @@
   import Axis from "./Axis.svelte";
 
   import { store as dataStore } from "./puppy-data.js";
-  import { properName, gramsToOunces } from "./puppy-data-utils.js";
+  import {
+    formatPoundsOunces,
+    gramsToOunces,
+    properName,
+  } from "./puppy-data-utils.js";
   import type { DogInfo } from "./puppy-data-utils.js";
 
   // I orginally tried to create a "LineChart" component, but there's so much
@@ -40,6 +44,11 @@
 
   let flatPoints: DataPoint[];
 
+  // For the purposes of "nice looking" charts, we want a fundamental unit which
+  // is a "nicely formatted" value... we use 1/8oz as that minimum, so the raw
+  // value for the y axis is "eighth of an ounce". (We need an axis tick
+  // formatter as well!)
+  const ounceMultiplier = 1;
   $: {
     dogs = $dataStore.puppyData ? $dataStore.puppyData.dogs : [];
 
@@ -50,7 +59,7 @@
         ([date, weight]) =>
           ({
             date: date.toJSDate(),
-            value: gramsToOunces(weight),
+            value: gramsToOunces(weight) * ounceMultiplier,
           } as DataPoint)
       ),
     }));
@@ -126,8 +135,8 @@
   $: legend.left = legend.right - legend.width;
   $: legend.top = legend.bottom - legend.height;
 
-  let xScale: ScaleTime;
-  let yScale: ScaleLinear;
+  let xScale: ScaleTime<number, number>;
+  let yScale: ScaleLinear<number, number>;
   let lineGenerator: Line<DataPoint>;
   let symbolGenerator: Symbol<unknown, DataPoint>;
 
@@ -138,8 +147,6 @@
         .domain(extent(flatPoints, ({ date }) => date))
         .range([chart.margin, chart.width - chart.margin])
         .nice(timeDay.every(1));
-      // I thought we'd want a custom tickFormat, but with a "nice" range, I think
-      // we're okay.
 
       yScale = scaleLinear()
         .domain([0, max(flatPoints, ({ value }) => +value)])
@@ -168,7 +175,6 @@
 
       {#if xScale}
         <Axis
-          width={chart.width}
           height={chart.height}
           margin={chart.margin}
           scale={xScale}
@@ -177,26 +183,27 @@
       {/if}
       {#if yScale}
         <Axis
-          width={chart.width}
           height={chart.height}
           margin={chart.margin}
           scale={yScale}
           position="left"
+          tickFormatter={(value) =>
+            formatPoundsOunces(value / ounceMultiplier / 16)}
         />
 
+        <!-- <text
+          class="axis-label-left"
+          transform="translate(10,{(chart.top + chart.bottom) / 2}) rotate(-90)"
+          >weight (pounds, ounces)</text
+        > -->
       {/if}
-      <text
-        class="axis-label-left"
-        transform="translate(10,{(chart.top + chart.bottom) / 2}) rotate(-90)"
-        >weight (ounces)</text
-      >
 
       <!-- include the target growth line... -->
       {#if averageBirthPoint && averageDoublePoint}
-      <path
-        d={lineGenerator([averageBirthPoint, averageDoublePoint])}
-        class="target"
-      />
+        <path
+          d={lineGenerator([averageBirthPoint, averageDoublePoint])}
+          class="target"
+        />
       {/if}
       {#each allSeries as series}
         <path

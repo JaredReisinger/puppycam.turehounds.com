@@ -2,7 +2,11 @@
   import { DateTime } from "luxon";
 
   import { store as dataStore } from "./puppy-data.js";
-  import { gramsToOunces, properName } from "./puppy-data-utils.js";
+  import {
+    formatPoundsOunces,
+    gramsToPounds,
+    properName,
+  } from "./puppy-data-utils.js";
   import type { PuppyData } from "./puppy-data-utils.js";
 
   const dateFmt = { ...DateTime.DATETIME_SHORT, timeZoneName: "short" };
@@ -48,7 +52,11 @@
           <td>{dog.sex}</td>
           <td>{dog.color}</td>
           <td
-            ><b>{gramsToOunces(dog.weights[weightIndex][1]).toFixed(1)}oz</b>
+            ><b
+              >{formatPoundsOunces(
+                gramsToPounds(dog.weights[weightIndex][1])
+              )}</b
+            >
             ({dog.weights[weightIndex][1]}g)</td
           >
         </tr>

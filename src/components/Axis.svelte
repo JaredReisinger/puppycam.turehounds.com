@@ -1,3 +1,7 @@
+<script context="module" lang="ts">
+  export type TickFormatter = (value: number) => string;
+</script>
+
 <script lang="ts">
   import { select /* , selectAll */ } from "d3-selection";
   import { axisBottom, axisLeft } from "d3-axis";
@@ -8,6 +12,7 @@
   export let margin: number = undefined;
   export let position: string = undefined;
   export let scale: AxisScale<AxisDomain> = undefined;
+  export let tickFormatter: TickFormatter = undefined;
 
   let transform;
   let g;
@@ -24,6 +29,10 @@
       case "left":
         axis = axisLeft(scale).tickSizeOuter(0);
         transform = `translate(${margin}, 0)`;
+    }
+
+    if (tickFormatter) {
+      axis.tickFormat(tickFormatter);
     }
 
     select(g).call(axis).style("font-family", "inherit");
