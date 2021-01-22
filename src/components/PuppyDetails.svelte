@@ -93,9 +93,9 @@
       text-align: center;
     }
 
-    // & > :nth-child(4) {
-    //   text-align: center;
-    // }
+    /*& > :nth-child(4) {
+      text-align: center;
+    }*/
   }
 
   th {

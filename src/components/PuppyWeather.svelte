@@ -52,10 +52,10 @@
     font-weight: 600;
   }
 
-//   .temperature,
-//   .humidity {
-//     font-weight: bold;
-//   }
+  /*.temperature,
+  .humidity {
+    font-weight: bold;
+  }*/
 
   .temperature::after {
     content: "°F";
