@@ -6,6 +6,7 @@
   // uncomment to force on/off
   // dummy = true;
   // export let dummy = false;
+  // dummy = false;
 </script>
 
 {#if dummy}

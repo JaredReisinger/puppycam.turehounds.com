@@ -86,7 +86,7 @@
     }
 
     & > td:nth-child(1) {
-      font-weight: bold;
+      font-weight: 600;
     }
 
     & > :nth-child(2) {

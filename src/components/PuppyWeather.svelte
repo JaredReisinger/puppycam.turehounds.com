@@ -7,7 +7,7 @@
   // try fetching from puppycam-sensor!
   const sensorApi = "https://puppycam-sensor.spudnoggin.com/sensor";
 
-  let observed: DateTime;
+  let observed: string;
   let temperature: number;
   let humidity: number;
 
@@ -49,7 +49,7 @@
     justify-content: space-evenly;
     margin: 1em 0;
     font-size: 120%;
-    font-weight: bold;
+    font-weight: 600;
   }
 
 //   .temperature,

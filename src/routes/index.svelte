@@ -10,10 +10,12 @@
 
 <div class="layout">
   <div class="aspect-root">
-    <Video title="Eye in the Sky" videoId="jqbAk2MNMd" />
-    <!-- <div class="aspect-child">
-			<Video title="PuppyCam 2 (coming soon)" videoId="dAYyHiFXJU" dummy />
-		</div> -->
+    <div class="aspect-main">
+      <Video title="Up-close" videoId="dAYyHiFXJU" />
+    </div>
+    <div class="aspect-child">
+      <Video title="Eye in the Sky" videoId="jqbAk2MNMd" />
+    </div>
   </div>
 
   <div class="details">
@@ -28,34 +30,25 @@
 </div>
 
 <style type="scss">
-  .aspect-root {
-    /* ensures a 16:9 aspect ratio */
-    width: min(100vw - 10rem, (100vh - 10rem) * 1.77778);
-    height: min(100vh - 10rem, (100vw - 10rem) / 1.77778);
-    position: relative;
+  .layout {
+    display: block;
   }
 
-  // .aspect-child {
-  //   position: absolute;
-  //   width: 30%;
-  //   height: 30%;
-  //   top: 0;
-  //   right: 0;
-  //   margin: 0.5em;
-  //   border: 0.5em solid white;
-  // }
+  .aspect-root {
+    width: 100%;
+    height: auto;
+  }
 
-  .layout {
-    display: flex;
+  .aspect-main,
+  .aspect-child {
+    /* ensures a 16:9 aspect ratio */
+    width: min(100vw - 1rem, (100vh - 5rem) * 1.77778);
+    height: min(100vh - 5rem, (100vw - 1rem) / 1.77778);
+    margin-bottom: 1rem;
   }
 
   .details {
-    padding: 0.5em 1em;
-    flex: auto;
-
-    & > *:first-child {
-      margin-top: 0;
-    }
+    padding: 0;
   }
 
   .what {
@@ -63,25 +56,42 @@
     font-style: italic;
   }
 
-  @media (max-width: 1024px) {
+  @media (min-width: 1025px) {
     .layout {
-      display: block;
+      display: flex;
     }
 
     .aspect-root {
       /* ensures a 16:9 aspect ratio */
-      width: min(100vw - 1rem, (100vh - 5rem) * 1.77778);
-      height: min(100vh - 5rem, (100vw - 1rem) / 1.77778);
-      margin-bottom: 2rem;
+      width: min(100vw - 25rem, (100vh - 10rem) * 1.77778);
+      height: min(100vh - 10rem, (100vw - 25rem) / 1.77778);
+      position: relative;
+      flex-basis: content;
     }
 
-    // .aspect-child {
-    //   margin: 0.25em;
-    //   border-width: 0.25em;
-    // }
+    .aspect-main {
+      width: 100%;
+      height: 100%;
+    }
+
+    .aspect-child {
+      position: absolute;
+      width: 30%;
+      height: 30%;
+      top: 0;
+      right: 0;
+      margin: 0.5em;
+      border: 0.5em solid white;
+    }
 
     .details {
-      padding: 0;
+      padding: 0.5em 1em;
+      width: 25rem;
+      
+
+      & > *:first-child {
+        margin-top: 0;
+      }
     }
   }
 </style>
