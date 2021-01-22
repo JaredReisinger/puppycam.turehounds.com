@@ -39,7 +39,7 @@
     <div class="temperature">{temperature}</div>
     <div class="humidity">{humidity}</div>
   </div>
-  <div class="observed">{observed}</div>
+  <div class="observed">Weather measured at {observed}</div>
 {/if}
 
 <style type="scss">
@@ -69,9 +69,5 @@
     font-size: 80%;
     font-style: italic;
     color: hsl(0, 0%, 50%);
-
-    &::before {
-      content: "as of ";
-    }
   }
 </style>

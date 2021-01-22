@@ -65,10 +65,10 @@
   </tbody>
 </table>
 <p class="note first">
-  Weight listed is the most-recent measurement, as of {weightDate}.
+  Weight measured at {weightDate}.
 </p>
 <p class="note">
-  Last checked for new weights: {checkDate}.
+  Checked for updates at {checkDate}.
 </p>
 
 <style type="scss">

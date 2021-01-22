@@ -44,7 +44,7 @@
     /* ensures a 16:9 aspect ratio */
     width: min(100vw - 1rem, (100vh - 5rem) * 1.77778);
     height: min(100vh - 5rem, (100vw - 1rem) / 1.77778);
-    margin-bottom: 1rem;
+    margin-bottom: 0.5rem;
   }
 
   .details {
@@ -81,7 +81,7 @@
       top: 0;
       right: 0;
       margin: 0.5em;
-      border: 0.5em solid white;
+      border: 0.25em solid white;
     }
 
     .details {
