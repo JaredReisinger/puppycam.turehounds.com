@@ -40,7 +40,7 @@ const assumedYear = "2021";
 const assumedOffset = "-0700";
 
 /** Converts our short date/time into a real Luxon DateTime. */
-function shortToDateTime(date: ShortDateTime): DateTime {
+export function shortToDateTime(date: ShortDateTime): DateTime {
   return DateTime.fromISO(`${assumedYear}${date}${assumedOffset}`);
 }
 
@@ -178,8 +178,10 @@ export function formatGramsAsPounds(grams: number): string {
 }
 
 export function formatPoundsOunces(pounds: number): string {
-  const wholePounds = Math.floor(pounds);
-  let ounces = (pounds - wholePounds) * 16;
+  // in order to round to the nearest 1/8th ounce, we *add* 1/16th of an ounce,
+  // and then account for any "negative" leftovers...
+  const wholePounds = Math.floor(pounds + ((1 / 16) / 16));
+  let ounces = Math.max((pounds - wholePounds) * 16, 0);
 
   const parts: string[] = [];
 
@@ -188,14 +190,15 @@ export function formatPoundsOunces(pounds: number): string {
   }
 
   if (ounces) {
-    const wholeOunces = Math.floor(ounces);
-    const fraction = asFraction(ounces - wholeOunces, 8);
+    const wholeOunces = Math.floor(ounces + (1 / 16));
+    const fraction = asFraction(Math.max(ounces - wholeOunces, 0), 8);
+    // console.log("ounce parts", { ounces, wholeOunces, fraction });
 
     let fractionText = "";
     if (fraction) {
       fractionText = fraction.unicode || `${wholeOunces ? " " : ""}${fraction.plain}`;
     }
-    parts.push(`${wholeOunces}${fractionText} oz`);
+    parts.push(`${wholeOunces ? wholeOunces : ""}${fractionText} oz`);
   }
 
   return parts.join(" ");

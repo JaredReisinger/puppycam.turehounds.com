@@ -7,7 +7,8 @@
     "build": "sapper build --legacy",
     "export": "sapper export --legacy",
     "start": "node __sapper__/build",
-    "validate": "svelte-check --ignore src/node_modules/@sapper"
+    "validate": "svelte-check --ignore src/node_modules/@sapper",
+    "test": "ava"
   },
   "dependencies": {
     "compression": "^1.7.1",
@@ -46,6 +47,7 @@
     "@types/node": "^14.11.1",
     "@types/pluralize": "0.0.29",
     "@types/polka": "^0.5.1",
+    "ava": "^3.15.0",
     "dotenv": "^8.2.0",
     "rollup": "^2.3.4",
     "rollup-plugin-svelte": "^7.0.0",
@@ -55,7 +57,16 @@
     "svelte": "^3.17.3",
     "svelte-check": "^1.0.46",
     "svelte-preprocess": "^4.3.0",
+    "ts-node": "^9.1.1",
     "tslib": "^2.0.1",
     "typescript": "^4.0.3"
+  },
+  "ava": {
+    "extensions": [
+      "ts"
+    ],
+    "require": [
+      "ts-node/register"
+    ]
   }
 }
