@@ -67,6 +67,9 @@ code {
 .pink {
   color: hsl(320, 80%, 70%);
 }
+.purple {
+  color: hsl(280, 80%, 70%);
+}
 
 .stroke-blue {
   stroke: hsl(220, 80%, 50%);
@@ -86,6 +89,9 @@ code {
 .stroke-pink {
   stroke: hsl(320, 80%, 70%);
 }
+.stroke-purple {
+  stroke: hsl(280, 80%, 70%);
+}
 
 .fill-blue {
   fill: hsl(220, 80%, 50%);
@@ -104,4 +110,7 @@ code {
 }
 .fill-pink {
   fill: hsl(320, 80%, 70%);
+}
+.fill-purple {
+  fill: hsl(280, 80%, 70%);
 }

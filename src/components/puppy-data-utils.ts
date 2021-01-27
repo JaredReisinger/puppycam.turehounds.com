@@ -8,7 +8,7 @@ export enum Collar {
   yellow,
   white,
   green,
-  pink,
+  purple, // pink,
 }
 
 /** Collar colors as keys (a set of valid strings) */
