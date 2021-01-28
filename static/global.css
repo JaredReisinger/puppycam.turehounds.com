@@ -47,6 +47,19 @@ code {
   }
 }
 
+.note {
+  margin: 0;
+  font-size: 80%;
+  font-style: italic;
+  font-weight: 400;
+  color: hsl(0, 0%, 50%);
+}
+
+h3 .note {
+  font-size: 70%;
+}
+
+
 /* ideally, we'd have SCSS for this, so we're not re-defining the colors... */
 
 .blue {

@@ -3,6 +3,7 @@
   import Video2 from "../components/Video2.svelte";
   import PuppyDetails from "../components/PuppyDetails.svelte";
   import PuppyWeather from "../components/PuppyWeather.svelte";
+  import LatestNews from "../components/LatestNews.svelte";
 </script>
 
 <svelte:head>
@@ -30,13 +31,14 @@
   </div>
 
   <div class="details">
-    <h3>The puppies</h3>
-
     <PuppyDetails />
     <a href="about#puppy-details" class="what">what?!</a>
 
     <PuppyWeather title="Current puppy weather" />
     <a href="about#puppy-weather" class="what">what?!</a>
+
+    <LatestNews />
+    <a href="about#news" class="what">what?!</a>
   </div>
 </div>
 

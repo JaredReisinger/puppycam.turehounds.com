@@ -11,9 +11,12 @@
 
   const dateFmt = { ...DateTime.DATETIME_SHORT, timeZoneName: "short" };
 
+  export let title: string = "The puppies";
+
   let puppyData: PuppyData;
   let weightIndex: number = 0;
   let weightDate: string = "...";
+  let weightDateRel: string = "...";
   let checkDate: string = "...";
 
   $: {
@@ -24,7 +27,9 @@
       const stdWeights = puppyData.dogs[0].weights;
 
       weightIndex = stdWeights.length - 1;
-      weightDate = stdWeights[weightIndex][0].toLocaleString(dateFmt);
+      const date = stdWeights[weightIndex][0];
+      weightDate = date.toLocaleString(dateFmt);
+      weightDateRel = date.toRelative();
     }
 
     if ($dataStore.lastChecked) {
@@ -33,12 +38,13 @@
   }
 </script>
 
-<p>All puppies were born on Wednesday, January 13, 2021.</p>
+<h3>{title} <span class="note">(as of {weightDateRel})</span></h3>
+<!-- <p>All puppies were born on Wednesday, January 13, 2021.</p> -->
 
 <table>
   <thead>
     <tr>
-      <th>name</th>
+      <th>name/collar</th>
       <th>sex</th>
       <th>color</th>
       <th>weight</th>
@@ -82,7 +88,7 @@
     }
 
     & > td:nth-child(n + 2) {
-      font-size: 84%;
+      font-size: 80%;
     }
 
     & > td:nth-child(1) {
@@ -99,15 +105,16 @@
   }
 
   th {
-    font-weight: 600;
+    /* font-weight: 400; */
+    font-size: 80%;
   }
 
-  .note {
+  /*.note {
     margin: 0;
     font-size: 80%;
     font-style: italic;
     color: hsl(0, 0%, 50%);
-  }
+  }*/
 
   .note.first {
     margin-top: 0.5em;

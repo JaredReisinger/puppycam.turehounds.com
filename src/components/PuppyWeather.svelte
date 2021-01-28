@@ -2,45 +2,60 @@
   import { onMount } from "svelte";
   import { DateTime } from "luxon";
 
-  export let title: string = undefined;
+  export let title: string = "Current puppy weather";
 
   // try fetching from puppycam-sensor!
   const sensorApi = "https://puppycam-sensor.spudnoggin.com/sensor";
 
+  let sample: any;
   let observed: string;
+  let observedRel: string;
   let temperature: number;
   let humidity: number;
+  let checkDate: string;
 
   const dateFmt = { ...DateTime.DATETIME_SHORT, timeZoneName: "short" };
 
   async function updateWeather() {
-    const sample = await (await fetch(sensorApi)).json();
+    checkDate = DateTime.local().toLocaleString(dateFmt);
+    sample = await (await fetch(sensorApi)).json();
 
-    observed = DateTime.fromISO(sample.observed).toLocaleString(dateFmt);
     temperature = sample.temperature;
     humidity = sample.humidity;
+    updateTimes();
+  }
+
+  function updateTimes() {
+    const obs = DateTime.fromISO(sample.observed);
+    observed = obs.toLocaleString(dateFmt);
+    observedRel = obs.toRelative({ unit: "seconds" });
   }
 
   onMount(() => {
     updateWeather();
     const interval = setInterval(updateWeather, 30 * 1000);
+    const interval2 = setInterval(updateTimes, 1 * 1000);
     return () => {
       clearInterval(interval);
+      clearInterval(interval2);
     };
   });
 </script>
 
 {#if observed}
   {#if title}
-    <h3>{title}</h3>
+    <h3>{title} <span class="note">(as of {observedRel})</span></h3>
   {/if}
 
   <div class="weather">
     <div class="temperature">{temperature}</div>
     <div class="humidity">{humidity}</div>
   </div>
-  <div class="observed">Weather measured at {observed}</div>
-{/if}
+  <div class="note">Weather measured at {observed}</div>
+  <p class="note">
+    Checked for updates at {checkDate}.
+  </p>
+  {/if}
 
 <style type="scss">
   .weather {
@@ -65,9 +80,14 @@
     content: "% RH";
   }
 
-  .observed {
+  /*.observed {
     font-size: 80%;
     font-style: italic;
+    font-weight: 400;
     color: hsl(0, 0%, 50%);
   }
+
+  h3 .observed {
+    font-size: 70%;
+  }*/
 </style>

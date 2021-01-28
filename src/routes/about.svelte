@@ -1,7 +1,8 @@
 <script lang="ts">
-  import Video from "../components/Video.svelte";
+  import Video2 from "../components/Video2.svelte";
   import PuppyDetails from "../components/PuppyDetails.svelte";
   import PuppyWeather from "../components/PuppyWeather.svelte";
+  // import LatestNews from "../components/LatestNews.svelte";
 </script>
 
 <svelte:head>
@@ -44,6 +45,7 @@
     <li><a href="about#live-video">live video feed</a></li>
     <li><a href="about#puppy-details">puppy details</a></li>
     <li><a href="about#puppy-weather">“puppy weather” information</a></li>
+    <li><a href="about#news">latest news</a></li>
     <li><a href="about#more">maybe more?</a></li>
   </ul>
 
@@ -84,7 +86,7 @@
     cameras, for security. We use them so that we can easily keep an eye on things,
     including being able to peek in at the pups at night-time—the cameras use infrared
     in low-light situations so we don’t need to turn on a light just to check on
-    them. You can also, as a camera owner, choose to make the feed from the camera
+    them. You can also, as a camera owner, choose to make the feed from the camera
     “public”, which allows you to share a public link to the feed on the
     <code>nest.com</code>
     site,
@@ -93,7 +95,11 @@
   </p>
 
   <div class="example video">
-    <Video title="Eye in the Sky" videoId="jqbAk2MNMd" />
+    <Video2
+      publicId="dAYyHiFXJU"
+      uuid="3ed3fea78dfc4f86968ab2ae9f616443"
+      streamHost="stream-ue1-charlie.dropcam.com"
+    />
   </div>
 
   <p>
@@ -232,6 +238,26 @@
   </div>
 
   <p>Wooo! 🎉 <em>(And yes, that’s a live and accurate reading!)</em></p>
+
+  <h3 id="news">Latest news</h3>
+
+  <p>
+    Realizing that some significant milestones were coming up soon, I though it
+    would be good to have a way to highlight these on the main page. And, just
+    in case you miss one, you should be able to see <em>all</em> of the previous
+    news items as well.
+  </p>
+
+  <p>
+    The “latest news” component leverages the same “auto-refresh” capabilities
+    as the other components, checking every 30 minutes for any updated news.
+  </p>
+
+  <p>I’ll admit it… I’m just having fun at this point.</p>
+
+  <!-- <div class="example">
+    <LatestNews />
+  </div> -->
 
   <h3 id="more">Maybe more?</h3>
 
