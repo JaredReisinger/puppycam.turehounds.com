@@ -7,6 +7,10 @@ import { DateTime, Duration } from "luxon";
 import { massageData, PuppyData } from "./puppy-data-utils.js";
 import type { RawPuppyData } from "./puppy-data-utils.js";
 
+import initialData from "../../static/puppy-data.json";
+
+// console.log("got initial data", initialData);
+
 // *Pages* can expose a "preload" that can take advantage of server-side
 // "this.fetch()", but general components can't.  I've gone back and forth
 // attempting to find a good way to seed initial data from the server, but
@@ -26,6 +30,10 @@ let state: PuppyDataStore = {
   lastModified: undefined,
   puppyData: undefined,
 };
+
+state = massageInitialData(initialData as RawPuppyData);
+
+// console.log("initial state", state);
 
 const defaultDelay = Duration.fromISO("PT30M"); // every half-hour
 // const defaultDelay = Duration.fromISO("PT10S"); // every 10 seconds
@@ -75,6 +83,18 @@ export const store = readable(state, (set) => {
 
 function canRefreshData() {
   return typeof setTimeout !== "undefined" && typeof fetch !== "undefined";
+}
+
+function massageInitialData(rawData: RawPuppyData) {
+  const lastChecked = DateTime.local();
+  const puppyData = massageData(rawData);
+  const lastModified = puppyData.dogs[0].weights.slice(-1)[0][0];
+
+  return {
+    lastChecked,
+    lastModified,
+    puppyData,
+  };
 }
 
 async function refreshData(set) {

@@ -8,7 +8,9 @@ export enum Collar {
   yellow,
   white,
   green,
-  purple, // pink,
+  pink,
+  purple,
+  // others?
 }
 
 /** Collar colors as keys (a set of valid strings) */
@@ -47,23 +49,23 @@ export function shortToDateTime(date: ShortDateTime): DateTime {
 /** A weight in grams. */
 export type Weight = number;
 
-// ===========================================================================
-// MAGIC TYPESCRIPT from
-// https://stackoverflow.com/questions/41139763/how-to-declare-a-fixed-length-array-in-typescript...
-// I'm not sure how this works...
-export type Grow<T, A extends Array<T>> = ((x: T, ...xs: A) => void) extends (
-  ...a: infer X
-) => void
-  ? X
-  : never;
+// // ===========================================================================
+// // MAGIC TYPESCRIPT from
+// // https://stackoverflow.com/questions/41139763/how-to-declare-a-fixed-length-array-in-typescript...
+// // I'm not sure how this works...
+// export type Grow<T, A extends Array<T>> = ((x: T, ...xs: A) => void) extends (
+//   ...a: infer X
+// ) => void
+//   ? X
+//   : never;
 
-export type GrowToSize<T, A extends Array<T>, N extends number> = {
-  0: A;
-  1: GrowToSize<T, Grow<T, A>, N>;
-}[A["length"] extends N ? 0 : 1];
+// export type GrowToSize<T, A extends Array<T>, N extends number> = {
+//   0: A;
+//   1: GrowToSize<T, Grow<T, A>, N>;
+// }[A["length"] extends N ? 0 : 1];
 
-export type FixedArray<T, N extends number> = GrowToSize<T, [], N>;
-// ===========================================================================
+// export type FixedArray<T, N extends number> = GrowToSize<T, [], N>;
+// // ===========================================================================
 
 // ===========================================================================
 // Now... generate the actual "public" data in a nicely structured form
@@ -98,7 +100,8 @@ export interface RawPuppyData {
   birthInfo: [ShortDateTime, SexKey, ColorKey, Weight, CollarKey][];
   // We can't really assume a fixed-size if it's coming from external JSON,
   // can we (should we)?
-  weighings: [ShortDateTime, ...FixedArray<Weight, 6>][];
+  weighings: [ShortDateTime, ...Array<Weight>][];
+  // weighings: [ShortDateTime, ...FixedArray<Weight, 6>][];
 }
 
 export interface PuppyData {

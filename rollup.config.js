@@ -9,6 +9,7 @@ import babel from "@rollup/plugin-babel";
 import { terser } from "rollup-plugin-terser";
 import sveltePreprocess from "svelte-preprocess";
 import typescript from "@rollup/plugin-typescript";
+import json from "@rollup/plugin-json";
 import config from "sapper/config/rollup.js";
 import pkg from "./package.json";
 
@@ -28,7 +29,9 @@ const legacy = !!process.env.SAPPER_LEGACY_BUILD;
 
 const envReplacements = {
   "process.env.NODE_ENV": JSON.stringify(mode),
-  "process.env.APP_GOOGLE_TRACKING_ID": JSON.stringify(process.env.APP_GOOGLE_TRACKING_ID),
+  "process.env.APP_GOOGLE_TRACKING_ID": JSON.stringify(
+    process.env.APP_GOOGLE_TRACKING_ID
+  ),
 };
 
 console.log("env replacements:", envReplacements);
@@ -65,6 +68,7 @@ export default {
         dedupe: ["svelte"],
       }),
       commonjs(),
+      json(),
       typescript({ sourceMap: dev }),
 
       legacy &&
@@ -127,6 +131,7 @@ export default {
         dedupe: ["svelte"],
       }),
       commonjs(),
+      json(),
       typescript({ sourceMap: dev }),
     ],
     external: Object.keys(pkg.dependencies).concat(
@@ -147,7 +152,9 @@ export default {
         ...envReplacements,
       }),
       commonjs(),
+      json(),
       typescript({ sourceMap: dev }),
+
       !dev && terser(),
     ],
 
