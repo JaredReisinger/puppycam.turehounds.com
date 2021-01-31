@@ -1,4 +1,5 @@
-import { DateTime } from "luxon";
+import { DateTime, Duration } from "luxon";
+import type { DurationUnit } from "luxon";
 import pluralize from "pluralize";
 
 /** The valid collar colors. */
@@ -260,4 +261,26 @@ export function capitalize(s: string): string {
 
 export function properName(dog: DogInfo): string {
   return `${dog.sex === Sex.M ? "Mr." : "Miss"} ${capitalize(dog.collar)}`;
+}
+
+export function humanizeDuration(duration: Duration) {
+  let dur = duration;
+
+  if (dur.valueOf() < 0) {
+    dur = dur.negate();
+  }
+
+  const units: DurationUnit[] = ["months", "weeks", "days"];
+  const parts: string[] = [];
+
+  units.forEach((unit) => {
+    // TODO: perform rounding when we're within 90% of the unit?
+    let amount = dur.as(unit);
+    if (amount >= 1) {
+      amount = Math.floor(amount);
+      parts.push(pluralize(unit, amount, true));
+      dur = dur.minus({ [unit]: amount});
+    }
+  });
+  return parts.join(", ");
 }

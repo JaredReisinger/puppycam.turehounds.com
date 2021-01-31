@@ -1,10 +1,12 @@
 <script lang="ts">
+  import { onMount } from "svelte";
   import { DateTime } from "luxon";
 
   import { store as dataStore } from "./puppy-data.js";
   import {
     formatPoundsOunces,
     gramsToPounds,
+    humanizeDuration,
     properName,
   } from "./puppy-data-utils.js";
   import type { PuppyData } from "./puppy-data-utils.js";
@@ -14,6 +16,7 @@
   export let title: string = "The puppies";
 
   let puppyData: PuppyData;
+  let puppyAge: string = "...";
   let weightIndex: number = 0;
   let weightDate: string = "...";
   let weightDateRel: string = "...";
@@ -24,10 +27,12 @@
     puppyData = $dataStore.puppyData;
 
     if (puppyData) {
-      const stdWeights = puppyData.dogs[0].weights;
+      const { weights } = puppyData.dogs[0];
 
-      weightIndex = stdWeights.length - 1;
-      const date = stdWeights[weightIndex][0];
+      updateAge();
+
+      weightIndex = weights.length - 1;
+      const date = weights[weightIndex][0];
       weightDate = date.toLocaleString(dateFmt);
       weightDateRel = date.toRelative();
     }
@@ -36,10 +41,26 @@
       checkDate = $dataStore.lastChecked.toLocaleString(dateFmt);
     }
   }
+
+  function updateAge() {
+    if (puppyData) {
+      const { birthdate } = puppyData.dogs[0];
+      puppyAge = humanizeDuration(birthdate.diffNow());
+    }
+  }
+
+  onMount(() => {
+    // Every half-hour, see if we need to update the "age" text.
+    const interval = setInterval(updateAge, 30 * 1000);
+    return () => {
+      clearInterval(interval);
+    };
+  });
 </script>
 
 <h3>{title} <span class="note">(as of {weightDateRel})</span></h3>
 <!-- <p>All puppies were born on Wednesday, January 13, 2021.</p> -->
+<p>The puppies are {puppyAge} old.</p>
 
 <table>
   <thead>

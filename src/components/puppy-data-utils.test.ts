@@ -1,10 +1,11 @@
 import test from "ava";
-import { DateTime } from "luxon";
+import { DateTime, Duration } from "luxon";
 
 import {
   formatPoundsOunces,
   gramsToOunces,
   gramsToPounds,
+  humanizeDuration,
   shortToDateTime,
 } from "./puppy-data-utils";
 
@@ -63,4 +64,32 @@ test("formatPoundsOunces()", (t) => {
       `test ${i + 1}: [${lb}, ${JSON.stringify(s)}]`
     );
   });
+});
+
+test("humanizeDuration()", (t) => {
+  const cases: [string, string][] = [
+    ["P1D", "1 day"],
+    ["P2D", "2 days"],
+    ["P1DT23H", "1 day"],
+    ["P1DT24H", "2 days"],
+    ["P7D", "1 week"],
+    ["P8D", "1 week, 1 day"],
+    ["P13D", "1 week, 6 days"],
+    ["P14D", "2 weeks"],
+    ["P15D", "2 weeks, 1 day"],
+    ["P28D", "4 weeks"],
+    ["P29D", "4 weeks, 1 day"],
+    ["P30D", "1 month"],
+    ["P31D", "1 month, 1 day"],
+    ["P32D", "1 month, 2 days"],
+  ];
+
+  cases.forEach(([iso, expected], i) => {
+    t.is(
+      humanizeDuration(Duration.fromISO(iso)),
+      expected,
+      `test ${i + 1}: [${iso}, ${JSON.stringify(expected)}]`
+    );
+  });
+  
 });
