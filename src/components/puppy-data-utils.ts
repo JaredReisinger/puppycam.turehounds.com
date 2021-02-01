@@ -50,6 +50,9 @@ export function shortToDateTime(date: ShortDateTime): DateTime {
 /** A weight in grams. */
 export type Weight = number;
 
+/** A nickname. */
+export type Nickname = string;
+
 // // ===========================================================================
 // // MAGIC TYPESCRIPT from
 // // https://stackoverflow.com/questions/41139763/how-to-declare-a-fixed-length-array-in-typescript...
@@ -75,6 +78,8 @@ export type Weighing = [DateTime, Weight];
 
 /** information about a single dog */
 export interface DogInfo {
+  /** nickname for the dog */
+  nickname: Nickname;
   /** collar color for the dog */
   collar: CollarKey;
   /** hurr... duh, the birthdate */
@@ -98,7 +103,7 @@ export interface DogInfo {
 // Typescript types).
 
 export interface RawPuppyData {
-  birthInfo: [ShortDateTime, SexKey, ColorKey, Weight, CollarKey][];
+  birthInfo: [ShortDateTime, SexKey, ColorKey, Weight, CollarKey, Nickname][];
   // We can't really assume a fixed-size if it's coming from external JSON,
   // can we (should we)?
   weighings: [ShortDateTime, ...Array<Weight>][];
@@ -112,7 +117,7 @@ export interface PuppyData {
 export function massageData(rawData: RawPuppyData) {
   // console.log("massaging raw data", rawData);
   const dogs: DogInfo[] = rawData.birthInfo.map(
-    ([shortBirthdate, sex, color, birthweight, collar], i) => {
+    ([shortBirthdate, sex, color, birthweight, collar, nickname], i) => {
       // get *this* dog's weights...
       const birthdate = shortToDateTime(shortBirthdate);
       const weights: Weighing[] = rawData.weighings.map(([shortDate, ...w]) => [
@@ -123,6 +128,7 @@ export function massageData(rawData: RawPuppyData) {
       weights.unshift([birthdate, birthweight]);
 
       const info: DogInfo = {
+        nickname,
         collar,
         birthdate,
         sex: Sex[sex],

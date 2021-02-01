@@ -58,16 +58,17 @@
   });
 </script>
 
-<h3>{title} <span class="note">(as of {weightDateRel})</span></h3>
+<h3>{title}</h3>
 <!-- <p>All puppies were born on Wednesday, January 13, 2021.</p> -->
 <p>The puppies are {puppyAge} old.</p>
 
 <table>
   <thead>
     <tr>
-      <th>name/collar</th>
+      <th>nickname</th>
+      <th>collar</th>
       <th>sex</th>
-      <th>color</th>
+      <!-- <th>color</th> -->
       <th>weight</th>
     </tr>
   </thead>
@@ -75,9 +76,10 @@
     {#if puppyData}
       {#each puppyData.dogs as dog}
         <tr class={dog.collar}>
-          <td>{properName(dog)}</td>
+          <td>{dog.nickname}</td>
+          <td>{dog.collar}</td>
           <td>{dog.sex}</td>
-          <td>{dog.color}</td>
+          <!-- <td>{dog.color}</td> -->
           <td
             ><b
               >{formatPoundsOunces(
@@ -116,7 +118,7 @@
       font-weight: 600;
     }
 
-    & > :nth-child(2) {
+    & > :nth-child(3) {
       text-align: center;
     }
 

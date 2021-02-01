@@ -44,14 +44,14 @@
 
 {#if observed}
   {#if title}
-    <h3>{title} <span class="note">(as of {observedRel})</span></h3>
+    <h3>{title}</h3>
   {/if}
 
   <div class="weather">
     <div class="temperature">{temperature}</div>
     <div class="humidity">{humidity}</div>
   </div>
-  <div class="note">Weather measured at {observed}</div>
+  <div class="note">Weather measured at {observed} ({observedRel})</div>
   <p class="note">
     Checked for updates at {checkDate}.
   </p>

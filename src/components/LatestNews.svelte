@@ -27,7 +27,7 @@
   }
 </script>
 
-<h3>{title} <span class="note">(as of {newsRelDate})</span></h3>
+<h3>{title}</h3>
 {#each item.paragraphs as paragraph}
   <p>{@html paragraph}</p>
 {/each}
@@ -35,7 +35,7 @@
 <p><a href="/news">Read more…</a></p>
 
 <p class="note">
-  News from {newsDate}.
+  News from {newsDate} ({newsRelDate}).
 </p>
 <p class="note">
   Checked for updates at {checkDate}.
