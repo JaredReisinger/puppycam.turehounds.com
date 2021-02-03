@@ -7,7 +7,7 @@
     formatPoundsOunces,
     gramsToPounds,
     humanizeDuration,
-    properName,
+    // properName,
   } from "./puppy-data-utils.js";
   import type { PuppyData } from "./puppy-data-utils.js";
 
@@ -19,8 +19,9 @@
   let puppyAge: string = "...";
   let weightIndex: number = 0;
   let weightDate: string = "...";
-  let weightDateRel: string = "...";
+  // let weightDateRel: string = "...";
   let checkDate: string = "...";
+
 
   $: {
     // console.log("PuppyDetails data update?", $dataStore);
@@ -29,12 +30,13 @@
     if (puppyData) {
       const { weights } = puppyData.dogs[0];
 
+      console.log("age update B");
       updateAge();
 
       weightIndex = weights.length - 1;
       const date = weights[weightIndex][0];
       weightDate = date.toLocaleString(dateFmt);
-      weightDateRel = date.toRelative();
+      // weightDateRel = date.toRelative();
     }
 
     if ($dataStore.lastChecked) {
@@ -50,6 +52,8 @@
   }
 
   onMount(() => {
+    console.log("age update 1");
+    updateAge();
     // Every half-hour, see if we need to update the "age" text.
     const interval = setInterval(updateAge, 30 * 1000);
     return () => {
