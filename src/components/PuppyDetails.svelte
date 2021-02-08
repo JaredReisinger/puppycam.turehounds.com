@@ -22,7 +22,6 @@
   // let weightDateRel: string = "...";
   let checkDate: string = "...";
 
-
   $: {
     // console.log("PuppyDetails data update?", $dataStore);
     puppyData = $dataStore.puppyData;
@@ -30,8 +29,9 @@
     if (puppyData) {
       const { weights } = puppyData.dogs[0];
 
-      console.log("age update B");
+      const was = puppyAge;
       updateAge();
+      console.log("age update $", { was, now: puppyAge });
 
       weightIndex = weights.length - 1;
       const date = weights[weightIndex][0];
@@ -52,10 +52,11 @@
   }
 
   onMount(() => {
-    console.log("age update 1");
+    const was = puppyAge;
     updateAge();
+    console.log("age update M", { was, now: puppyAge });
     // Every half-hour, see if we need to update the "age" text.
-    const interval = setInterval(updateAge, 30 * 1000);
+    const interval = setInterval(updateAge, /* 30 * */ 1000);
     return () => {
       clearInterval(interval);
     };
@@ -104,6 +105,7 @@
   Checked for updates at {checkDate}.
 </p>
 
+<!-- <p>All puppies were born on Wednesday, January 13, 2021.</p> -->
 <style type="scss">
   tr {
     & > * {
