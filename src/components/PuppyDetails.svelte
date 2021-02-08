@@ -7,7 +7,7 @@
     formatPoundsOunces,
     gramsToPounds,
     humanizeDuration,
-    // properName,
+    properName,
   } from "./puppy-data-utils.js";
   import type { PuppyData } from "./puppy-data-utils.js";
 
@@ -81,7 +81,7 @@
     {#if puppyData}
       {#each puppyData.dogs as dog}
         <tr class={dog.collar}>
-          <td>{dog.nickname}</td>
+          <td>{properName(dog)}</td>
           <td>{dog.collar}</td>
           <td>{dog.sex}</td>
           <!-- <td>{dog.color}</td> -->

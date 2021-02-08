@@ -18,17 +18,25 @@
 
   async function updateWeather() {
     checkDate = DateTime.local().toLocaleString(dateFmt);
-    sample = await (await fetch(sensorApi)).json();
 
-    temperature = sample.temperature;
-    humidity = sample.humidity;
-    updateTimes();
+    try {
+      const response = await fetch(sensorApi);
+      sample = await response.json();
+
+      temperature = sample.temperature;
+      humidity = sample.humidity;
+      updateTimes();
+    } catch (err) {
+      console.log("unable to fetch... no weather data");
+    }
   }
 
   function updateTimes() {
-    const obs = DateTime.fromISO(sample.observed);
-    observed = obs.toLocaleString(dateFmt);
-    observedRel = obs.toRelative({ unit: "seconds" });
+    if (sample) {
+      const obs = DateTime.fromISO(sample.observed);
+      observed = obs.toLocaleString(dateFmt);
+      observedRel = obs.toRelative({ unit: "seconds" });
+    }
   }
 
   onMount(() => {
@@ -55,7 +63,7 @@
   <p class="note">
     Checked for updates at {checkDate}.
   </p>
-  {/if}
+{/if}
 
 <style type="scss">
   .weather {

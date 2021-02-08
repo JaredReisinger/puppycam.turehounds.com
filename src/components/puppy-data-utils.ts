@@ -266,6 +266,10 @@ export function capitalize(s: string): string {
 }
 
 export function properName(dog: DogInfo): string {
+  if (dog.nickname) {
+    return dog.nickname;
+  }
+  
   return `${dog.sex === Sex.M ? "Mr." : "Miss"} ${capitalize(dog.collar)}`;
 }
 
