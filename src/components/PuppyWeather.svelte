@@ -59,10 +59,9 @@
     <div class="temperature">{temperature}</div>
     <div class="humidity">{humidity}</div>
   </div>
-  <div class="note">Weather measured at {observed} ({observedRel})</div>
-  <p class="note">
-    Checked for updates at {checkDate}.
-  </p>
+  <div class="note">Weather measured at {observed}</div>
+  <div class="note">({observedRel})</div>
+  <div class="note">Checked for updates at {checkDate}.</div>
 {/if}
 
 <style type="scss">

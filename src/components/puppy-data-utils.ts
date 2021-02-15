@@ -280,7 +280,7 @@ export function humanizeDuration(duration: Duration) {
     dur = dur.negate();
   }
 
-  const units: DurationUnit[] = ["months", "weeks", "days"];
+  const units: DurationUnit[] = ["months", "weeks", "days", "hours"];
   const parts: string[] = [];
 
   units.forEach((unit) => {

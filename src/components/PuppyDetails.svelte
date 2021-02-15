@@ -29,9 +29,9 @@
     if (puppyData) {
       const { weights } = puppyData.dogs[0];
 
-      const was = puppyAge;
+      // const was = puppyAge;
       updateAge();
-      console.log("age update $", { was, now: puppyAge });
+      // console.log("age update $", { was, now: puppyAge });
 
       weightIndex = weights.length - 1;
       const date = weights[weightIndex][0];
@@ -52,11 +52,11 @@
   }
 
   onMount(() => {
-    const was = puppyAge;
+    // const was = puppyAge;
     updateAge();
-    console.log("age update M", { was, now: puppyAge });
+    // console.log("age update M", { was, now: puppyAge });
     // Every half-hour, see if we need to update the "age" text.
-    const interval = setInterval(updateAge, /* 30 * */ 1000);
+    const interval = setInterval(updateAge, /* 30 * */ 5 * 1000);
     return () => {
       clearInterval(interval);
     };
