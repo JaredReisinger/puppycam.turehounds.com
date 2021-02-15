@@ -52,7 +52,7 @@ export const store = readable(state, (set) => {
   if (!canRefreshData()) {
     // nothing to do for unsubscribe in this case!
     return () => {
-      console.log("NEWS: unsubscribe non-refresh case");
+      // console.log("NEWS: unsubscribe non-refresh case");
     };
   }
 
@@ -70,19 +70,19 @@ export const store = readable(state, (set) => {
   }
 
   if (immediateRefresh) {
-    console.log("NEWS: performing immediate data refresh");
+    // console.log("NEWS: performing immediate data refresh");
     refreshNews(set);
   }
 
   // Now set up the interval-based refresh...
   const interval = setInterval(() => {
-    console.log("NEWS: interval...");
+    // console.log("NEWS: interval...");
     refreshNews(set);
   }, defaultDelay.valueOf());
 
   // get the data, and set up a refresh every 30 minutes?
   return () => {
-    console.log("NEWS: no more subscriptions");
+    // console.log("NEWS: no more subscriptions");
     clearInterval(interval);
   };
 });
