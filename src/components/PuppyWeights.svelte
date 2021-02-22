@@ -48,7 +48,12 @@
   // is a "nicely formatted" value... we use 1/8oz as that minimum, so the raw
   // value for the y axis is "eighth of an ounce". (We need an axis tick
   // formatter as well!)
-  const ounceMultiplier = 1;
+  //
+  // Note: this really needs to change over time... when the puppies were small,
+  // we used '8' (as described above, to get 1/8oz => 1).  As they got bigger,
+  // we switched to '1' for a "1oz" fundamental unit.  Now that they are 4-5
+  // pounds,we want a tick every 1/2 pound (8oz), so we want a 1/8 multiplier.
+  const ounceMultiplier = 1/8;
   $: {
     dogs = $dataStore.puppyData ? $dataStore.puppyData.dogs : [];
 
@@ -94,7 +99,7 @@
   // a part of it, since that conflates the meaning of "width", etc.
 
   const chart = {
-    margin: 50,
+    margin: 60,
 
     width: undefined,
     height: undefined,
