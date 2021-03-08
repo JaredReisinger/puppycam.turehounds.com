@@ -6,7 +6,7 @@
 
 <nav>
   <div class="title">
-    <a href="/" rel="prefetch">
+    <a href="/" sapper:prefetch>
       <img alt="Ture Hounds" src={tureHoundsLogo} />
       PuppyCam
     </a>
@@ -17,28 +17,28 @@
       <a
         aria-current={segment === undefined ? "page" : undefined}
         href="/"
-        rel="prefetch"><span>Live</span></a
+        sapper:prefetch><span>Live</span></a
       >
     </li>
     <li>
       <a
         aria-current={segment === "stats" ? "page" : undefined}
         href="stats"
-        rel="prefetch"><span>Stats</span></a
+        sapper:prefetch><span>Stats</span></a
       >
     </li>
     <li>
       <a
         aria-current={segment === "news" ? "page" : undefined}
         href="news"
-        rel="prefetch"><span>News</span></a
+        sapper:prefetch><span>News</span></a
       >
     </li>
     <li>
       <a
         aria-current={segment === "about" ? "page" : undefined}
         href="about"
-        rel="prefetch"><span>About</span></a
+        sapper:prefetch><span>About</span></a
       >
     </li>
     <li>

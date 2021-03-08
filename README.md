@@ -42,7 +42,7 @@ npm install # or yarn
 npm run dev
 ```
 
-This will start the development server on [localhost:3000](http://localhost:3000). Open it and click around.
+This will start the development server on [localhost:3030](http://localhost:3030). Open it and click around.
 
 You now have a fully functional Sapper project! To get started developing, consult [sapper.svelte.dev](https://sapper.svelte.dev).
 

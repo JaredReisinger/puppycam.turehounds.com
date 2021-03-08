@@ -49,8 +49,9 @@ export default {
     output: config.client.output(),
     plugins: [
       replace({
-        "process.browser": true,
         ...envReplacements,
+        "process.browser": true,
+        preventAssignment: true,
       }),
       svelte({
         preprocess: sveltePreprocess(),
@@ -110,8 +111,9 @@ export default {
     output: config.server.output(),
     plugins: [
       replace({
-        "process.browser": false,
         ...envReplacements,
+        "process.browser": false,
+        preventAssignment: true,
       }),
       svelte({
         preprocess: sveltePreprocess(),
@@ -148,8 +150,9 @@ export default {
     plugins: [
       resolve(),
       replace({
-        "process.browser": true,
         ...envReplacements,
+        "process.browser": true,
+        preventAssignment: true,
       }),
       commonjs(),
       json(),
