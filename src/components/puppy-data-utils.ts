@@ -273,14 +273,14 @@ export function properName(dog: DogInfo): string {
   return `${dog.sex === Sex.M ? "Mr." : "Miss"} ${capitalize(dog.collar)}`;
 }
 
-export function humanizeDuration(duration: Duration) {
+export function humanizeDuration(duration: Duration, units: DurationUnit[]) {
   let dur = duration;
 
   if (dur.valueOf() < 0) {
     dur = dur.negate();
   }
 
-  const units: DurationUnit[] = ["months", "weeks", "days", "hours"];
+  // const units: DurationUnit[] = ["months", "weeks", "days", "hours"];
   const parts: string[] = [];
 
   units.forEach((unit) => {

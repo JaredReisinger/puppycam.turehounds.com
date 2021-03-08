@@ -1,6 +1,7 @@
 <script lang="ts">
   import { onMount } from "svelte";
   import { DateTime } from "luxon";
+  import type { DateTimeFormatOptions, LocaleOptions } from "luxon";
 
   import { store as dataStore } from "./puppy-data.js";
   import {
@@ -11,7 +12,13 @@
   } from "./puppy-data-utils.js";
   import type { PuppyData } from "./puppy-data-utils.js";
 
-  const dateFmt = { ...DateTime.DATETIME_SHORT, timeZoneName: "short" };
+  // Bad typings abound... DateTime.DATETIME_SHORT doesn't qualify as
+  // Intl.DateTimeFormatOptions despite being typed that way!  We force-type it
+  // here to prevent errors in toLocaleString()!
+  const dateFmt: LocaleOptions & DateTimeFormatOptions = {
+    ...DateTime.DATETIME_SHORT,
+    timeZoneName: "short",
+  } as unknown;
 
   export let title: string = "The puppies";
 
@@ -36,6 +43,7 @@
       weightIndex = weights.length - 1;
       const date = weights[weightIndex][0];
       weightDate = date.toLocaleString(dateFmt);
+      weightDate = date.toLocaleString();
       // weightDateRel = date.toRelative();
     }
 
@@ -47,7 +55,7 @@
   function updateAge() {
     if (puppyData) {
       const { birthdate } = puppyData.dogs[0];
-      puppyAge = humanizeDuration(birthdate.diffNow());
+      puppyAge = humanizeDuration(birthdate.diffNow(), ["weeks", "days"]);
     }
   }
 

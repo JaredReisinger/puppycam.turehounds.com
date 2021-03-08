@@ -1,5 +1,6 @@
 import test from "ava";
 import { DateTime, Duration } from "luxon";
+import type { DurationUnit } from "luxon";
 
 import {
   formatPoundsOunces,
@@ -84,9 +85,11 @@ test("humanizeDuration()", (t) => {
     ["P32D", "1 month, 2 days"],
   ];
 
+  const units: DurationUnit[] = ["months", "weeks", "days"];
+
   cases.forEach(([iso, expected], i) => {
     t.is(
-      humanizeDuration(Duration.fromISO(iso)),
+      humanizeDuration(Duration.fromISO(iso), units),
       expected,
       `test ${i + 1}: [${iso}, ${JSON.stringify(expected)}]`
     );
