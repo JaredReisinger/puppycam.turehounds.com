@@ -13,19 +13,19 @@
 <div class="layout">
   <div class="aspect-root">
     <div class="aspect-main">
-      <!-- <Video title="Up-close" videoId="dAYyHiFXJU" /> -->
-      <Video2
-        publicId="dAYyHiFXJU"
-        uuid="3ed3fea78dfc4f86968ab2ae9f616443"
-        streamHost="stream-ue1-charlie.dropcam.com"
-      />
-    </div>
-    <div class="aspect-child">
       <!-- <Video title="Eye in the Sky" videoId="jqbAk2MNMd" /> -->
       <Video2
         publicId="jqbAk2MNMd"
         uuid="9c06bf22fa9047559a39ced47953a9ec"
         streamHost="stream-ue1-bravo.dropcam.com"
+      />
+    </div>
+    <div class="aspect-child">
+      <!-- <Video title="Up-close" videoId="dAYyHiFXJU" /> -->
+      <Video2
+        publicId="dAYyHiFXJU"
+        uuid="3ed3fea78dfc4f86968ab2ae9f616443"
+        streamHost="stream-ue1-charlie.dropcam.com"
       />
     </div>
   </div>
