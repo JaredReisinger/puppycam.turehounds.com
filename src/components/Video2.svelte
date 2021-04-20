@@ -15,7 +15,7 @@
     log(`using poster ${poster}`);
   }
 
-  let video;
+  let video: HTMLVideoElement;
   let logMsgs: string[] = [];
 
   function log(msg: string) {

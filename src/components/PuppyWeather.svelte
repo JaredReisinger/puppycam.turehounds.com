@@ -14,7 +14,10 @@
   let humidity: number;
   let checkDate: string;
 
-  const dateFmt = { ...DateTime.DATETIME_SHORT, timeZoneName: "short" };
+  const dateFmt = {
+    ...DateTime.DATETIME_SHORT,
+    timeZoneName: "short",
+  } as const;
 
   async function updateWeather() {
     checkDate = DateTime.local().toLocaleString(dateFmt);

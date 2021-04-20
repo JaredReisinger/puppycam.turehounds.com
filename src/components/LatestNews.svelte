@@ -3,8 +3,11 @@
   import { store as newsStore } from "../components/news";
   import type { NewsItem } from "../components/news";
 
-  const shortFmt = { ...DateTime.DATETIME_SHORT, timeZoneName: "short" };
-  // const longFmt = { ...DateTime.DATETIME_HUGE, timeZoneName: "short" };
+  const shortFmt = {
+    ...DateTime.DATETIME_SHORT,
+    timeZoneName: "short",
+  } as const;
+  // const longFmt = { ...DateTime.DATETIME_HUGE, timeZoneName: "short" } as const;
 
   export let title: string = "Latest news";
 

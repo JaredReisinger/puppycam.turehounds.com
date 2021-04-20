@@ -1,10 +1,13 @@
 <script type="ts">
   import { DateTime } from "luxon";
-  import {store as newsStore } from "../components/news";
+  import { store as newsStore } from "../components/news";
   import type { NewsItem } from "../components/news";
 
-  const shortFmt = { ...DateTime.DATETIME_SHORT, timeZoneName: "short" };
-  const longFmt = { ...DateTime.DATETIME_HUGE, timeZoneName: "short" };
+  const shortFmt = {
+    ...DateTime.DATETIME_SHORT,
+    timeZoneName: "short",
+  } as const;
+  const longFmt = { ...DateTime.DATETIME_HUGE, timeZoneName: "short" } as const;
 
   let news: NewsItem[];
   let newsDate: string = "...";
@@ -22,7 +25,6 @@
       checkDate = $newsStore.lastChecked.toLocaleString(shortFmt);
     }
   }
-
 </script>
 
 <svelte:head>
@@ -38,9 +40,12 @@
   <p class="note">
     Checked for updates at {checkDate}.
   </p>
-  
+
   {#each $newsStore.news as item}
-    <h3>{item.when.toLocaleString(longFmt)} <span class="note">({item.when.toRelative()})</span></h3>
+    <h3>
+      {item.when.toLocaleString(longFmt)}
+      <span class="note">({item.when.toRelative()})</span>
+    </h3>
     {#each item.paragraphs as paragraph}
       <p>{@html paragraph}</p>
     {/each}
@@ -64,5 +69,4 @@
   h1 + .note {
     margin-top: -1em;
   }
-  
 </style>

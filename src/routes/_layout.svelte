@@ -13,8 +13,8 @@
   // We *should* be able to let the page define the overrides for the open graph
   // etc. values, but it's not clear that they can...Doing so simply results in
   // duplicate <meta> headers, which seems messy and weird.
-  let titlePrefix;
-  let pageDescription;
+  let titlePrefix: string;
+  let pageDescription: string;
 
   $: {
     switch (path) {

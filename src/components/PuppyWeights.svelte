@@ -3,6 +3,7 @@
   import { scaleTime, scaleLinear } from "d3-scale";
   import type { ScaleTime, ScaleLinear } from "d3-scale";
   import { timeDay } from "d3-time";
+  import type { CountableTimeInterval } from "d3-time";
   import { line, symbol, curveCatmullRom } from "d3-shape";
   import type { Line, Symbol } from "d3-shape";
 
@@ -151,7 +152,8 @@
       xScale = scaleTime()
         .domain(extent(flatPoints, ({ date }) => date))
         .range([chart.margin, chart.width - chart.margin])
-        .nice(timeDay.every(1));
+        // timeDay.every() *ought* to be correct...
+        .nice((timeDay.every(1) as unknown) as CountableTimeInterval);
 
       yScale = scaleLinear()
         .domain([0, max(flatPoints, ({ value }) => +value)])

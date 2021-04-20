@@ -14,8 +14,8 @@
   export let scale: AxisScale<AxisDomain> = undefined;
   export let tickFormatter: TickFormatter = undefined;
 
-  let transform;
-  let g;
+  let transform: string;
+  let g: SVGElement;
 
   $: {
     select(g).selectAll("*").remove();
