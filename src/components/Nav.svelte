@@ -1,4 +1,7 @@
 <script lang="ts">
+  import Icon from "fa-svelte";
+  import { faFacebookF, faInstagram } from "@fortawesome/free-brands-svg-icons"
+
   import tureHoundsLogo from "images/ture-hounds-logo.png";
 
   export let segment: string;
@@ -44,6 +47,16 @@
     <li>
       <a href="https://turehounds.com"><span>Ture Hounds Home</span></a>
     </li>
+    <li>
+      <a href="https://www.facebook.com/TureHounds"
+        ><span class="icon"><Icon icon={faFacebookF} /></span></a
+      >
+    </li>
+    <li>
+      <a href="https://www.instagram.com/turehounds"
+        ><span class="icon"><Icon icon={faInstagram} /></span></a
+      >
+    </li>
   </ul>
 </nav>
 
@@ -75,11 +88,18 @@
 
     a {
       padding: 0.75em 0.5em;
-    }
 
-    span {
-      padding: 0.25em 0;
-      border-bottom: 3px solid transparent;
+      span {
+        padding: 0.25em 0;
+        border-bottom: 3px solid transparent;
+
+        :global(svg) {
+          /* padding: 0.25em 0; */
+          height: 1.25em;
+          width: 1.25em;
+        }
+      }
+
     }
   }
 
