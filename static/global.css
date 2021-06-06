@@ -70,6 +70,19 @@ h6 .note {
 }
 
 /* ideally, we'd have SCSS for this, so we're not re-defining the colors... */
+.was {
+  color: hsl(0, 0%, 50%);
+  font-size: 84%;
+  font-style: italic;
+}
+
+.was::before {
+  content: "(";
+}
+
+.was::after {
+  content: ")";
+}
 
 .blue {
   color: hsl(220, 80%, 50%);

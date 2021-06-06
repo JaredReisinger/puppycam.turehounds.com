@@ -1,8 +1,8 @@
 <script lang="ts">
   // import Video from "../components/Video.svelte";
-  import Video2 from "../components/Video2.svelte";
-  import PuppyDetails from "../components/PuppyDetails.svelte";
-  import PuppyWeather from "../components/PuppyWeather.svelte";
+  // import Video2 from "../components/Video2.svelte";
+  // import PuppyDetails from "../components/PuppyDetails.svelte";
+  // import PuppyWeather from "../components/PuppyWeather.svelte";
   import LatestNews from "../components/LatestNews.svelte";
 </script>
 
@@ -11,9 +11,9 @@
 </svelte:head>
 
 <div class="layout">
-  <div class="aspect-root">
+  <!-- <div class="aspect-root">
     <div class="aspect-main">
-      <!-- <Video title="Eye in the Sky" videoId="jqbAk2MNMd" /> -->
+      <Video title="Eye in the Sky" videoId="jqbAk2MNMd" />
       <Video2
         publicId="dAYyHiFXJU"
         uuid="3ed3fea78dfc4f86968ab2ae9f616443"
@@ -31,17 +31,15 @@
 
     <LatestNews />
     <a href="about#news" class="what">what?!</a>
+  </div> -->
+
+  <div class="news">
+    <LatestNews title="Until next time..." />
   </div>
 </div>
 
-<style type="scss">
-  .layout {
-    display: block;
-  }
-
-  .aspect-root {
+<!-- .aspect-root {
     width: 100%;
-    /* height: auto; */
   }
 
   .aspect-main /* ,
@@ -94,5 +92,15 @@
         margin-top: 0;
       }
     }
+  }
+</style> -->
+<style type="scss">
+  .layout {
+    display: block;
+  }
+
+  .news {
+    font-size: 150%;
+    max-width: 50rem;
   }
 </style>
