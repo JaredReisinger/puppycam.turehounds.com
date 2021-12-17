@@ -23,16 +23,16 @@
 
   <p>
     If history is any indicator, morning time—around 8am MST, say—will be a good
-    time to see puppy activity. That’s when I (Jared) jump in with the puppies
+    time to see puppy activity. That’s when I (Jared) jump in with the puppies
     to get my fix before starting work.
   </p>
 
   <h2>Technical details</h2>
 
   <p>
-    I (Jared) write software for a living, and I enjoy it enough that I also do
-    it in my spare time. Any excuse to write some bespoke software or learn
-    a new technology is a good thing in my opinion. As a result, this site might
+    I (Jared) write software for a living, and I enjoy it enough that I also do
+    it in my spare time. Any excuse to write some bespoke software or learn a
+    new technology is a good thing in my opinion. As a result, this site might
     be considered a gratuitous use of technology. 😉
   </p>
 
@@ -64,30 +64,29 @@
     anything. The nice thing about having nothing running on the server is that it
     means we can host it for free on
     <a href="https://netlify.com" target="_blank">Netlify</a>. One other nice
-    thing about Netlify is that it auto-updates when there’s a change to the
-    source code. As soon as I push a change to the code, Netlify grabs that
-    change, rebuilds the site, and redeploys it, all in a matter of seconds.
+    thing about Netlify is that it auto-updates when there’s a change to the
+    source code. As soon as I push a change to the code, Netlify grabs that
+    change, rebuilds the site, and redeploys it, all in a matter of seconds.
   </p>
 
   <p>
-    If you want to see the source for this site, you could, theoretically, as
-    it’s hosted on GitHub. It’s currently marked as a private repository,
-    though, so you can’t actually see it. Please let me know if you’re curious,
-    and I could be persuaded to make it publicly visible. (There’s really
-    nothing secret in the source; I just didn’t want to have random folks
-    visiting the PuppyCam site.)
+    If you want to see the source for this site, you can, as it’s <a
+      href="https://github.com/JaredReisinger/puppycam.turehounds.com"
+      target="_blank">hosted on GitHub</a
+    >. It used to be marked as a private repository, but there’s really nothing
+    secret in the source so I decided I might as well open it up.
   </p>
 
   <h3 id="live-video">Live video feed</h3>
 
   <p>
-    Even before the previous iteration of PuppyCam, we had a few
+    Even before this iteration of PuppyCam, we had a few
     <a href="https://nest.com" target="_blank">Nest</a>
     cameras, for security. We use them so that we can easily keep an eye on things,
     including being able to peek in at the pups at night-time—the cameras use infrared
-    in low-light situations so we don’t need to turn on a light just to check on
-    them. You can also, as a camera owner, choose to make the feed from the camera
-    “public”, which allows you to share a public link to the feed on the
+    in low-light situations so we don’t need to turn on a light just to check on
+    them. One can also, as a camera owner, choose to make the feed from the camera
+    “public”, which allows you to share a public link to the feed on the
     <code>nest.com</code>
     site,
     <em>or</em>
@@ -103,7 +102,7 @@
   </div>
 
   <p>
-    For PuppyCam, I use a little bit of HTML/CSS magic to make one of the videos
+    For PuppyCam, I use a little bit of HTML/CSS magic to make one of the videos
     look like it’s “inset” into the other. (Coming soon... I just need to mount
     the camera on the whelping box first!)
   </p>
@@ -114,10 +113,10 @@
     For the first few days, the details about the puppies had been typed in by
     hand. As of late Saturday, January 16, however, much of it is driven from
     some data. This data, including relatively up-to-date weight measurements,
-    is still typed in by hand… but it’s entered in a very concise and minimal
+    is still typed in by hand… but it’s entered in a very concise and minimal
     way. It would be awesome if the puppy weights could truly auto-update, but
     that would mean some kind of weight-measuring pad, being able to track which
-    puppy is on the pad at any given moment, and so on… I mean, that would be
+    puppy is on the pad at any given moment, and so on… I mean, that would be
     <em>undeniably</em>
     cool, but it’s beyond my reach at the moment.
   </p>
@@ -180,15 +179,15 @@
   </p>
 
   <p>
-    SensorPush also exposes a programmatic API so that you can get the raw data
+    SensorPush also exposes a programmatic API so that you can get the raw data
     they have saved from the individual sensors. Their API is rather complex,
     however, and also requires performing proper authentication using your (my!)
-    personal SensorPush password. Since (a) I don’t want to expose my password
+    personal SensorPush password. Since (a) I don’t want to expose my password
     even within the source of the web page, (b) the PuppyCam site only needs the
     most-recent temperature/humidity reading, and (c) when the PuppyCam goes
     viral it could start requesting the information
     <em>millions</em>
-    of times 😉, the “most sane” thing to do is to run a tiny one-off web server
+    of times 😉, the “most sane” thing to do is to run a tiny one-off web server
     whose job is to peridocially poke the SensorPush API to get the latest reading,
     and to also serve that information publically.
   </p>
@@ -198,11 +197,11 @@
   <h4 id="proxy">Bespoke data proxy</h4>
 
   <p>
-    I’ve written a small program/web-server in
+    I’ve written a small program/web-server in
     <a href="https://golang.org/" target="_blank">Go</a>
     that performs all of the necessary work for getting the temperature and humidity
-    from the SensorPush API, and then turns around and exposes it as a simple web
-    page at
+    from the SensorPush API, and then turns around and exposes it as a simple data
+    feed at
     <a href="https://puppycam-sensor.spudnoggin.com/sensor" target="_blank"
       ><code>https://puppycam-sensor.spudnoggin.com/sensor</code></a
     >. If you visit that link, you’ll see some additional potential data metrics
@@ -213,10 +212,10 @@
 
   <p>
     This small program runs on spare hardware that’s been cobbled together over
-    the years and turned into a little Linux box running my own personal private
+    the years and turned into a little Linux box running my own personal private
     “cloud”. It could just as easily run “in the (real) cloud”—and in
     would/will, if the PuppyCam actually goes viral!—but it doesn’t cost
-    anything (more) to run it on a machine that I already have and that is
+    anything (more) to run it on a machine that I already have and that is
     already exposed to the internet as half-a-dozen other virtual servers.
   </p>
 
@@ -224,9 +223,9 @@
 
   <p>
     So given that there’s now easy and open access to the temperature/humidity
-    data, it’s just a matter of getting that information to show up in your
+    data, it’s just a matter of getting that information to show up in your
     browser. The Svelte component I’ve written for this site simply tells the
-    browser to retrieve the data from the bespoke data proxy every 30 seconds,
+    browser to retrieve the data from the bespoke data proxy every 30 seconds,
     and then updates the information on the page. Updating the page is something
     that Svelte was designed to do, so this is a lot easier than it might sound.
   </p>
@@ -237,20 +236,20 @@
     <PuppyWeather />
   </div>
 
-  <p>Wooo! 🎉 <em>(And yes, that’s a live and accurate reading!)</em></p>
+  <p>Wooo! 🎉 <em>(And yes, that’s a live and accurate reading!)</em></p>
 
   <h3 id="news">Latest news</h3>
 
   <p>
-    Realizing that some significant milestones were coming up soon, I though it
-    would be good to have a way to highlight these on the main page. And, just
+    Realizing that some significant milestones were coming up soon, I thought it
+    would be good to have a way to highlight these on the main page. And, just
     in case you miss one, you should be able to see <em>all</em> of the previous
     news items as well.
   </p>
 
   <p>
     The “latest news” component leverages the same “auto-refresh” capabilities
-    as the other components, checking every 30 minutes for any updated news.
+    as the other components, checking every 30 minutes for any updated news.
   </p>
 
   <p>I’ll admit it… I’m just having fun at this point.</p>
@@ -264,7 +263,7 @@
   <p>
     …And that’s it, for now. I’ve considered including the
     <em>outside</em>
-    weather (as a nice contrast with the puppy weather), but that doesn’t seem really
+    weather (as a nice contrast with the puppy weather), but that doesn’t seem really
     necessary—not that this entire site is really necessary. 😉
   </p>
 </div>
