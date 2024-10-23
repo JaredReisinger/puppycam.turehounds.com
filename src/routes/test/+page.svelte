@@ -1,5 +1,5 @@
 <script lang="ts">
-  import Video2 from "@components/Video2.svelte";
+  import Video2 from "$lib/Video2.svelte";
 
   // get camera info (JSON)
   //  * https://video.nest.com/api/dropcam/cameras.get_by_public_token?token=dAYyHiFXJU&_=1611358588737

@@ -1,29 +1,12 @@
 <script lang="ts">
-  import { DateTime } from "luxon";
-  import { type NewsItem, store as newsStore } from "@components/news";
+  import { DateTime } from 'luxon';
+  import { news } from '$lib/news.svelte';
 
   const shortFmt = {
     ...DateTime.DATETIME_SHORT,
-    timeZoneName: "short",
+    timeZoneName: 'short',
   } as const;
-  const longFmt = { ...DateTime.DATETIME_HUGE, timeZoneName: "short" } as const;
-
-  let news: NewsItem[] = [];
-  let newsDate: string = "...";
-  let checkDate: string = "...";
-
-  $: {
-    // console.log("PuppyDetails data update?", $dataStore);
-    news = $newsStore.news ?? [];
-
-    if (news.length > 0) {
-      newsDate = news[0].when.toLocaleString(shortFmt);
-    }
-
-    if ($newsStore.lastChecked) {
-      checkDate = $newsStore.lastChecked.toLocaleString(shortFmt);
-    }
-  }
+  const longFmt = { ...DateTime.DATETIME_HUGE, timeZoneName: 'short' } as const;
 </script>
 
 <svelte:head>
@@ -34,13 +17,13 @@
   <h1>News and updates</h1>
 
   <p class="note">
-    Most-recent news from {newsDate}.
+    Most-recent news from {news.lastModified?.toLocaleString(shortFmt)}.
   </p>
   <p class="note">
-    Checked for updates at {checkDate}.
+    Checked for updates at {news.lastChecked.toLocaleString(shortFmt)}.
   </p>
 
-  {#each news as item}
+  {#each news.news as item}
     <h3>
       {item.when.toLocaleString(longFmt)}
       <span class="note">({item.when.toRelative()})</span>

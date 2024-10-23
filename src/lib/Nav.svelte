@@ -1,10 +1,11 @@
 <script lang="ts">
-  import Icon from "fa-svelte";
-  import { faFacebookF, faInstagram } from "@fortawesome/free-brands-svg-icons"
+  import Icon from 'fa-svelte';
+  import { faFacebookF, faInstagram } from '@fortawesome/free-brands-svg-icons';
 
-  import tureHoundsLogo from "$lib/images/ture-hounds-logo.png";
+  import tureHoundsLogo from '$lib/images/ture-hounds-logo.png';
 
-  export let segment: string;
+  // export let segment: string;
+  let { segment }: { segment: string } = $props();
 </script>
 
 <nav>
@@ -17,30 +18,22 @@
 
   <ul>
     <li>
-      <a
-        aria-current={segment === undefined ? "page" : undefined}
-        href="/"
+      <a aria-current={segment === undefined ? 'page' : undefined} href="/"
         ><span>Live</span></a
       >
     </li>
     <li>
-      <a
-        aria-current={segment === "stats" ? "page" : undefined}
-        href="stats"
+      <a aria-current={segment === 'stats' ? 'page' : undefined} href="stats"
         ><span>Stats</span></a
       >
     </li>
     <li>
-      <a
-        aria-current={segment === "news" ? "page" : undefined}
-        href="news"
+      <a aria-current={segment === 'news' ? 'page' : undefined} href="news"
         ><span>News</span></a
       >
     </li>
     <li>
-      <a
-        aria-current={segment === "about" ? "page" : undefined}
-        href="about"
+      <a aria-current={segment === 'about' ? 'page' : undefined} href="about"
         ><span>About</span></a
       >
     </li>
@@ -99,7 +92,6 @@
           width: 1.25em;
         }
       }
-
     }
   }
 

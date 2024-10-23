@@ -1,6 +1,6 @@
 <script lang="ts">
-  import PuppyDetails from "@components/PuppyDetails.svelte";
-  import PuppyWeights from "@components/PuppyWeights.svelte";
+  import PuppyDetails from "$lib/PuppyDetails.svelte";
+  import PuppyWeights from "$lib/PuppyWeights.svelte";
 </script>
 
 <svelte:head>
@@ -59,7 +59,7 @@
 <style lang="postcss">
   .wrapper {
     max-width: 50em;
-    // font-weight: 400;
+    /* font-weight: 400; */
   }
 
   .aside {

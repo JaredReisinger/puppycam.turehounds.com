@@ -16,9 +16,9 @@ const gitignorePath = path.resolve(__dirname, '.gitignore');
 
 export default [
   includeIgnoreFile(gitignorePath),
-  {
-    ignores: ['**/*.cjs', /* 'src/generated/graphql-types.ts' */ ],
-  },
+  // {
+  //   ignores: ['**/*.cjs'],
+  // },
   js.configs.recommended,
   ...ts.configs.recommended,
   ...svelte.configs['flat/recommended'],
@@ -29,8 +29,8 @@ export default [
       globals: {
         ...globals.browser,
         ...globals.node,
-        CLIENT_VERSION: true,
-        CLIENT_COMMIT_HASH: true,
+        // CLIENT_VERSION: true,
+        // CLIENT_COMMIT_HASH: true,
       },
     },
   },
@@ -54,14 +54,16 @@ export default [
     files: ['**/*.svelte'],
     languageOptions: {
       parserOptions: {
-        // svelteConfig
         parser: ts.parser,
       },
     },
-    rules: {
-      'no-irregular-whitespace': 'off',
-      // figure out how to protect these values?
-      'svelte/no-at-html-tags': 'off',
-    },
+    // rules: {
+    //   'no-irregular-whitespace': 'off',
+    //   // figure out how to protect these values?
+    //   'svelte/no-at-html-tags': 'off',
+    // },
+  },
+  {
+    ignores: ['build/', '.svelte-kit/', 'dist/']
   },
 ];

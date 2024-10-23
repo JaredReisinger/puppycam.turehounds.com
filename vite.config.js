@@ -1,8 +1,8 @@
 // import { exec as execCallback } from 'child_process';
 // import { promisify } from 'util';
 
+import { defineConfig } from 'vitest/config';
 import { sveltekit } from '@sveltejs/kit/vite';
-import { defineConfig } from 'vite';
 
 // Get current tag/commit and last commit date from git
 // const exec = promisify(execCallback);
@@ -19,21 +19,22 @@ export default defineConfig({
   // },
 
   resolve: {
-    alias: {
-      // '@generated': __dirname + '/src/generated',
-      '@components': __dirname + '/src/components',
-    },
+    preserveSymlinks: true,
   },
 
-  server: {
-    host: '0.0.0.0',
-    port: 3000,
-    strictPort: true,
+  test: {
+    include: ['src/**/*.{test,spec}.{js,ts}'],
   },
 
-  preview: {
-    host: '0.0.0.0',
-    port: 3000,
-    strictPort: true,
-  },
+  // server: {
+  //   host: '0.0.0.0',
+  //   port: 3000,
+  //   strictPort: true,
+  // },
+
+  // preview: {
+  //   host: '0.0.0.0',
+  //   port: 3000,
+  //   strictPort: true,
+  // },
 });

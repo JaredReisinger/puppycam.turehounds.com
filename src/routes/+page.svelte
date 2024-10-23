@@ -1,9 +1,9 @@
 <script lang="ts">
-  // import Video from "@components/Video.svelte";
-  // import Video2 from "@components/Video2.svelte";
-  // import PuppyDetails from "@components/PuppyDetails.svelte";
-  // import PuppyWeather from "@components/PuppyWeather.svelte";
-  import LatestNews from "@components/LatestNews.svelte";
+  // import Video from "$lib/Video.svelte";
+  // import Video2 from "$lib/Video2.svelte";
+  // import PuppyDetails from "$lib/PuppyDetails.svelte";
+  // import PuppyWeather from "$lib/PuppyWeather.svelte";
+  import LatestNews from "$lib/LatestNews.svelte";
 </script>
 
 <svelte:head>

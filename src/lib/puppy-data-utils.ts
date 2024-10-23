@@ -1,6 +1,6 @@
-import { DateTime, Duration } from "luxon";
-import type { DurationUnit } from "luxon";
-import pluralize from "pluralize";
+import { DateTime, Duration } from 'luxon';
+import type { DurationUnit } from 'luxon';
+import pluralize from 'pluralize';
 
 /** The valid collar colors. */
 export enum Collar {
@@ -19,8 +19,8 @@ export type CollarKey = keyof typeof Collar;
 
 /** Valid sexes. */
 export enum Sex {
-  M = "M",
-  F = "F",
+  M = 'M',
+  F = 'F',
 }
 
 /** Sex as a string value. */
@@ -28,9 +28,9 @@ export type SexKey = keyof typeof Sex;
 
 /** Known colors */
 export enum Color {
-  Red = "Red & White",
+  Red = 'Red & White',
   // Tri = "Tri-colored (Black, White, & Tan)",
-  Tri = "Tri-colored",
+  Tri = 'Tri-colored',
 }
 
 /** Color as a short string */
@@ -39,12 +39,16 @@ export type ColorKey = keyof typeof Color;
 /** A date/time in ISO representation, but *without* the year and offset. */
 export type ShortDateTime = string;
 
-const assumedYear = "2021";
-const assumedOffset = "-0700";
+const assumedYear = '2024';
+const assumedOffset = '-0700';
 
 /** Converts our short date/time into a real Luxon DateTime. */
 export function shortToDateTime(date: ShortDateTime): DateTime {
-  return DateTime.fromISO(`${assumedYear}${date}${assumedOffset}`);
+  // short formats: "06-06T12:00", "2021-06-06T12:00"
+  // long format: "2021-06-06T12:00-0700"
+  return DateTime.fromISO(
+    `${date.length < 16 ? assumedYear : ''}${date}${date.length < 21 ? assumedOffset : ''}`
+  );
 }
 
 /** A weight in grams. */
@@ -190,38 +194,39 @@ export function formatGramsAsPounds(grams: number): string {
 export function formatPoundsOunces(pounds: number): string {
   // in order to round to the nearest 1/8th ounce, we *add* 1/16th of an ounce,
   // and then account for any "negative" leftovers...
-  const wholePounds = Math.floor(pounds + ((1 / 16) / 16));
+  const wholePounds = Math.floor(pounds + 1 / 16 / 16);
   const ounces = Math.max((pounds - wholePounds) * 16, 0);
 
   const parts: string[] = [];
 
   if (wholePounds) {
-    parts.push(pluralize("lb", wholePounds, true));
+    parts.push(pluralize('lb', wholePounds, true));
   }
 
   if (ounces) {
-    const wholeOunces = Math.floor(ounces + (1 / 16));
+    const wholeOunces = Math.floor(ounces + 1 / 16);
     const fraction = asFraction(Math.max(ounces - wholeOunces, 0), 8);
     // console.log("ounce parts", { ounces, wholeOunces, fraction });
 
-    let fractionText = "";
+    let fractionText = '';
     if (fraction) {
-      fractionText = fraction.unicode || `${wholeOunces ? " " : ""}${fraction.plain}`;
+      fractionText =
+        fraction.unicode || `${wholeOunces ? ' ' : ''}${fraction.plain}`;
     }
-    parts.push(`${wholeOunces ? wholeOunces : ""}${fractionText} oz`);
+    parts.push(`${wholeOunces ? wholeOunces : ''}${fractionText} oz`);
   }
 
-  return parts.join(" ");
+  return parts.join(' ');
 }
 
 const unicodeFractions: Record<string, string> = {
-  "1/8": "⅛",
-  "1/4": "¼",
-  "3/8": "⅜",
-  "1/2": "½",
-  "5/8": "⅝",
-  "3/4": "¾",
-  "7/8": "⅞",
+  '1/8': '⅛',
+  '1/4': '¼',
+  '3/8': '⅜',
+  '1/2': '½',
+  '5/8': '⅝',
+  '3/4': '¾',
+  '7/8': '⅞',
 };
 
 export function asFraction(
@@ -269,8 +274,8 @@ export function properName(dog: DogInfo): string {
   if (dog.nickname) {
     return dog.nickname;
   }
-  
-  return `${dog.sex === Sex.M ? "Mr." : "Miss"} ${capitalize(dog.collar)}`;
+
+  return `${dog.sex === Sex.M ? 'Mr.' : 'Miss'} ${capitalize(dog.collar)}`;
 }
 
 export function humanizeDuration(duration: Duration, units: DurationUnit[]) {
@@ -289,8 +294,8 @@ export function humanizeDuration(duration: Duration, units: DurationUnit[]) {
     if (amount >= 1) {
       amount = Math.floor(amount);
       parts.push(pluralize(unit, amount, true));
-      dur = dur.minus({ [unit]: amount});
+      dur = dur.minus({ [unit]: amount });
     }
   });
-  return parts.join(", ");
+  return parts.join(', ');
 }

@@ -1,8 +1,8 @@
 <script lang="ts">
-  import Video2 from "@components/Video2.svelte";
-  import PuppyDetails from "@components/PuppyDetails.svelte";
-  import PuppyWeather from "@components/PuppyWeather.svelte";
-  // import LatestNews from "@components/LatestNews.svelte";
+  import Video2 from "$lib/Video2.svelte";
+  import PuppyDetails from "$lib/PuppyDetails.svelte";
+  import PuppyWeather from "$lib/PuppyWeather.svelte";
+  // import LatestNews from "$lib/LatestNews.svelte";
 </script>
 
 <svelte:head>
@@ -188,8 +188,8 @@
     viral it could start requesting the information
     <em>millions</em>
     of times 😉, the “most sane” thing to do is to run a tiny one-off web server
-    whose job is to peridocially poke the SensorPush API to get the latest reading,
-    and to also serve that information publically.
+    whose job is to periodically poke the SensorPush API to get the latest reading,
+    and to also serve that information publicly.
   </p>
 
   <p>All of which means it’s a…</p>
@@ -271,7 +271,7 @@
 <style lang="postcss">
   .wrapper {
     max-width: 50em;
-    // font-weight: 400;
+    /* font-weight: 400;*/
   }
 
   .example {

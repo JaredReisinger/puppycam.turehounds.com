@@ -1,42 +1,44 @@
 <script lang="ts">
-  import { page } from "$app/stores";
+  import { page } from '$app/stores';
 
-  // import GoogleAnalytics from "@components/GoogleAnalytics.svelte";
-  import Nav from "@components/Nav.svelte";
+  // import GoogleAnalytics from "$lib/GoogleAnalytics.svelte";
+  import Nav from '$lib/Nav.svelte';
 
-  export let segment: string;
+  // export let segment: string;
+  let { segment, children }: { segment: string; children: () => any } =
+    $props();
 
-  $: path = $page.url.pathname;
+  const path = $derived($page.url.pathname);
 
   // We *should* be able to let the page define the overrides for the open graph
   // etc. values, but it's not clear that they can...Doing so simply results in
   // duplicate <meta> headers, which seems messy and weird.
-  let titlePrefix: string;
-  let pageDescription: string;
+  let titlePrefix = $state('');
+  let pageDescription = $state('');
 
-  $: {
+  $effect(() => {
     switch (path) {
-      case "/about":
-        titlePrefix = "About - ";
+      case '/about':
+        titlePrefix = 'About - ';
         pageDescription =
-          "More than you want to know about the PuppyCam site and how it all works.";
+          'More than you want to know about the PuppyCam site and how it all works.';
         break;
-      case "/stats":
-        titlePrefix = "Statistics - ";
-        pageDescription = "Further details and statistics about the puppies.";
+      case '/stats':
+        titlePrefix = 'Statistics - ';
+        pageDescription = 'Further details and statistics about the puppies.';
         break;
       default:
-        titlePrefix = "";
+        titlePrefix = '';
         pageDescription =
-          "A 24/7 live view of the current Ture Hounds litter; puppies of Disa and Yoshi.";
+          'A 24/7 live view of the current Ture Hounds litter; puppies of Disa and Yoshi.';
     }
-  }
+  });
 
   // values for open-graph/twitter...
 
-  const rootUrl = "https://puppycam.turehounds.com";
-  $: pageUrl = `${rootUrl}${path}`;
-  $: pageTitle = `${titlePrefix}Ture Hounds PuppyCam!`;
+  const rootUrl = 'https://puppycam.turehounds.com';
+  let pageUrl = $derived(`${rootUrl}${path}`);
+  let pageTitle = $derived(`${titlePrefix}Ture Hounds PuppyCam!`);
   const pageImage = `${rootUrl}/puppies-day1.jpg`;
 </script>
 
@@ -65,7 +67,7 @@
 <Nav {segment} />
 
 <main>
-  <slot />
+  {@render children()}
 </main>
 
 <style lang="postcss">
