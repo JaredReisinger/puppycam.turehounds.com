@@ -1,37 +1,38 @@
 <script lang="ts">
-  import { onMount } from "svelte";
-  import { DateTime } from "luxon";
-  import type { DateTimeFormatOptions, LocaleOptions } from "luxon";
+  import { onMount } from 'svelte';
+  import { DateTime } from 'luxon';
+  import type { DateTimeFormatOptions, LocaleOptions } from 'luxon';
 
-  import { store as dataStore } from "./puppy-data.js";
+  import { state as puppyState } from '$lib/puppy-data.svelte.js';
   import {
     formatPoundsOunces,
     gramsToPounds,
     humanizeDuration,
     properName,
-  } from "./puppy-data-utils.js";
-  import type { PuppyData } from "./puppy-data-utils.js";
+    // type PuppyData,
+  } from '$lib/puppy-data-utils.js';
 
   // Bad typings abound... DateTime.DATETIME_SHORT doesn't qualify as
   // Intl.DateTimeFormatOptions despite being typed that way!  We force-type it
   // here to prevent errors in toLocaleString()!
   const dateFmt: LocaleOptions & DateTimeFormatOptions = {
     ...DateTime.DATETIME_SHORT,
-    timeZoneName: "short",
+    timeZoneName: 'short',
   };
 
-  export let title: string = "The puppies";
+  let { title = 'The puppies' }: { title: string } = $props();
 
-  let puppyData: PuppyData | undefined;
-  let puppyAge: string = "...";
-  let weightIndex: number = 0;
-  let weightDate: string = "...";
-  // let weightDateRel: string = "...";
-  let checkDate: string = "...";
+  let puppyData = $derived(puppyState.data);
 
-  $: {
+  let puppyAge: string = $state('...');
+  let weightIndex: number = $state(0);
+  let weightDate: string = $state('...');
+  // let weightDateRel: string = $state("...");
+  let checkDate: string = $state('...');
+
+  $effect(() => {
     // console.log("PuppyDetails data update?", $dataStore);
-    puppyData = $dataStore.puppyData;
+    // puppyData = $state.puppyData;
 
     if (puppyData) {
       const { weights } = puppyData.dogs[0];
@@ -47,15 +48,15 @@
       // weightDateRel = date.toRelative();
     }
 
-    if ($dataStore.lastChecked) {
-      checkDate = $dataStore.lastChecked.toLocaleString(dateFmt);
+    if (puppyState.lastChecked) {
+      checkDate = puppyState.lastChecked.toLocaleString(dateFmt);
     }
-  }
+  });
 
   function updateAge() {
     if (puppyData) {
       const { birthdate } = puppyData.dogs[0];
-      puppyAge = humanizeDuration(birthdate.diffNow(), ["weeks", "days"]);
+      puppyAge = humanizeDuration(birthdate.diffNow(), ['weeks', 'days']);
     }
   }
 

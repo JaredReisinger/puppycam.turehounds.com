@@ -1,8 +1,9 @@
 <script lang="ts">
   import { DateTime } from 'luxon';
-  import { news } from '$lib/news.svelte';
+  import { state } from '$lib/news.svelte.js';
 
   const shortFmt = {
+    // ...DateTime.DATETIME_SHORT_WITH_SECONDS,
     ...DateTime.DATETIME_SHORT,
     timeZoneName: 'short',
   } as const;
@@ -10,7 +11,7 @@
 
   let { title = 'Latest news' }: { title: string } = $props();
 
-  let item = $derived(news.news[0]);
+  let item = $derived(state.data.length > 0 ? state.data[0] : undefined);
 </script>
 
 <h3>{title}</h3>
@@ -25,7 +26,7 @@
   ({item?.when?.toRelative() ?? '...'}).
 </p>
 <p class="note">
-  Checked for updates at {news.lastChecked.toLocaleString(shortFmt)}.
+  Checked for updates at {state.lastChecked?.toLocaleString(shortFmt) ?? '...'}.
 </p>
 
 <style lang="postcss">

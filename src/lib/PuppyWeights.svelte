@@ -1,24 +1,24 @@
 <script lang="ts">
-  import { extent, max, mean } from "d3-array";
-  import { scaleTime, scaleLinear } from "d3-scale";
-  import type { ScaleTime, ScaleLinear } from "d3-scale";
-  import { timeDay } from "d3-time";
-  import type { CountableTimeInterval } from "d3-time";
-  import { line, symbol, curveCatmullRom } from "d3-shape";
-  import type { Line, Symbol } from "d3-shape";
+  import { extent, max, mean } from 'd3-array';
+  import { scaleTime, scaleLinear } from 'd3-scale';
+  import type { ScaleTime, ScaleLinear } from 'd3-scale';
+  import { timeDay } from 'd3-time';
+  import type { CountableTimeInterval } from 'd3-time';
+  import { line, symbol, curveCatmullRom } from 'd3-shape';
+  import type { Line, Symbol } from 'd3-shape';
 
-  import { DateTime } from "luxon";
+  import { DateTime } from 'luxon';
 
-  import Axis from "./Axis.svelte";
+  import Axis from './Axis.svelte';
 
-  import { store as dataStore } from "./puppy-data.js";
+  import { state as puppyState } from './puppy-data.svelte.js';
   import {
     formatPoundsOunces,
     gramsToOunces,
     properName,
-  } from "./puppy-data-utils.js";
-  import type { DogInfo } from "./puppy-data-utils.js";
-  import type { AxisDomain, AxisScale } from "d3-axis";
+  } from './puppy-data-utils.js';
+  import type { DogInfo } from './puppy-data-utils.js';
+  import type { AxisDomain, AxisScale } from 'd3-axis';
 
   // I originally tried to create a "LineChart" component, but there's so much
   // styling specific to *this* chart that it makes more sense to do this as a
@@ -37,14 +37,14 @@
 
   // To calculate the "target growth", we start from the "average birth" and
   // double the weight over the course of 1 week.
-  let dogs: DogInfo[] = [];
-  let allSeries: Series[] = [];
+  let dogs: DogInfo[] = $state([]);
+  let allSeries: Series[] = $state([]);
   // To calculate the "target growth", we start from the "average birth" and
   // double the weight over the course of 1 week.
-  let averageBirthPoint: DataPoint;
-  let averageDoublePoint: DataPoint;
+  let averageBirthPoint: DataPoint = $state({ date: new Date(), value: 0 });
+  let averageDoublePoint: DataPoint = $state({ date: new Date(), value: 0 });
 
-  let flatPoints: DataPoint[];
+  let flatPoints: DataPoint[] = $state([]);
 
   // For the purposes of "nice looking" charts, we want a fundamental unit which
   // is a "nicely formatted" value... we use 1/8oz as that minimum, so the raw
@@ -55,9 +55,9 @@
   // we used '8' (as described above, to get 1/8oz => 1).  As they got bigger,
   // we switched to '1' for a "1oz" fundamental unit.  Now that they are 4-5
   // pounds,we want a tick every 1/2 pound (8oz), so we want a 1/8 multiplier.
-  const ounceMultiplier = 1/8;
-  $: {
-    dogs = $dataStore.puppyData ? $dataStore.puppyData.dogs : [];
+  const ounceMultiplier = 1 / 8;
+  $effect(() => {
+    dogs = puppyState.data.dogs;
 
     allSeries = dogs.map((dog) => ({
       collar: dog.collar,
@@ -67,7 +67,7 @@
           ({
             date: date.toJSDate(),
             value: gramsToOunces(weight) * ounceMultiplier,
-          } as DataPoint)
+          }) as DataPoint
       ),
     }));
 
@@ -95,20 +95,20 @@
     } else {
       flatPoints = [];
     }
-  }
+  });
 
   // TODO: come up with a useful "rect"?  I suspect the margin should *not* be
   // a part of it, since that conflates the meaning of "width", etc.
 
   const chart: {
     margin: number;
-    width: number|undefined;
-    height: number|undefined;
+    width: number | undefined;
+    height: number | undefined;
     left: number;
     top: number;
-    right: number|undefined;
-    bottom: number|undefined;
-  } = {
+    right: number | undefined;
+    bottom: number | undefined;
+  } = $state({
     margin: 60,
 
     width: undefined,
@@ -119,18 +119,18 @@
     top: 40,
     right: undefined,
     bottom: undefined,
-  };
+  });
 
   const legend: {
     margin: number;
     lineHeight: number;
-    width: number|undefined;
-    height: number|undefined;
-    left: number|undefined;
-    top: number|undefined;
-    right: number|undefined;
-    bottom: number|undefined;
-  } = {
+    width: number | undefined;
+    height: number | undefined;
+    left: number | undefined;
+    top: number | undefined;
+    right: number | undefined;
+    bottom: number | undefined;
+  } = $state({
     margin: 10,
     lineHeight: 20,
 
@@ -142,53 +142,67 @@
     top: undefined,
     right: undefined,
     bottom: undefined,
-  };
+  });
 
   // TODO: There *must* be a better way to do this!
+  $effect(() => {
+    // use golden rule for height?
+    chart.height = (chart.width ?? 0) * 0.6;
 
-  // use golden rule for height?
-  $: chart.height = (chart.width ?? 0) * 0.6;
+    // bounds...
+    //   chart.left = chart.margin;
+    //   chart.top = chart.margin;
+    chart.right = (chart.width ?? 0) - chart.margin;
+    chart.bottom = (chart.height ?? 0) - chart.margin;
 
-  // bounds...
-  //   $: chart.left = chart.margin;
-  //   $: chart.top = chart.margin;
-  $: chart.right = (chart.width ?? 0) - chart.margin;
-  $: chart.bottom = (chart.height ?? 0) - chart.margin;
+    legend.height = (dogs.length + 2) * legend.lineHeight;
+    legend.right = (chart.right ?? 0) - legend.margin;
+    legend.bottom = (chart.bottom ?? 0) - legend.margin;
+    legend.left = (legend.right ?? 0) - (legend.width ?? 0);
+    legend.top = (legend.bottom ?? 0) - (legend.height ?? 0);
+  });
 
-  $: legend.height = (dogs.length + 2) * legend.lineHeight;
-  $: legend.right = (chart.right ?? 0) - legend.margin;
-  $: legend.bottom = (chart.bottom ?? 0) - legend.margin;
-  $: legend.left = (legend.right ?? 0) - (legend.width ?? 0);
-  $: legend.top = (legend.bottom ?? 0) - (legend.height ?? 0);
-
-  let xScale: ScaleTime<number, number>;
-  let yScale: ScaleLinear<number, number>;
-  let lineGenerator: Line<DataPoint>;
-  let symbolGenerator: Symbol<unknown, DataPoint>;
-
-  // should the incoming data be x/y instead of date/value?
-  $: {
-    if (flatPoints.length > 0) {
-      xScale = scaleTime()
+  let xScale: ScaleTime<number, number> =  $derived(scaleTime()
         .domain(extent(flatPoints, ({ date }) => date) as [Date, Date])
         .range([chart.margin, (chart.width ?? 0) - chart.margin])
         // timeDay.every() *ought* to be correct...
-        .nice((timeDay.every(1) as unknown) as CountableTimeInterval);
+        .nice(timeDay.every(1) as unknown as CountableTimeInterval));
 
-      yScale = scaleLinear()
+  let yScale: ScaleLinear<number, number> = $derived(scaleLinear()
         .domain([0, max(flatPoints, ({ value }) => +value)] as [number, number])
         .range([(chart.height ?? 0) - chart.margin, chart.margin])
-        .nice();
+        .nice());
 
-      lineGenerator = line<DataPoint>()
+  let lineGenerator: Line<DataPoint> = $derived(line<DataPoint>()
         .x(({ date }) => xScale(date))
         .y(({ value }) => yScale(+value))
-        .curve(curveCatmullRom);
+        .curve(curveCatmullRom));
 
-      // This doesn't need to be recalculated!
-      symbolGenerator = symbol().size(32);
-    }
-  }
+  let symbolGenerator: Symbol<unknown, DataPoint> = symbol().size(32);
+
+  // should the incoming data be x/y instead of date/value?
+  // $: {
+  //   if (flatPoints.length > 0) {
+  //     xScale = scaleTime()
+  //       .domain(extent(flatPoints, ({ date }) => date) as [Date, Date])
+  //       .range([chart.margin, (chart.width ?? 0) - chart.margin])
+  //       // timeDay.every() *ought* to be correct...
+  //       .nice(timeDay.every(1) as unknown as CountableTimeInterval);
+
+  //     yScale = scaleLinear()
+  //       .domain([0, max(flatPoints, ({ value }) => +value)] as [number, number])
+  //       .range([(chart.height ?? 0) - chart.margin, chart.margin])
+  //       .nice();
+
+  //     lineGenerator = line<DataPoint>()
+  //       .x(({ date }) => xScale(date))
+  //       .y(({ value }) => yScale(+value))
+  //       .curve(curveCatmullRom);
+
+  //     // This doesn't need to be recalculated!
+  //     symbolGenerator = symbol().size(32);
+  //   }
+  // }
 </script>
 
 <div bind:clientWidth={chart.width}>
@@ -257,7 +271,7 @@
           <!-- inner margin! -->
           <g transform="translate({legend.margin}, {legend.margin * 1.5})">
             {#each allSeries as series, i}
-              <!-- svelte-ignore component-name-lowercase -->
+              <!-- svelte-ignore component_name_lowercase -->
               <line
                 x1="0"
                 y1={i * legend.lineHeight}
@@ -279,7 +293,7 @@
               >
             {/each}
 
-            <!-- svelte-ignore component-name-lowercase -->
+            <!-- svelte-ignore component_name_lowercase -->
             <line
               x1="0"
               y1={(dogs.length + 0.5) * legend.lineHeight}

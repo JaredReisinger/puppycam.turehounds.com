@@ -1,6 +1,6 @@
 <script lang="ts">
   import { DateTime } from 'luxon';
-  import { news } from '$lib/news.svelte';
+  import { state } from '$lib/news.svelte';
 
   const shortFmt = {
     ...DateTime.DATETIME_SHORT,
@@ -17,13 +17,13 @@
   <h1>News and updates</h1>
 
   <p class="note">
-    Most-recent news from {news.lastModified?.toLocaleString(shortFmt)}.
+    Most-recent news from {state.lastModified?.toLocaleString(shortFmt) ?? '...'}.
   </p>
   <p class="note">
-    Checked for updates at {news.lastChecked.toLocaleString(shortFmt)}.
+    Checked for updates at {state.lastChecked?.toLocaleString(shortFmt) ?? '...'}.
   </p>
 
-  {#each news.news as item}
+  {#each state.data as item}
     <h3>
       {item.when.toLocaleString(longFmt)}
       <span class="note">({item.when.toRelative()})</span>
