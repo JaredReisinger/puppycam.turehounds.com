@@ -191,7 +191,7 @@ export function formatPoundsOunces(pounds: number): string {
   // in order to round to the nearest 1/8th ounce, we *add* 1/16th of an ounce,
   // and then account for any "negative" leftovers...
   const wholePounds = Math.floor(pounds + ((1 / 16) / 16));
-  let ounces = Math.max((pounds - wholePounds) * 16, 0);
+  const ounces = Math.max((pounds - wholePounds) * 16, 0);
 
   const parts: string[] = [];
 
@@ -214,7 +214,7 @@ export function formatPoundsOunces(pounds: number): string {
   return parts.join(" ");
 }
 
-const unicodeFractions = {
+const unicodeFractions: Record<string, string> = {
   "1/8": "⅛",
   "1/4": "¼",
   "3/8": "⅜",

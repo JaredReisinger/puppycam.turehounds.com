@@ -18,11 +18,11 @@
   const dateFmt: LocaleOptions & DateTimeFormatOptions = {
     ...DateTime.DATETIME_SHORT,
     timeZoneName: "short",
-  } as unknown;
+  };
 
   export let title: string = "The puppies";
 
-  let puppyData: PuppyData;
+  let puppyData: PuppyData | undefined;
   let puppyAge: string = "...";
   let weightIndex: number = 0;
   let weightDate: string = "...";
@@ -114,7 +114,7 @@
 </p>
 
 <!-- <p>All puppies were born on Wednesday, January 13, 2021.</p> -->
-<style type="scss">
+<style lang="postcss">
   tr {
     & > * {
       text-align: left;

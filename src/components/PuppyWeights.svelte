@@ -18,8 +18,9 @@
     properName,
   } from "./puppy-data-utils.js";
   import type { DogInfo } from "./puppy-data-utils.js";
+  import type { AxisDomain, AxisScale } from "d3-axis";
 
-  // I orginally tried to create a "LineChart" component, but there's so much
+  // I originally tried to create a "LineChart" component, but there's so much
   // styling specific to *this* chart that it makes more sense to do this as a
   // one-off.  (This jives with the whole point of D3, frankly.)
 
@@ -73,9 +74,9 @@
     if (allSeries.length > 0) {
       averageBirthPoint = {
         date: DateTime.fromMillis(
-          mean(allSeries, (s) => s.points[0].date.valueOf())
+          mean(allSeries, (s) => s.points[0].date.valueOf())!
         ).toJSDate(),
-        value: mean(allSeries, (s) => s.points[0].value),
+        value: mean(allSeries, (s) => s.points[0].value)!,
       };
 
       averageDoublePoint = {
@@ -99,7 +100,15 @@
   // TODO: come up with a useful "rect"?  I suspect the margin should *not* be
   // a part of it, since that conflates the meaning of "width", etc.
 
-  const chart = {
+  const chart: {
+    margin: number;
+    width: number|undefined;
+    height: number|undefined;
+    left: number;
+    top: number;
+    right: number|undefined;
+    bottom: number|undefined;
+  } = {
     margin: 60,
 
     width: undefined,
@@ -112,7 +121,16 @@
     bottom: undefined,
   };
 
-  const legend = {
+  const legend: {
+    margin: number;
+    lineHeight: number;
+    width: number|undefined;
+    height: number|undefined;
+    left: number|undefined;
+    top: number|undefined;
+    right: number|undefined;
+    bottom: number|undefined;
+  } = {
     margin: 10,
     lineHeight: 20,
 
@@ -126,20 +144,22 @@
     bottom: undefined,
   };
 
+  // TODO: There *must* be a better way to do this!
+
   // use golden rule for height?
-  $: chart.height = chart.width * 0.6;
+  $: chart.height = (chart.width ?? 0) * 0.6;
 
   // bounds...
   //   $: chart.left = chart.margin;
   //   $: chart.top = chart.margin;
-  $: chart.right = chart.width - chart.margin;
-  $: chart.bottom = chart.height - chart.margin;
+  $: chart.right = (chart.width ?? 0) - chart.margin;
+  $: chart.bottom = (chart.height ?? 0) - chart.margin;
 
   $: legend.height = (dogs.length + 2) * legend.lineHeight;
-  $: legend.right = chart.right - legend.margin;
-  $: legend.bottom = chart.bottom - legend.margin;
-  $: legend.left = legend.right - legend.width;
-  $: legend.top = legend.bottom - legend.height;
+  $: legend.right = (chart.right ?? 0) - legend.margin;
+  $: legend.bottom = (chart.bottom ?? 0) - legend.margin;
+  $: legend.left = (legend.right ?? 0) - (legend.width ?? 0);
+  $: legend.top = (legend.bottom ?? 0) - (legend.height ?? 0);
 
   let xScale: ScaleTime<number, number>;
   let yScale: ScaleLinear<number, number>;
@@ -150,14 +170,14 @@
   $: {
     if (flatPoints.length > 0) {
       xScale = scaleTime()
-        .domain(extent(flatPoints, ({ date }) => date))
-        .range([chart.margin, chart.width - chart.margin])
+        .domain(extent(flatPoints, ({ date }) => date) as [Date, Date])
+        .range([chart.margin, (chart.width ?? 0) - chart.margin])
         // timeDay.every() *ought* to be correct...
         .nice((timeDay.every(1) as unknown) as CountableTimeInterval);
 
       yScale = scaleLinear()
-        .domain([0, max(flatPoints, ({ value }) => +value)])
-        .range([chart.height - chart.margin, chart.margin])
+        .domain([0, max(flatPoints, ({ value }) => +value)] as [number, number])
+        .range([(chart.height ?? 0) - chart.margin, chart.margin])
         .nice();
 
       lineGenerator = line<DataPoint>()
@@ -176,7 +196,7 @@
     <svg width={chart.width} height={chart.height}>
       <text
         class="title"
-        transform="translate({(chart.left + chart.right) / 2},20)"
+        transform="translate({(chart.left + (chart.right ?? 0)) / 2},20)"
         >Puppy weights over time</text
       >
 
@@ -184,7 +204,7 @@
         <Axis
           height={chart.height}
           margin={chart.margin}
-          scale={xScale}
+          scale={xScale as AxisScale<AxisDomain>}
           position="bottom"
         />
       {/if}
@@ -192,7 +212,7 @@
         <Axis
           height={chart.height}
           margin={chart.margin}
-          scale={yScale}
+          scale={yScale as AxisScale<AxisDomain>}
           position="left"
           tickFormatter={(value) =>
             formatPoundsOunces(value / ounceMultiplier / 16)}
@@ -225,14 +245,14 @@
       {/each}
 
       <!-- legend, bottom-right, only with width >= 450 -->
-      {#if chart.right - chart.left >= 450}
+      {#if (chart.right ?? 0) - chart.left >= 450}
         <g class="legend" transform="translate({legend.left}, {legend.top})">
           <rect
             class="border"
             x="0"
             y="0"
-            width={legend.right - legend.left}
-            height={legend.bottom - legend.top}
+            width={(legend.right ?? 0) - (legend.left ?? 0)}
+            height={(legend.bottom ?? 0) - (legend.top ?? 0)}
           />
           <!-- inner margin! -->
           <g transform="translate({legend.margin}, {legend.margin * 1.5})">
@@ -287,7 +307,7 @@
   {/if}
 </div>
 
-<style type="scss">
+<style lang="postcss">
   .title {
     font-size: 16px;
     font-weight: 600;

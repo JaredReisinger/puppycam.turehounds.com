@@ -1,8 +1,8 @@
 <script lang="ts">
-  import Video2 from "../components/Video2.svelte";
-  import PuppyDetails from "../components/PuppyDetails.svelte";
-  import PuppyWeather from "../components/PuppyWeather.svelte";
-  // import LatestNews from "../components/LatestNews.svelte";
+  import Video2 from "@components/Video2.svelte";
+  import PuppyDetails from "@components/PuppyDetails.svelte";
+  import PuppyWeather from "@components/PuppyWeather.svelte";
+  // import LatestNews from "@components/LatestNews.svelte";
 </script>
 
 <svelte:head>
@@ -37,7 +37,7 @@
   </p>
 
   <p>
-    This PuppyCam site is composed of several loosly-connected pieces. In
+    This PuppyCam site is composed of several loosely-connected pieces. In
     roughly the order that you experience them, they are:
   </p>
   <ul>
@@ -54,8 +54,8 @@
   <p>
     The site itself is a
     <a href="https://svelte.dev" target="_blank">Svelte.js</a>/<a
-      href="https://sapper.svelte.dev"
-      target="_blank">Sapper</a
+      href="https://kit.svelte.dev"
+      target="_blank">SvelteKit</a
     >
     site, which means that everything “interesting” actually runs in your browser,
     and the hosting server (<code>puppycam.turehounds.com</code>) itself doesn’t
@@ -268,7 +268,7 @@
   </p>
 </div>
 
-<style type="scss">
+<style lang="postcss">
   .wrapper {
     max-width: 50em;
     // font-weight: 400;

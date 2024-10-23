@@ -14,13 +14,13 @@ For two reasons:
 
 - Personal software projects give me a chance to play with technologies that I’m
   curious about. I’ve used React quite a bit and wanted to see what
-  Svelte/Sapper was like.
+  Svelte/SvelteKit was like.
 
 ## Okay, so what is it, exactly?
 
 _You can also read more about the technical details on the [About page](https://puppycam.turehounds.com/about/) itself._
 
-The PuppyCam site is composed of several loosly-connected pieces. In roughly the
+The PuppyCam site is composed of several loosely-connected pieces. In roughly the
 order that one can experience them, they are:
 
 - [front-end web site](#front-end-web-site)
@@ -33,7 +33,7 @@ order that one can experience them, they are:
 ### Front-end web site
 
 The site itself is a
-[Svelte.js](https://svelte.dev)/[Sapper](https://sapper.svelte.dev) site, which
+[Svelte.js](https://svelte.dev)/[SvelteKit](https://kit.svelte.dev) site, which
 means that everything “interesting” actually runs in your browser, and the
 hosting server (`puppycam.turehounds.com`) itself doesn’t actually _do_
 anything. The nice thing about having nothing running on the server is that it

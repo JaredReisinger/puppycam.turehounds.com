@@ -21,8 +21,9 @@
   import type { Line, Symbol } from "d3-shape";
 
   import Axis from "./Axis.svelte";
+  import { type AxisScale, type AxisDomain } from "d3-axis";
 
-  export let data: Series[] = undefined;
+  export let data: Series[];
   export let minXMax: Date;
   export let minYMax: number;
 
@@ -30,7 +31,7 @@
   const margin = 40;
 
   let width: number;
-  let xScale: ScaleTime<number, number> = undefined;
+  let xScale: ScaleTime<number, number>;
   let yScale: ScaleLinear<number, number>;
   let lineGenerator: Line<DataPoint>;
   let symbolGenerator: Symbol<unknown, DataPoint>;
@@ -56,7 +57,7 @@
     }
 
     xScale = scaleTime()
-      .domain(extent(allPoints, ({ date }) => date))
+      .domain(extent(allPoints, ({ date }) => date) as [Date, Date])
       .range([margin, width - margin])
       // timeDay.every() *ought* to be correct...
       .nice((timeDay.every(1) as unknown) as CountableTimeInterval);
@@ -65,7 +66,7 @@
     // we're okay.
 
     yScale = scaleLinear()
-      .domain([0, max(allPoints, ({ value }) => +value)])
+      .domain([0, max(allPoints, ({ value }) => +value)] as [number, number])
       .range([height - margin, margin]);
 
     lineGenerator = line<DataPoint>()
@@ -80,8 +81,8 @@
 <div bind:clientWidth={width}>
   {#if width}
     <svg {width} {height}>
-      <Axis {height} {margin} scale={xScale} position="bottom" />
-      <Axis {margin} scale={yScale} position="left" />
+      <Axis {height} {margin} scale={xScale as AxisScale<AxisDomain>} position="bottom" />
+      <Axis {margin} scale={yScale as AxisScale<AxisDomain>} position="left" />
       {#each data as series}
         <path
           d={lineGenerator(series.points)}

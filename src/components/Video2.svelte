@@ -111,7 +111,7 @@
   </div>
 {/if}
 
-<style type="scss">
+<style lang="postcss">
   .fill-parent {
     width: 100%;
     /* height: 100%; */

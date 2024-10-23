@@ -1,7 +1,7 @@
-<script type="ts">
+<script lang="ts">
   import { DateTime } from "luxon";
-  import { store as newsStore } from "../components/news";
-  import type { NewsItem } from "../components/news";
+  import { store as newsStore } from "@components/news";
+  import type { NewsItem } from "@components/news";
 
   const shortFmt = {
     ...DateTime.DATETIME_SHORT,
@@ -11,13 +11,13 @@
 
   export let title: string = "Latest news";
 
-  let item: NewsItem;
-  let newsDate: string = "...";
-  let newsRelDate: string = "...";
+  let item: NewsItem | undefined;
+  let newsDate: string  = "...";
+  let newsRelDate: string | null = "...";
   let checkDate: string = "...";
 
   $: {
-    item = $newsStore.news[0];
+    item = (($newsStore.news?.length ?? 0) > 0) ? $newsStore.news?.[0]: undefined;
 
     if (item) {
       newsDate = item.when.toLocaleString(shortFmt);
@@ -31,7 +31,7 @@
 </script>
 
 <h3>{title}</h3>
-{#each item.paragraphs as paragraph}
+{#each (item?.paragraphs ?? []) as paragraph}
   <p>{@html paragraph}</p>
 {/each}
 
@@ -44,7 +44,7 @@
   Checked for updates at {checkDate}.
 </p>
 
-<style lang="scss">
+<style lang="postcss">
   p {
     font-size: 80%;
   }

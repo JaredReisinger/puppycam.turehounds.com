@@ -1,13 +1,11 @@
-<script context="module" type="ts">
+<script context="module" lang="ts">
   let headInjected = false;
 </script>
 
-<script type="ts">
-  import { stores } from '@sapper/app';
+<script lang="ts">
+  import { page } from '$app/stores';
 
-  const { page } = stores();
-
-  export let trackingId: string = undefined;
+  export let trackingId: string | undefined;
 
   // only inject if it hasn't been done yet!
   const injectHead = !headInjected;
@@ -31,7 +29,7 @@
 
 <!--
   Svelte will not do variable replacements inside of <script> tags (apparently?)
-  so we have to encapulate the entire script inside a bogus {@html} block, *and*
+  so we have to encapsulate the entire script inside a bogus {@html} block, *and*
   avoid a bare <script> tag.  (The <script src=...> seems to work, 
   interestingly.)
 -->

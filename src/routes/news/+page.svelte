@@ -1,7 +1,6 @@
-<script type="ts">
+<script lang="ts">
   import { DateTime } from "luxon";
-  import { store as newsStore } from "../components/news";
-  import type { NewsItem } from "../components/news";
+  import { type NewsItem, store as newsStore } from "@components/news";
 
   const shortFmt = {
     ...DateTime.DATETIME_SHORT,
@@ -9,15 +8,15 @@
   } as const;
   const longFmt = { ...DateTime.DATETIME_HUGE, timeZoneName: "short" } as const;
 
-  let news: NewsItem[];
+  let news: NewsItem[] = [];
   let newsDate: string = "...";
   let checkDate: string = "...";
 
   $: {
     // console.log("PuppyDetails data update?", $dataStore);
-    news = $newsStore.news;
+    news = $newsStore.news ?? [];
 
-    if (news) {
+    if (news.length > 0) {
       newsDate = news[0].when.toLocaleString(shortFmt);
     }
 
@@ -41,7 +40,7 @@
     Checked for updates at {checkDate}.
   </p>
 
-  {#each $newsStore.news as item}
+  {#each news as item}
     <h3>
       {item.when.toLocaleString(longFmt)}
       <span class="note">({item.when.toRelative()})</span>
@@ -52,7 +51,7 @@
   {/each}
 </div>
 
-<style lang="scss">
+<style lang="postcss">
   .wrapper {
     max-width: 50em;
     /*font-weight: 400;*/

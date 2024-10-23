@@ -5,11 +5,12 @@
   export let title: string = "Current puppy weather";
 
   // try fetching from puppycam-sensor!
+  // TODO: update to https://sensor.turehounds.com/sensors
   const sensorApi = "https://puppycam-sensor.spudnoggin.com/sensor";
 
   let sample: any;
   let observed: string;
-  let observedRel: string;
+  let observedRel: string | null;
   let temperature: number;
   let humidity: number;
   let checkDate: string;
@@ -67,7 +68,7 @@
   <div class="note">Checked for updates at {checkDate}.</div>
 {/if}
 
-<style type="scss">
+<style lang="postcss">
   .weather {
     max-width: 14em;
     display: flex;

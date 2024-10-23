@@ -1,14 +1,12 @@
 <script lang="ts">
-  import { stores } from "@sapper/app";
+  import { page } from "$app/stores";
 
-  import GoogleAnalytics from "../components/GoogleAnalytics.svelte";
-  import Nav from "../components/Nav.svelte";
+  // import GoogleAnalytics from "@components/GoogleAnalytics.svelte";
+  import Nav from "@components/Nav.svelte";
 
   export let segment: string;
 
-  const { page } = stores();
-
-  $: path = $page.path;
+  $: path = $page.url.pathname;
 
   // We *should* be able to let the page define the overrides for the open graph
   // etc. values, but it's not clear that they can...Doing so simply results in
@@ -62,7 +60,7 @@
   <meta property="twitter:data2" content="" /> -->
 </svelte:head>
 
-<GoogleAnalytics trackingId={process.env.APP_GOOGLE_TRACKING_ID} />
+<!-- <GoogleAnalytics trackingId={process.env.APP_GOOGLE_TRACKING_ID} /> -->
 
 <Nav {segment} />
 
@@ -70,7 +68,7 @@
   <slot />
 </main>
 
-<style type="scss">
+<style lang="postcss">
   main {
     /* position: relative; */
     /* max-width: 56em; */

@@ -1,9 +1,9 @@
 <script lang="ts">
-  // import Video from "../components/Video.svelte";
-  // import Video2 from "../components/Video2.svelte";
-  // import PuppyDetails from "../components/PuppyDetails.svelte";
-  // import PuppyWeather from "../components/PuppyWeather.svelte";
-  import LatestNews from "../components/LatestNews.svelte";
+  // import Video from "@components/Video.svelte";
+  // import Video2 from "@components/Video2.svelte";
+  // import PuppyDetails from "@components/PuppyDetails.svelte";
+  // import PuppyWeather from "@components/PuppyWeather.svelte";
+  import LatestNews from "@components/LatestNews.svelte";
 </script>
 
 <svelte:head>
@@ -94,7 +94,7 @@
     }
   }
 </style> -->
-<style type="scss">
+<style lang="postcss">
   .layout {
     display: block;
   }

@@ -14,15 +14,15 @@
 {:else}
   <iframe
     {title}
-    type="text/html"
+    data-REMOVE-THIS-type="text/html"
     class="fill-parent"
     frameborder="0"
     src="https://video.nest.com/embedded/live/{videoId}?autoplay=1"
     allowfullscreen
-  />
+  ></iframe>
 {/if}
 
-<style type="scss">
+<style lang="postcss">
   .fill-parent {
     width: 100%;
     height: 100%;

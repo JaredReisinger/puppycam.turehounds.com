@@ -17,7 +17,7 @@
   <pre>{error.stack}</pre>
 {/if}
 
-<style type="scss">
+<style lang="postcss">
   h1,
   p {
     margin: 0 auto;

@@ -1,13 +1,13 @@
 // This is an "auto-updating store" that gets the raw puppy stats JSON data
 // and massages it into our usable form.  We could theoretically build a
 // "self-updating fetch-backed store", but for now this is a one-off.
-import { readable } from "svelte/store";
-import { DateTime, Duration } from "luxon";
+import { readable } from 'svelte/store';
+import { DateTime, Duration } from 'luxon';
 
-import { massageData, PuppyData } from "./puppy-data-utils.js";
-import type { RawPuppyData } from "./puppy-data-utils.js";
+import { massageData, type PuppyData } from './puppy-data-utils.js';
+import type { RawPuppyData } from './puppy-data-utils.js';
 
-import initialData from "../../static/puppy-data.json";
+import initialData from '../../static/puppy-data.json';
 
 // console.log("got initial data", initialData);
 
@@ -17,12 +17,12 @@ import initialData from "../../static/puppy-data.json";
 // there's no clean mechanism to propagate a page-preload's "this.fetch" down
 // into a component.
 
-const dataUrl = "puppy-data.json";
+const dataUrl = 'puppy-data.json';
 
 export interface PuppyDataStore {
-  lastChecked: DateTime;
-  lastModified: DateTime;
-  puppyData: PuppyData;
+  lastChecked?: DateTime;
+  lastModified?: DateTime;
+  puppyData?: PuppyData;
 }
 
 let state: PuppyDataStore = {
@@ -35,7 +35,7 @@ state = massageInitialData(initialData as RawPuppyData);
 
 // console.log("initial state", state);
 
-const defaultDelay = Duration.fromISO("PT30M"); // every half-hour
+const defaultDelay = Duration.fromISO('PT30M'); // every half-hour
 // const defaultDelay = Duration.fromISO("PT10S"); // every 10 seconds
 // const defaultDelay = Duration.fromISO("PT2S"); // every 2 seconds
 
@@ -60,7 +60,7 @@ export const store = readable(state, (set) => {
     const nextCheck = state.lastChecked.plus(defaultDelay);
     const expectedDelay = nextCheck.diffNow().valueOf();
 
-    immediateRefresh = expectedDelay < (defaultDelay.valueOf() / 4);
+    immediateRefresh = expectedDelay < defaultDelay.valueOf() / 4;
   }
 
   if (immediateRefresh) {
@@ -82,7 +82,7 @@ export const store = readable(state, (set) => {
 });
 
 function canRefreshData() {
-  return typeof setTimeout !== "undefined" && typeof fetch !== "undefined";
+  return typeof setTimeout !== 'undefined' && typeof fetch !== 'undefined';
 }
 
 function massageInitialData(rawData: RawPuppyData) {
@@ -97,7 +97,7 @@ function massageInitialData(rawData: RawPuppyData) {
   };
 }
 
-async function refreshData(set) {
+async function refreshData(set: (_: PuppyDataStore) => void) {
   const lastChecked = DateTime.local();
   const { lastModified, rawData } = await fetchRawData();
   const puppyData = massageData(rawData);
@@ -114,7 +114,7 @@ async function refreshData(set) {
 
 async function fetchRawData() {
   const res = await fetch(dataUrl);
-  const lastModified = DateTime.fromHTTP(res.headers.get("Last-Modified"));
+  const lastModified = DateTime.fromHTTP(res.headers.get('Last-Modified') ?? '');
   const rawData: RawPuppyData = await res.json();
   return { lastModified, rawData };
 }

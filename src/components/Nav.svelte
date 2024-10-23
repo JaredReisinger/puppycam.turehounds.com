@@ -2,14 +2,14 @@
   import Icon from "fa-svelte";
   import { faFacebookF, faInstagram } from "@fortawesome/free-brands-svg-icons"
 
-  import tureHoundsLogo from "images/ture-hounds-logo.png";
+  import tureHoundsLogo from "$lib/images/ture-hounds-logo.png";
 
   export let segment: string;
 </script>
 
 <nav>
   <div class="title">
-    <a href="/" sapper:prefetch>
+    <a href="/">
       <img alt="Ture Hounds" src={tureHoundsLogo} />
       PuppyCam
     </a>
@@ -20,28 +20,28 @@
       <a
         aria-current={segment === undefined ? "page" : undefined}
         href="/"
-        sapper:prefetch><span>Live</span></a
+        ><span>Live</span></a
       >
     </li>
     <li>
       <a
         aria-current={segment === "stats" ? "page" : undefined}
         href="stats"
-        sapper:prefetch><span>Stats</span></a
+        ><span>Stats</span></a
       >
     </li>
     <li>
       <a
         aria-current={segment === "news" ? "page" : undefined}
         href="news"
-        sapper:prefetch><span>News</span></a
+        ><span>News</span></a
       >
     </li>
     <li>
       <a
         aria-current={segment === "about" ? "page" : undefined}
         href="about"
-        sapper:prefetch><span>About</span></a
+        ><span>About</span></a
       >
     </li>
     <li>
@@ -60,7 +60,7 @@
   </ul>
 </nav>
 
-<style type="scss">
+<style lang="postcss">
   nav {
     border-bottom: 1px solid hsl(194, 70%, 48%, 0.2);
     font-weight: 300;

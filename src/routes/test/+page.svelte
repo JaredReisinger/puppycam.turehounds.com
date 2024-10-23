@@ -1,5 +1,5 @@
-<script type="ts">
-  import Video2 from "../components/Video2.svelte";
+<script lang="ts">
+  import Video2 from "@components/Video2.svelte";
 
   // get camera info (JSON)
   //  * https://video.nest.com/api/dropcam/cameras.get_by_public_token?token=dAYyHiFXJU&_=1611358588737
@@ -48,7 +48,7 @@
   />
 </div>
 
-<style lang="scss">
+<style lang="postcss">
   .test {
     max-width: 50em;
     margin-bottom: 2em;

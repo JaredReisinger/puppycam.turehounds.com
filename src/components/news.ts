@@ -1,19 +1,20 @@
 // This is an "auto-updating store" that gets the raw news JSON data
 // and massages it into our usable form.  We could theoretically build a
 // "self-updating fetch-backed store", but for now this is a one-off (x2).
-import { readable } from "svelte/store";
-import { DateTime, Duration } from "luxon";
+import { readable } from 'svelte/store';
+import { DateTime, Duration } from 'luxon';
 
-import { shortToDateTime } from "./puppy-data-utils";
+import { shortToDateTime } from './puppy-data-utils';
 
-import initialNews from "../../static/news.json";
+// import initialNews from '../../static/news.json';
+const initialNews = { news: [] };
 
-const newsUrl = "news.json";
+const newsUrl = 'news.json';
 
 export interface NewsStore {
-  lastChecked: DateTime;
-  lastModified: DateTime;
-  news: NewsItem[];
+  lastChecked?: DateTime;
+  lastModified?: DateTime;
+  news?: NewsItem[];
 }
 
 let state: NewsStore = {
@@ -41,7 +42,7 @@ export interface NewsItem {
   paragraphs: Paragraph[];
 }
 
-const defaultDelay = Duration.fromISO("PT30M"); // every half-hour
+const defaultDelay = Duration.fromISO('PT30M'); // every half-hour
 // const defaultDelay = Duration.fromISO("PT10S"); // every 10 seconds
 // const defaultDelay = Duration.fromISO("PT2S"); // every 2 seconds
 
@@ -88,10 +89,10 @@ export const store = readable(state, (set) => {
 });
 
 function canRefreshData() {
-  return typeof setTimeout !== "undefined" && typeof fetch !== "undefined";
+  return typeof setTimeout !== 'undefined' && typeof fetch !== 'undefined';
 }
 
-async function refreshNews(set) {
+async function refreshNews(set: (_: NewsStore) => void) {
   const lastChecked = DateTime.local();
   const { lastModified, rawNews } = await fetchRawNews();
   const news = massageNews(rawNews);
@@ -108,7 +109,7 @@ async function refreshNews(set) {
 
 async function fetchRawNews() {
   const res = await fetch(newsUrl);
-  const lastModified = DateTime.fromHTTP(res.headers.get("Last-Modified"));
+  const lastModified = DateTime.fromHTTP(res.headers.get('Last-Modified') ?? '');
   const rawNews: RawNews = await res.json();
   return { lastModified, rawNews };
 }
@@ -116,7 +117,7 @@ async function fetchRawNews() {
 function massageInitialNews(rawNews: RawNews) {
   const lastChecked = DateTime.local();
   const news = massageNews(rawNews);
-  const lastModified = news.slice(-1)[0].when;
+  const lastModified = news.length > 0 ? news.slice(-1)[0].when : undefined;
 
   return {
     lastChecked,
