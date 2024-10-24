@@ -10,16 +10,30 @@
   /*export*/ type TickFormatter = (value: number) => string;
 
   // export let width: number = undefined;
-  export let height: number | undefined = undefined;
-  export let margin: number; // = undefined;
-  export let position: 'bottom' | 'left'; // string;// = undefined;
-  export let scale: AxisScale<AxisDomain>; // = undefined;
-  export let tickFormatter: TickFormatter | undefined = undefined;
+  // export let height: number | undefined = undefined;
+  // export let margin: number; // = undefined;
+  // export let position: 'bottom' | 'left'; // string;// = undefined;
+  // export let scale: AxisScale<AxisDomain>; // = undefined;
+  // export let tickFormatter: TickFormatter | undefined = undefined;
 
-  let transform: string;
+  let {
+    height = 0,
+    margin = 0,
+    position,
+    scale,
+    tickFormatter = undefined,
+  }: {
+    height: number;
+    margin: number;
+    position: 'bottom' | 'left';
+    scale: AxisScale<AxisDomain>;
+    tickFormatter?: TickFormatter;
+  } = $props();
+
+  let transform = $state('');
   let g: SVGElement;
 
-  $: {
+  $effect(() => {
     select(g).selectAll('*').remove();
 
     let axis: Axis<AxisDomain>;
@@ -38,7 +52,7 @@
         if (typeof val === 'object' && 'valueOf' in val) {
           val = val.valueOf();
         }
-        
+
         if (typeof val === 'number') {
           return tickFormatter(val);
         }
@@ -49,7 +63,7 @@
 
     // @ts-expect-error axis mismatch, but it's not!
     select(g).call(axis).style('font-family', 'inherit');
-  }
+  });
 </script>
 
 <g class="axis" bind:this={g} {transform} />

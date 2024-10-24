@@ -1,11 +1,17 @@
 <script lang="ts">
+  import { page } from '$app/stores';
+
   import Icon from 'fa-svelte';
   import { faFacebookF, faInstagram } from '@fortawesome/free-brands-svg-icons';
 
   import tureHoundsLogo from '$lib/images/ture-hounds-logo.png';
 
-  // export let segment: string;
-  let { segment }: { segment: string } = $props();
+  const routeInfo = [
+    ['/', 'Live'],
+    ['/stats', 'Stats'],
+    ['/news', 'News'],
+    ['/about', 'About'],
+  ];
 </script>
 
 <nav>
@@ -17,34 +23,25 @@
   </div>
 
   <ul>
-    <li>
-      <a aria-current={segment === undefined ? 'page' : undefined} href="/"
-        ><span>Live</span></a
-      >
-    </li>
-    <li>
-      <a aria-current={segment === 'stats' ? 'page' : undefined} href="stats"
-        ><span>Stats</span></a
-      >
-    </li>
-    <li>
-      <a aria-current={segment === 'news' ? 'page' : undefined} href="news"
-        ><span>News</span></a
-      >
-    </li>
-    <li>
-      <a aria-current={segment === 'about' ? 'page' : undefined} href="about"
-        ><span>About</span></a
-      >
-    </li>
+    {#each routeInfo as route}
+      <li>
+        <a
+          aria-current={$page.route.id === route[0] ? 'page' : undefined}
+          href={route[0]}><span>{route[1]}</span></a
+        >
+      </li>
+    {/each}
+
     <li>
       <a href="https://turehounds.com"><span>Ture Hounds Home</span></a>
     </li>
+
     <li>
       <a href="https://www.facebook.com/TureHounds"
         ><span class="icon"><Icon icon={faFacebookF} /></span></a
       >
     </li>
+
     <li>
       <a href="https://www.instagram.com/turehounds"
         ><span class="icon"><Icon icon={faInstagram} /></span></a

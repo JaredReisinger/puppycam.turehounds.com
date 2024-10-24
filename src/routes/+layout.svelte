@@ -4,9 +4,7 @@
   // import GoogleAnalytics from "$lib/GoogleAnalytics.svelte";
   import Nav from '$lib/Nav.svelte';
 
-  // export let segment: string;
-  let { segment, children }: { segment: string; children: () => any } =
-    $props();
+  let { children }: { children: () => any } = $props();
 
   const path = $derived($page.url.pathname);
 
@@ -64,7 +62,7 @@
 
 <!-- <GoogleAnalytics trackingId={process.env.APP_GOOGLE_TRACKING_ID} /> -->
 
-<Nav {segment} />
+<Nav />
 
 <main>
   {@render children()}

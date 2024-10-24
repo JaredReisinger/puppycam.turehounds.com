@@ -35,7 +35,7 @@ export function createAutoFetchState<RawData, Data = RawData>(
   seedData: RawData,
   massager?: (_: RawData) => Data
 ) {
-  console.log('AUTO-FETCH - CREATING', {url, interval: refreshInterval.toISO() });
+  // console.log('AUTO-FETCH - CREATING', {url, interval: refreshInterval.toISO() });
 
   const state = $state<StateData<Data>>({
     // if there's no massager, Data === RawData... do we need to hack around TS
@@ -51,7 +51,7 @@ export function createAutoFetchState<RawData, Data = RawData>(
     window[sym] ??= {};
 
     if (window[sym].timer) {
-      console.log('AUTO-FETCH - CLEARING OLD TIMER', {url, interval: refreshInterval.toISO() });
+      // console.log('AUTO-FETCH - CLEARING OLD TIMER', {url, interval: refreshInterval.toISO() });
       clearInterval(window[sym].timer);
       window[sym].timer = undefined;
     }
@@ -82,7 +82,7 @@ async function refreshData<RawData, Data>(
   state.lastChecked = lastChecked;
   state.lastModified = lastModified;
 
-  console.log('AUTO-FETCH - REFRESH', {url, ...state });
+  // console.log('AUTO-FETCH - REFRESH', {url, ...state });
 }
 
 async function fetchRaw<RawData>(url: string) {
