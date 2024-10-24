@@ -20,7 +20,7 @@
     timeZoneName: 'short',
   };
 
-  let { title = 'The puppies' }: { title: string } = $props();
+  let { title = 'The puppies' }: { title?: string } = $props();
 
   let puppyData = $derived(puppyState.data);
 

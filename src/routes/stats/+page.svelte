@@ -1,6 +1,7 @@
 <script lang="ts">
-  import PuppyDetails from "$lib/PuppyDetails.svelte";
-  import PuppyWeights from "$lib/PuppyWeights.svelte";
+  import PuppyDetails from '$lib/PuppyDetails.svelte';
+  import PuppyWeights from '$lib/PuppyWeights.svelte';
+  import { state as puppyState } from '$lib/puppy-data.svelte.js';
 </script>
 
 <div class="wrapper">
@@ -40,8 +41,8 @@
     sake of building a pretty chart from the raw data.
   </p>
 
-  {#if false}
-    <PuppyDetails />
+  {#if puppyState.data.latestDate.diffNow().negate().as('months') < 4}
+  <PuppyDetails />
   {/if}
 
   <p class="aside final">

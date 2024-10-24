@@ -2,6 +2,8 @@ import { DateTime, Duration } from 'luxon';
 import type { DurationUnit } from 'luxon';
 import pluralize from 'pluralize';
 
+import { luxonifyShort, type ShortDateTime } from '$lib/datetime.js';
+
 /** The valid collar colors. */
 export enum Collar {
   blue,
@@ -36,47 +38,13 @@ export enum Color {
 /** Color as a short string */
 export type ColorKey = keyof typeof Color;
 
-/** A date/time in ISO representation, but *without* the year and offset. */
-export type ShortDateTime = string;
-
-const assumedYear = '2024';
-const assumedOffset = '-0700';
-
-/** Converts our short date/time into a real Luxon DateTime. */
-export function shortToDateTime(date: ShortDateTime): DateTime {
-  // short formats: "06-06T12:00", "2021-06-06T12:00"
-  // long format: "2021-06-06T12:00-0700"
-  return DateTime.fromISO(
-    `${date.length < 16 ? assumedYear : ''}${date}${date.length < 21 ? assumedOffset : ''}`
-  );
-}
-
 /** A weight in grams. */
 export type Weight = number;
 
 /** A nickname. */
 export type Nickname = string;
 
-// // ===========================================================================
-// // MAGIC TYPESCRIPT from
-// // https://stackoverflow.com/questions/41139763/how-to-declare-a-fixed-length-array-in-typescript...
-// // I'm not sure how this works...
-// export type Grow<T, A extends Array<T>> = ((x: T, ...xs: A) => void) extends (
-//   ...a: infer X
-// ) => void
-//   ? X
-//   : never;
-
-// export type GrowToSize<T, A extends Array<T>, N extends number> = {
-//   0: A;
-//   1: GrowToSize<T, Grow<T, A>, N>;
-// }[A["length"] extends N ? 0 : 1];
-
-// export type FixedArray<T, N extends number> = GrowToSize<T, [], N>;
-// // ===========================================================================
-
-// ===========================================================================
-// Now... generate the actual "public" data in a nicely structured form
+// generate the actual "public" data in a nicely structured form
 
 export type Weighing = [DateTime, Weight];
 
@@ -107,25 +75,31 @@ export interface DogInfo {
 // Typescript types).
 
 export interface RawPuppyData {
+  defaults?: {
+    year?: string;
+    tzOffset?: string;
+  };
+
   birthInfo: [ShortDateTime, SexKey, ColorKey, Weight, CollarKey, Nickname][];
-  // We can't really assume a fixed-size if it's coming from external JSON,
-  // can we (should we)?
   weighings: [ShortDateTime, ...Array<Weight>][];
-  // weighings: [ShortDateTime, ...FixedArray<Weight, 6>][];
 }
 
 export interface PuppyData {
   dogs: DogInfo[];
+  latestDate: DateTime;
 }
 
 export function massageData(rawData: RawPuppyData) {
+  const defaultYear = rawData.defaults?.year;
+  const defaultOffset = rawData.defaults?.tzOffset;
+
   // console.log("massaging raw data", rawData);
   const dogs: DogInfo[] = rawData.birthInfo.map(
     ([shortBirthdate, sex, color, birthweight, collar, nickname], i) => {
       // get *this* dog's weights...
-      const birthdate = shortToDateTime(shortBirthdate);
+      const birthdate = luxonifyShort(shortBirthdate, defaultYear, defaultOffset);
       const weights: Weighing[] = rawData.weighings.map(([shortDate, ...w]) => [
-        shortToDateTime(shortDate),
+        luxonifyShort(shortDate, defaultYear, defaultOffset),
         w[i],
       ]);
       // unshift the birth weight onto the front...
@@ -145,11 +119,17 @@ export function massageData(rawData: RawPuppyData) {
     }
   );
 
+  const latestDate = dogs.reduce((memo, dog) => {
+    // There is always *at least* one weight...
+    const dogLatest = dog.weights.slice(-1)[0][0];
+    return DateTime.max(memo, dogLatest);
+  }, DateTime.fromMillis(0));
   // // do we ever really use "byCollar"?
   // const byCollar = Object.fromEntries(dogs.map((dog) => [dog.collar, dog]));
 
   const data: PuppyData = {
     dogs,
+    latestDate,
   };
 
   return data;
@@ -166,28 +146,6 @@ export function gramsToPounds(grams: number): number {
 }
 
 export function formatGramsAsPounds(grams: number): string {
-  // let ounces = gramsToOunces(grams);
-  // let pounds = Math.floor(ounces / 16);
-  // ounces = ounces - pounds * 16;
-
-  // const parts: string[] = [];
-
-  // if (pounds) {
-  //   parts.push(pluralize("lb", pounds, true));
-  // }
-
-  // if (ounces) {
-  //   const whole = Math.floor(ounces);
-  //   const fraction = asFraction(ounces - whole, 8);
-
-  //   let fractionText = "";
-  //   if (fraction) {
-  //     fractionText = fraction.unicode || `${whole ? " " : ""}${fraction.plain}`;
-  //   }
-  //   parts.push(`${whole}${fractionText} oz`);
-  // }
-
-  // return parts.join(" ");
   return formatPoundsOunces(gramsToPounds(grams));
 }
 
@@ -253,7 +211,7 @@ export function asFraction(
   return { plain, unicode: unicodeFractions[plain] };
 }
 
-// find GCD using euclidean algorihm...
+// find GCD using euclidean algorithm...
 function findGCD(a: number, b: number): number {
   if (a === 0 || b === 0) {
     return b || a;
@@ -278,24 +236,3 @@ export function properName(dog: DogInfo): string {
   return `${dog.sex === Sex.M ? 'Mr.' : 'Miss'} ${capitalize(dog.collar)}`;
 }
 
-export function humanizeDuration(duration: Duration, units: DurationUnit[]) {
-  let dur = duration;
-
-  if (dur.valueOf() < 0) {
-    dur = dur.negate();
-  }
-
-  // const units: DurationUnit[] = ["months", "weeks", "days", "hours"];
-  const parts: string[] = [];
-
-  units.forEach((unit) => {
-    // TODO: perform rounding when we're within 90% of the unit?
-    let amount = dur.as(unit);
-    if (amount >= 1) {
-      amount = Math.floor(amount);
-      parts.push(pluralize(unit, amount, true));
-      dur = dur.minus({ [unit]: amount });
-    }
-  });
-  return parts.join(', ');
-}

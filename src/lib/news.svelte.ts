@@ -6,7 +6,7 @@ import { createAutoFetchState } from '$lib/autofetch-data.svelte.js';
 // import { browser } from '$app/environment';
 import { DateTime, Duration } from 'luxon';
 
-import { type ShortDateTime, shortToDateTime } from './puppy-data-utils';
+import { luxonifyShort, type ShortDateTime } from '$lib/datetime.js';
 
 // $lib/news.json is a symlink to the *real* static/news.json because vite
 // doesn't allow imports of static files
@@ -17,6 +17,10 @@ const dataUrl = 'news.json'; // need full path?
 type Paragraph = string;
 
 interface RawNews {
+  defaults?: {
+    year?: string;
+    tzOffset?: string;
+  };
   news: Record<ShortDateTime, Paragraph[]>[];
 }
 
@@ -32,10 +36,13 @@ export const state = createAutoFetchState(
   massageRawNews
 );
 
-function massageRawNews(rawNews: RawNews): NewsItem[] {
-  return rawNews.news.flatMap((obj) =>
+function massageRawNews(rawData: RawNews): NewsItem[] {
+  const defaultYear = rawData.defaults?.year;
+  const defaultOffset = rawData.defaults?.tzOffset;
+
+  return rawData.news.flatMap((obj) =>
     Object.entries(obj).map(([when, ps]) => ({
-      when: shortToDateTime(when),
+      when: luxonifyShort(when, defaultYear, defaultOffset),
       paragraphs: ps,
     }))
   );
