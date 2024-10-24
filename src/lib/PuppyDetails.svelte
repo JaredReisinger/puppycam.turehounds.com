@@ -3,11 +3,11 @@
   import { DateTime } from 'luxon';
   import type { DateTimeFormatOptions, LocaleOptions } from 'luxon';
 
+  import { humanizeDuration } from '$lib/datetime.js';
   import { state as puppyState } from '$lib/puppy-data.svelte.js';
   import {
     formatPoundsOunces,
     gramsToPounds,
-    humanizeDuration,
     properName,
     // type PuppyData,
   } from '$lib/puppy-data-utils.js';
