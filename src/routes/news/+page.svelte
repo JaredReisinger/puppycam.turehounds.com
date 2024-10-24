@@ -9,10 +9,6 @@
   const longFmt = { ...DateTime.DATETIME_HUGE, timeZoneName: 'short' } as const;
 </script>
 
-<svelte:head>
-  <title>News - Ture Hound PuppyCam!</title>
-</svelte:head>
-
 <div class="wrapper">
   <h1>News and updates</h1>
 

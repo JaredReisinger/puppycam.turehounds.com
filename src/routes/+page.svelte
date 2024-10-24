@@ -6,10 +6,6 @@
   import LatestNews from "$lib/LatestNews.svelte";
 </script>
 
-<svelte:head>
-  <title>Ture Hounds PuppyCam!</title>
-</svelte:head>
-
 <div class="layout">
   <!-- <div class="aspect-root">
     <div class="aspect-main">

@@ -3,10 +3,6 @@
   import PuppyWeights from "$lib/PuppyWeights.svelte";
 </script>
 
-<svelte:head>
-  <title>Statistics - Ture Hound PuppyCam!</title>
-</svelte:head>
-
 <div class="wrapper">
   <h1>Statistics!</h1>
 
