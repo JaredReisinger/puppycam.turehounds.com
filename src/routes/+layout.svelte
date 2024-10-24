@@ -4,6 +4,8 @@
   // import GoogleAnalytics from "$lib/GoogleAnalytics.svelte";
   import Nav from '$lib/Nav.svelte';
 
+  import '../app.css';
+
   let { children }: { children: () => any } = $props();
 
   // SEO data - title, description, open-graph... etc.
@@ -14,7 +16,9 @@
 
   let pageUrl = $derived(`${rootUrl}${$page.url.pathname}`);
 
-  let title = $derived($page.data.title ? `${$page.data.title} — ` : titleBase);
+  let title = $derived(
+    $page.data.title ? `${$page.data.title} — ${titleBase}` : titleBase
+  );
   let description = $derived($page.data.description || descriptionDefault);
   let image = $derived(`${rootUrl}${$page.data.image || imageDefault}`);
 </script>

@@ -30,9 +30,9 @@
 </p>
 
 <style lang="postcss">
-  p {
+  /* p {
     font-size: 80%;
-  }
+  } */
 
   /*.note {
     margin: 0;

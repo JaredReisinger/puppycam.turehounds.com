@@ -29,7 +29,7 @@
     <a href="about#news" class="what">what?!</a>
   </div> -->
 
-  <div class="news">
+  <div class="news prose prose-sm md:prose-base lg:prose-lg">
     <LatestNews title="Until next time..." />
   </div>
 </div>
@@ -95,8 +95,8 @@
     display: block;
   }
 
-  .news {
+  /* .news {
     font-size: 150%;
     max-width: 50rem;
-  }
+  } */
 </style>

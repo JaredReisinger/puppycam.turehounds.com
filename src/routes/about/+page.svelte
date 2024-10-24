@@ -1,11 +1,11 @@
 <script lang="ts">
-  import Video2 from "$lib/Video2.svelte";
-  import PuppyDetails from "$lib/PuppyDetails.svelte";
-  import PuppyWeather from "$lib/PuppyWeather.svelte";
+  import Video2 from '$lib/Video2.svelte';
+  import PuppyDetails from '$lib/PuppyDetails.svelte';
+  import PuppyWeather from '$lib/PuppyWeather.svelte';
   // import LatestNews from "$lib/LatestNews.svelte";
 </script>
 
-<div class="wrapper">
+<div class="prose prose-sm md:prose-base lg:prose-lg prose-zinc">
   <h1>About PuppyCam</h1>
 
   <p>
@@ -55,10 +55,8 @@
     >
     site, which means that everything “interesting” actually runs in your browser,
     and the hosting server (<code>puppycam.turehounds.com</code>) itself doesn’t
-    actually
-    <em>do</em>
-    anything. The nice thing about having nothing running on the server is that it
-    means we can host it for free on
+    actually <em>do</em> anything. The nice thing about having nothing running
+    on the server is that it means we can host it for free on
     <a href="https://netlify.com" target="_blank">Netlify</a>. One other nice
     thing about Netlify is that it auto-updates when there’s a change to the
     source code. As soon as I push a change to the code, Netlify grabs that
@@ -89,7 +87,7 @@
     you can embed the video on your own site:
   </p>
 
-  <div class="example video">
+  <div class="example not-prose video">
     <Video2
       publicId="dAYyHiFXJU"
       uuid="3ed3fea78dfc4f86968ab2ae9f616443"
@@ -125,7 +123,7 @@
     minutes, this ensures that the page will always be current.
   </p>
 
-  <div class="example auto">
+  <div class="example not-prose auto">
     <PuppyDetails />
   </div>
 
@@ -137,17 +135,14 @@
 
   <h3 id="puppy-weather">“Puppy weather” information</h3>
 
-  <div class="example">
+  <div class="example not-prose">
     <PuppyWeather />
   </div>
 
   <p>
-    Okay... now
-    <em>this</em>
-    part of the site is a
-    <em><strong>completely</strong></em>
-    gratuitous use of technology. It's a complete sub-system in and of itself. It
-    comprises:
+    Okay... now <em>this</em> part of the site is a
+    <em><strong>completely</strong></em> gratuitous use of technology. It's a complete
+    sub-system in and of itself. It comprises:
   </p>
   <ul>
     <li>
@@ -228,7 +223,7 @@
 
   <p>All of that, just to get this:</p>
 
-  <div class="example">
+  <div class="example not-prose">
     <PuppyWeather />
   </div>
 
@@ -250,7 +245,7 @@
 
   <p>I’ll admit it… I’m just having fun at this point.</p>
 
-  <!-- <div class="example">
+  <!-- <div class="example not-prose">
     <LatestNews />
   </div> -->
 
@@ -265,20 +260,20 @@
 </div>
 
 <style lang="postcss">
-  .wrapper {
-    max-width: 50em;
-    /* font-weight: 400;*/
-  }
-
   .example {
-    width: 16em;
+    @apply w-56 lg:w-64 max-w-full mx-auto bg-zinc-200 border border-zinc-300  p-2 rounded-lg;
+    /* width: 16em;
     max-width: 100%;
     margin: 1em auto;
     border: 1px solid hsl(0, 0%, 80%);
     border-radius: 1em;
     background-color: hsl(0, 0%, 80%, 0.2);
     padding: 0.5em;
-    box-sizing: content-box;
+    box-sizing: content-box; */
+
+    :global(& > *:first-child) {
+      @apply mt-0;
+    }
   }
 
   .example.auto {
@@ -286,6 +281,6 @@
   }
 
   .video {
-    height: 9em;
+    /* height: 9em; */
   }
 </style>

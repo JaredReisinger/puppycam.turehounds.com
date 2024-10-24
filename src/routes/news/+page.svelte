@@ -9,20 +9,27 @@
   const longFmt = { ...DateTime.DATETIME_HUGE, timeZoneName: 'short' } as const;
 </script>
 
-<div class="wrapper">
+<div class="prose prose-sm md:prose-base lg:prose-lg prose-zinc">
   <h1>News and updates</h1>
 
-  <p class="note">
-    Most-recent news from {state.lastModified?.toLocaleString(shortFmt) ?? '...'}.
-  </p>
-  <p class="note">
-    Checked for updates at {state.lastChecked?.toLocaleString(shortFmt) ?? '...'}.
-  </p>
+  <div class="mt-[-1.5em] text-xs md:text-sm lg:text-base italic text-zinc-400">
+    <!-- <div>
+      Most-recent news from {state.lastModified?.toLocaleString(shortFmt) ??
+        '...'}.
+    </div> -->
+    <div>
+      Last checked for updates at {state.lastChecked?.toLocaleString(
+        shortFmt
+      ) ?? '...'}.
+    </div>
+  </div>
 
   {#each state.data as item}
     <h3>
       {item.when.toLocaleString(longFmt)}
-      <span class="note">({item.when.toRelative()})</span>
+      <span class="text-xs md:text-sm lg:text-base font-normal text-zinc-400 italic"
+        >({item.when.toRelative()})</span
+      >
     </h3>
     {#each item.paragraphs as paragraph}
       <p>{@html paragraph}</p>
@@ -31,11 +38,6 @@
 </div>
 
 <style lang="postcss">
-  .wrapper {
-    max-width: 50em;
-    /*font-weight: 400;*/
-  }
-
   /*.note {
     margin: 0;
     font-size: 80%;

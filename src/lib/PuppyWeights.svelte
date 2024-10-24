@@ -192,11 +192,11 @@
       {#each allSeries as series}
         <path
           d={lineGenerator(series.points)}
-          class="line stroke-{series.collar}"
+          class="line stroke-current {series.collar}"
         />
         {#each series.points as point}
           <g transform="translate({xScale(point.date)}, {yScale(point.value)})">
-            <path d={symbolGenerator()} class="point fill-{series.collar}" />
+            <path d={symbolGenerator()} class="point fill-current {series.collar}" />
           </g>
         {/each}
       {/each}
@@ -220,12 +220,12 @@
                 y1={i * legendLineHeight}
                 x2="30"
                 y2={i * legendLineHeight}
-                class="line stroke-{series.collar}"
+                class="line stroke-current {series.collar}"
               />
               <g transform="translate(15, {i * legendLineHeight})">
                 <path
                   d={symbolGenerator()}
-                  class="point fill-{series.collar}"
+                  class="point fill-current {series.collar}"
                 />
               </g>
 
