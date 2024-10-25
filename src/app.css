@@ -1,0 +1,78 @@
+/* @import 'tailwind/base';
+@import 'tailwind/components';
+@import 'tailwind/utilities'; */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* customizations? */
+
+@layer utilities {
+  .blue {
+    @apply text-blue-600;
+  }
+  .red {
+    @apply text-red-600;
+  }
+  .yellow {
+    @apply text-yellow-500;
+  }
+  .white {
+    @apply text-gray-400;
+  }
+  .green {
+    @apply text-green-600;
+  }
+  .pink {
+    @apply text-pink-400;
+  }
+  .purple {
+    @apply text-purple-500;
+  }
+
+  /*
+  blue
+  red
+  yellow
+  white
+  green
+  pink
+  purple
+  */
+
+  /* ideally, we'd have SCSS for this, so we're not re-defining the colors... */
+  .was {
+    @apply text-zinc-400 text-[84%] italic;
+  }
+
+  .was::before {
+    content: '(';
+  }
+
+  .was::after {
+    content: ')';
+  }
+
+  /* stop <code> in prose from getting backticks... */
+  .prose code {
+    &::before {
+      content: '';
+    }
+    &::after {
+      content: '';
+    }
+  }
+
+  a:hover {
+    @apply text-sky-400 transition-colors duration-200;
+  }
+
+  .meta {
+    @apply text-[84%] font-light italic text-zinc-400
+  }
+
+  .smaller {
+    font-size: 84%
+  }
+}
