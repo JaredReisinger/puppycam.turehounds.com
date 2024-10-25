@@ -1,74 +1,60 @@
 <script lang="ts">
   import { onMount } from 'svelte';
-  import { DateTime } from 'luxon';
+  import { DateTime, Duration } from 'luxon';
 
-  export let title: string = 'Current puppy weather';
+  import { shortFmt } from '$lib/datetime.js';
+  import { state as weatherState } from '$lib/weather.svelte.js';
 
-  // try fetching from puppycam-sensor!
-  // TODO: update to https://sensor.turehounds.com/sensors
-  const sensorApi = 'https://puppycam-sensor.spudnoggin.com/sensor';
+  let { title = 'Current puppy weather' }: { title: string } = $props();
 
-  let sample: any;
-  let observed: string;
-  let observedRel: string | null;
-  let temperature: number;
-  let humidity: number;
-  let checkDate: string;
+  let { temperature, humidity, observed } = $derived(weatherState.data);
 
-  const dateFmt = {
-    ...DateTime.DATETIME_SHORT,
-    timeZoneName: 'short',
-  } as const;
+  // handle stale temperature observations... we only care after 5 minutes
 
-  async function updateWeather() {
-    checkDate = DateTime.local().toLocaleString(dateFmt);
+  let now = $state(DateTime.local());
 
-    try {
-      const response = await fetch(sensorApi);
-      sample = await response.json();
-
-      temperature = sample.temperature;
-      humidity = sample.humidity;
-      updateTimes();
-    } catch (err) {
-      console.log('unable to fetch... no weather data');
-    }
-  }
-
-  function updateTimes() {
-    if (sample) {
-      const obs = DateTime.fromISO(sample.observed);
-      observed = obs.toLocaleString(dateFmt);
-      observedRel = obs.toRelative({ unit: 'seconds' });
-    }
+  function updateNow() {
+    now = DateTime.local();
   }
 
   onMount(() => {
-    updateWeather();
-    const interval = setInterval(updateWeather, 30 * 1000);
-    const interval2 = setInterval(updateTimes, 1 * 1000);
+    const timer = setInterval(updateNow, Duration.fromISO('PT5M').toMillis());
     return () => {
-      clearInterval(interval);
-      clearInterval(interval2);
+      clearInterval(timer);
     };
   });
+
+  // Sadly, Duration.toHuman() and DateTime.toRelative() are *completely*
+  // different sets of behavior.  We use `now` only to force the recalculation.
+  let elapsed = $derived(
+    observed &&
+      observed.plus({ minutes: 5 }).toMillis() <= now.toMillis() &&
+      observed.toRelative()
+  );
 </script>
 
 <div>
-  {#if observed}
-    {#if title}
-      <h3>{title}</h3>
-    {/if}
+  {#if title}
+    <h3>{title}</h3>
+  {/if}
 
+  {#if observed}
     <div class="weather">
-      <div class="temperature">{temperature}</div>
-      <div class="humidity">{humidity}</div>
+      <div class="temperature">{temperature?.toFixed(1)}</div>
+      <div class="humidity">{humidity?.toFixed(1)}</div>
     </div>
     <div class="meta">
-    <div>Measured: {observed}</div>
-    <!-- <div>({observedRel})</div> -->
-    <div>Last checked: {checkDate}</div>
-  </div>
+      <div>
+        Measured: {observed.toLocaleString(shortFmt)}
+        {#if elapsed}
+          ({elapsed})
+        {/if}
+      </div>
+      <div>
+        Last checked: {weatherState.lastChecked?.toLocaleString(shortFmt) ??
+          '...'}
+      </div>
+    </div>
   {/if}
 </div>
 

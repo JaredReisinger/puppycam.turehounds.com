@@ -33,9 +33,15 @@ export function createAutoFetchState<RawData, Data = RawData>(
   url: string,
   refreshInterval: Duration,
   seedData: RawData,
-  massager?: (_: RawData) => Data
+  massager?: (_: RawData) => Data,
+  debugLogging = false
 ) {
-  // console.log('AUTO-FETCH - CREATING', {url, interval: refreshInterval.toISO() });
+  if (debugLogging) {
+    console.log('AUTO-FETCH - CREATING', {
+      url,
+      interval: refreshInterval.toISO(),
+    });
+  }
 
   const state = $state<StateData<Data>>({
     // if there's no massager, Data === RawData... do we need to hack around TS
@@ -51,18 +57,24 @@ export function createAutoFetchState<RawData, Data = RawData>(
     window[sym] ??= {};
 
     if (window[sym].timer) {
-      // console.log('AUTO-FETCH - CLEARING OLD TIMER', {url, interval: refreshInterval.toISO() });
+      if (debugLogging) {
+        console.log('AUTO-FETCH - CLEARING OLD TIMER', {
+          url,
+          interval: refreshInterval.toISO(),
+        });
+      }
       clearInterval(window[sym].timer);
       window[sym].timer = undefined;
     }
 
-    refreshData(state, url, massager);
+    refreshData(state, url, massager, debugLogging);
     window[sym].timer = setInterval(
       refreshData,
       refreshInterval.toMillis(),
       state,
       url,
-      massager
+      massager,
+      debugLogging
     );
   }
 
@@ -72,17 +84,24 @@ export function createAutoFetchState<RawData, Data = RawData>(
 async function refreshData<RawData, Data>(
   state: StateData<Data>,
   url: string,
-  massager?: (_: RawData) => Data
+  massager?: (_: RawData) => Data,
+  debugLogging = false
 ) {
   const lastChecked = DateTime.local();
-  // console.log('FETCHING NEWS...', {at:lastChecked.toISO()});
   const { lastModified, raw } = await fetchRaw<RawData>(url);
 
   state.data = massager?.(raw) ?? (raw as unknown as Data);
   state.lastChecked = lastChecked;
   state.lastModified = lastModified;
 
-  // console.log('AUTO-FETCH - REFRESH', {url, ...state });
+  if (debugLogging) {
+    console.log('AUTO-FETCH - REFRESH', {
+      url,
+      start: lastChecked.toISO(),
+      end: DateTime.local().toISO(),
+      ...$state.snapshot(state),
+    });
+  }
 }
 
 async function fetchRaw<RawData>(url: string) {
