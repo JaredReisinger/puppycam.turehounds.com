@@ -5,7 +5,7 @@
   import { shortFmt } from '$lib/datetime.js';
   import { state as weatherState } from '$lib/weather.svelte.js';
 
-  let { title = 'Current puppy weather' }: { title: string } = $props();
+  let { title = 'Current puppy weather' }: { title?: string } = $props();
 
   let { temperature, humidity, observed } = $derived(weatherState.data);
 

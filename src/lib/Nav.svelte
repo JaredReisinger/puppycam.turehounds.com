@@ -3,7 +3,11 @@
 
   // @ts-expect-error no module definition for fa-svelte!
   import Icon from 'fa-svelte';
-  import { faFacebookF, faInstagram } from '@fortawesome/free-brands-svg-icons';
+  import {
+    faFacebookF,
+    faInstagram,
+    faYoutube,
+  } from '@fortawesome/free-brands-svg-icons';
 
   import tureHoundsLogo from '$lib/images/ture-hounds-logo.png';
 
@@ -16,6 +20,7 @@
     ['https://turehounds.com', 'Ture Hounds Home'],
     ['https://www.facebook.com/TureHounds', '[FACEBOOK]', faFacebookF],
     ['https://www.instagram.com/turehounds', '[INSTAGRAM]', faInstagram],
+    ['https://www.youtube.com/@turehounds', '[YOUTUBE]', faYoutube],
   ] as const;
 </script>
 

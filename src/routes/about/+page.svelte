@@ -2,19 +2,18 @@
   import VideoNest from '$lib/VideoNest.svelte';
   import PuppyDetails from '$lib/PuppyDetails.svelte';
   import PuppyWeather from '$lib/PuppyWeather.svelte';
-  // import LatestNews from "$lib/LatestNews.svelte";
+  import LatestNews from '$lib/LatestNews.svelte';
+  import VideoYouTube from '$lib/VideoYouTube.svelte';
 </script>
 
 <div class="prose prose-sm md:prose-base lg:prose-lg prose-zinc">
   <h1>About PuppyCam</h1>
 
   <p>
-    Having puppies in the house is
-    <em>ridiculously</em>
-    fun, especially as they get bigger and start to play. The next best thing to
-    having them in your house is at least being able to check in on them at any time.
-    We had a puppy cam available for Disa's first litter and decided to do it again
-    for this one.
+    Having puppies in the house is <em>ridiculously</em> fun, especially as they
+    get bigger and start to play. The next best thing to having them in your house
+    is at least being able to check in on them at any time. We had a puppycam available
+    for Disa's first litter and decided to do it again for this one.
   </p>
 
   <p>
@@ -36,6 +35,7 @@
     This PuppyCam site is composed of several loosely-connected pieces. In
     roughly the order that you experience them, they are:
   </p>
+
   <ul>
     <li><a href="about#front-end">front-end web site</a></li>
     <li><a href="about#live-video">live video feed</a></li>
@@ -49,10 +49,7 @@
 
   <p>
     The site itself is a
-    <a href="https://svelte.dev" target="_blank">Svelte.js</a>/<a
-      href="https://kit.svelte.dev"
-      target="_blank">SvelteKit</a
-    >
+    <a href="https://svelte.dev" target="_blank">Svelte.js/SvelteKit</a>
     site, which means that everything “interesting” actually runs in your browser,
     and the hosting server (<code>puppycam.turehounds.com</code>) itself doesn’t
     actually <em>do</em> anything. The nice thing about having nothing running
@@ -72,6 +69,33 @@
   </p>
 
   <h3 id="live-video">Live video feed</h3>
+
+  <h4>Current implementation...</h4>
+
+  <p>
+    Nest cameras are expensive, and you have to pay for the associated cloud
+    service in order to get live-streaming. I decided to look at an inexpensive <a
+      href="https://reolink.com"
+      target="_blank">Reolink</a
+    >
+    camera, paired with
+    <a href="https://docs.datarhei.com/restreamer">datarhei Restreamer</a>
+    running on my local Linux server. Restreamer takes care of pulling the live video
+    stream from the camera (an RSTP stream), and publishes it to the
+    <a href="https://youtube.com" target="_blank">Ture Hound YouTube channel</a
+    >. I previously spent a fair amount of effort getting HLS video to stream
+    into the page <em>without</em> using an <code>iframe</code> so that I could
+    have more control over the exact rendering and layout. Using YouTube as the
+    streaming source, however, puts me right back into using an
+    <code>iframe</code> again. Fortunately, there are some CSS tricks that give me
+    enough layout control for what I want.
+  </p>
+
+  <div class="example not-prose video">
+    <VideoYouTube videoId="i3bGrW4hRxc" controls={false} autoplay />
+  </div>
+
+  <h4>First implementation...</h4>
 
   <p>
     Even before this iteration of PuppyCam, we had a few
@@ -104,22 +128,21 @@
   <h3 id="puppy-details">Puppy details</h3>
 
   <p>
-    For the first few days, the details about the puppies had been typed in by
-    hand. As of late Saturday, January 16, however, much of it is driven from
-    some data. This data, including relatively up-to-date weight measurements,
-    is still typed in by hand… but it’s entered in a very concise and minimal
-    way. It would be awesome if the puppy weights could truly auto-update, but
-    that would mean some kind of weight-measuring pad, being able to track which
-    puppy is on the pad at any given moment, and so on… I mean, that would be
+    In this site’s first incarnation, the details about the puppies had been
+    typed in by hand. Now, it’s driven by a data file that still has to be typed
+    in, but it’s entered in a very concise and minimal way. It would be awesome
+    if the puppy weights could truly auto-update, but that would mean some kind
+    of weight-measuring pad, being able to track which puppy is on the pad at
+    any given moment, and so on… I mean, that would be
     <em>undeniably</em>
     cool, but it’s beyond my reach at the moment.
   </p>
 
   <p>
     That said, the table is now not only data-driven, but it also checks every
-    30 minutes or so to see if there's any updated data. If it has, the table
+    30 minutes or so to see if there’s any updated data. If it has, the table
     will auto-update to reflect the latest weights, without requiring you to
-    refresh the page. While I'm not likely to update the weights every 30
+    refresh the page. While I’m not likely to update the weights every 30
     minutes, this ensures that the page will always be current.
   </p>
 
@@ -128,9 +151,8 @@
   </div>
 
   <p>
-    Having all of the raw data also means that it is now available to drive the <a
-      href="stats">statistics page</a
-    >!
+    Having all of the raw data also means that it is now available to drive the
+    <a href="stats">statistics page</a>!
   </p>
 
   <h3 id="puppy-weather">“Puppy weather” information</h3>
@@ -141,7 +163,7 @@
 
   <p>
     Okay... now <em>this</em> part of the site is a
-    <em><strong>completely</strong></em> gratuitous use of technology. It's a complete
+    <em><strong>completely</strong></em> gratuitous use of technology. It’s a complete
     sub-system in and of itself. It comprises:
   </p>
   <ul>
@@ -160,9 +182,7 @@
     For various and sundry reasons, I happen to have several
     <a href="https://www.sensorpush.com/" target="_blank">SensorPush</a>
     temperature and humidity sensors. They allow me to monitor such critical things
-    as
-    <em>“does my cigar humidor need more water?”</em>
-    and
+    as <em>“does my cigar humidor need more water?”</em> and
     <em>“what temperature is the kitchen right now?”</em>. These devices record
     the temperature and humidity once every minute, and send that information
     (via a low-energy-Bluetooth–to–WiFi hub) up to SenorPush’s data servers in
@@ -193,8 +213,8 @@
     that performs all of the necessary work for getting the temperature and humidity
     from the SensorPush API, and then turns around and exposes it as a simple data
     feed at
-    <a href="https://puppycam-sensor.spudnoggin.com/sensor" target="_blank"
-      ><code>https://puppycam-sensor.spudnoggin.com/sensor</code></a
+    <a href="https://sensors.turehounds.com/sensors" target="_blank"
+      ><code>https://sensors.turehounds.com/sensors</code></a
     >. If you visit that link, you’ll see some additional potential data metrics
     without values: altitude, barometric pressure, and so on. SensorPush has
     some newer sensors that report those values, but ours only includes the
@@ -238,16 +258,16 @@
     news items as well.
   </p>
 
-<p>
+  <p>
     The “latest news” component leverages the same “auto-refresh” capabilities
     as the other components, checking every 30 minutes for any updated news.
   </p>
 
   <p>I’ll admit it… I’m just having fun at this point.</p>
 
-  <!-- <div class="example not-prose">
+  <div class="example not-prose">
     <LatestNews />
-  </div> -->
+  </div>
 
   <h3 id="more">Maybe more?</h3>
 
@@ -261,15 +281,7 @@
 
 <style lang="postcss">
   .example {
-    @apply w-56 lg:w-64 max-w-full mx-auto bg-zinc-100 border border-zinc-300  p-2 rounded-lg;
-    /* width: 16em;
-    max-width: 100%;
-    margin: 1em auto;
-    border: 1px solid hsl(0, 0%, 80%);
-    border-radius: 1em;
-    background-color: hsl(0, 0%, 80%, 0.2);
-    padding: 0.5em;
-    box-sizing: content-box; */
+    @apply w-48 lg:w-64 xl:w-96 max-w-full mx-auto bg-zinc-100 border border-zinc-300  p-2 rounded-lg;
 
     :global(& > *:first-child) {
       @apply mt-0;
@@ -278,9 +290,5 @@
 
   .example.auto {
     width: fit-content;
-  }
-
-  .video {
-    /* height: 9em; */
   }
 </style>
