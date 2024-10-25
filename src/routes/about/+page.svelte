@@ -1,5 +1,5 @@
 <script lang="ts">
-  import Video2 from '$lib/Video2.svelte';
+  import VideoNest from '$lib/VideoNest.svelte';
   import PuppyDetails from '$lib/PuppyDetails.svelte';
   import PuppyWeather from '$lib/PuppyWeather.svelte';
   // import LatestNews from "$lib/LatestNews.svelte";
@@ -88,7 +88,7 @@
   </p>
 
   <div class="example not-prose video">
-    <Video2
+    <VideoNest
       publicId="dAYyHiFXJU"
       uuid="3ed3fea78dfc4f86968ab2ae9f616443"
       streamHost="stream-ue1-charlie.dropcam.com"

@@ -71,4 +71,8 @@
   .meta {
     @apply text-[84%] font-light italic text-zinc-400
   }
+
+  .smaller {
+    font-size: 84%
+  }
 }

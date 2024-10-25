@@ -54,9 +54,11 @@ export function luxonifyShort(
 
 export function humanizeDuration(duration: Duration, units: DurationUnit[]) {
   let dur = duration;
+  let reversed = false;
 
   if (dur.valueOf() < 0) {
     dur = dur.negate();
+    reversed = true;
   }
 
   // const units: DurationUnit[] = ["months", "weeks", "days", "hours"];
@@ -71,5 +73,6 @@ export function humanizeDuration(duration: Duration, units: DurationUnit[]) {
       dur = dur.minus({ [unit]: amount });
     }
   });
-  return parts.join(', ');
+
+  return { text: parts.join(', '), reversed };
 }

@@ -87,6 +87,7 @@ export interface RawPuppyData {
 export interface PuppyData {
   dogs: DogInfo[];
   latestDate: DateTime;
+  future: boolean;
 }
 
 export function massageData(rawData: RawPuppyData) {
@@ -127,9 +128,12 @@ export function massageData(rawData: RawPuppyData) {
   // // do we ever really use "byCollar"?
   // const byCollar = Object.fromEntries(dogs.map((dog) => [dog.collar, dog]));
 
+  const future = latestDate.diffNow().toMillis() > 0;
+
   const data: PuppyData = {
     dogs,
     latestDate,
+    future,
   };
 
   return data;

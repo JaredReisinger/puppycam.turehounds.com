@@ -1,5 +1,6 @@
 <script lang="ts">
-  import Video2 from "$lib/Video2.svelte";
+  import VideoNest from '$lib/VideoNest.svelte';
+  import VideoYouTube from '$lib/VideoYouTube.svelte';
 
   // get camera info (JSON)
   //  * https://video.nest.com/api/dropcam/cameras.get_by_public_token?token=dAYyHiFXJU&_=1611358588737
@@ -28,10 +29,16 @@
 
 <h1>TEST PAGE</h1>
 
-<p>This is a test page for a non-iframe-based streaming video player.</p>
+<p>This is a test page for a streaming video player.</p>
 
 <div class="test">
-  <Video2
+  <!-- magicSiCode="xx-Q49iE4slkokun" -->
+  <VideoYouTube videoId="i3bGrW4hRxc" controls={false} autoplay debug />
+</div>
+
+<!-- 
+<div class="test">
+  <VideoNest
     publicId="dAYyHiFXJU"
     uuid="3ed3fea78dfc4f86968ab2ae9f616443"
     streamHost="stream-ue1-charlie.dropcam.com"
@@ -40,13 +47,13 @@
 </div>
 
 <div class="test">
-  <Video2
+  <VideoNest
     publicId="jqbAk2MNMd"
     uuid="9c06bf22fa9047559a39ced47953a9ec"
     streamHost="stream-ue1-bravo.dropcam.com"
     debug
   />
-</div>
+</div> -->
 
 <style lang="postcss">
   .test {

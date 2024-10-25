@@ -1,152 +1,97 @@
 <script lang="ts">
   import { onMount } from 'svelte';
-  import { DateTime } from 'luxon';
-  import type { DateTimeFormatOptions, LocaleOptions } from 'luxon';
+  import { DateTime, Duration } from 'luxon';
 
-  import { humanizeDuration } from '$lib/datetime.js';
+  import { humanizeDuration, shortFmt } from '$lib/datetime.js';
   import { state as puppyState } from '$lib/puppy-data.svelte.js';
   import {
     formatPoundsOunces,
     gramsToPounds,
     properName,
-    // type PuppyData,
   } from '$lib/puppy-data-utils.js';
 
-  // Bad typings abound... DateTime.DATETIME_SHORT doesn't qualify as
-  // Intl.DateTimeFormatOptions despite being typed that way!  We force-type it
-  // here to prevent errors in toLocaleString()!
-  const dateFmt: LocaleOptions & DateTimeFormatOptions = {
-    ...DateTime.DATETIME_SHORT,
-    timeZoneName: 'short',
-  };
+  let { title, showFuture = false }: { title?: string; showFuture?: boolean } =
+    $props();
 
-  let { title = 'The puppies' }: { title?: string } = $props();
+  let ageCheckNow = $state(DateTime.local());
 
-  let puppyData = $derived(puppyState.data);
-
-  let puppyAge: string = $state('...');
-  let weightIndex: number = $state(0);
-  let weightDate: string = $state('...');
-  // let weightDateRel: string = $state("...");
-  let checkDate: string = $state('...');
-
-  $effect(() => {
-    // console.log("PuppyDetails data update?", $dataStore);
-    // puppyData = $state.puppyData;
-
-    if (puppyData) {
-      const { weights } = puppyData.dogs[0];
-
-      // const was = puppyAge;
-      updateAge();
-      // console.log("age update $", { was, now: puppyAge });
-
-      weightIndex = weights.length - 1;
-      const date = weights[weightIndex][0];
-      weightDate = date.toLocaleString(dateFmt);
-      weightDate = date.toLocaleString();
-      // weightDateRel = date.toRelative();
-    }
-
-    if (puppyState.lastChecked) {
-      checkDate = puppyState.lastChecked.toLocaleString(dateFmt);
-    }
-  });
-
-  function updateAge() {
-    if (puppyData) {
-      const { birthdate } = puppyData.dogs[0];
-      puppyAge = humanizeDuration(birthdate.diffNow(), ['weeks', 'days']);
-    }
+  // re-check age every N minutes...
+  function updateAgeCheckNow() {
+    ageCheckNow = DateTime.local();
   }
-
   onMount(() => {
-    // const was = puppyAge;
-    updateAge();
-    // console.log("age update M", { was, now: puppyAge });
-    // Every half-hour, see if we need to update the "age" text.
-    const interval = setInterval(updateAge, /* 30 * */ 5 * 1000);
+    updateAgeCheckNow();
+    const interval = setInterval(
+      updateAgeCheckNow,
+      Duration.fromISO('PT5S').toMillis()
+    );
     return () => {
       clearInterval(interval);
     };
   });
+
+  let dogs = $derived(puppyState.data.dogs);
+
+  let birthdate = $derived(dogs[0]?.birthdate);
+  let age = $derived(birthdate?.diff(ageCheckNow).negate());
+  let measurementDate = $derived(dogs[0]?.weights.slice(-1)[0][0]);
+  let future = $derived(age?.toMillis() < 0);
 </script>
 
-<h3>{title}</h3>
-<!-- <p>All puppies were born on Wednesday, January 13, 2021.</p> -->
-<p>The puppies are {puppyAge} old.</p>
+<div>
+  {#if title}<h3>{title}</h3>{/if}
 
-<table>
-  <thead>
-    <tr>
-      <th>nickname</th>
-      <th>collar</th>
-      <th>sex</th>
-      <!-- <th>color</th> -->
-      <th>weight</th>
-    </tr>
-  </thead>
-  <tbody>
-    {#if puppyData}
-      {#each puppyData.dogs as dog}
-        <tr class={dog.collar}>
-          <td>{properName(dog)}</td>
-          <td>{dog.collar}</td>
-          <td>{dog.sex}</td>
-          <!-- <td>{dog.color}</td> -->
-          <td
-            ><b
-              >{formatPoundsOunces(
-                gramsToPounds(dog.weights[weightIndex][1])
-              )}</b
-            >
-            ({dog.weights[weightIndex][1]}g)</td
-          >
-        </tr>
-      {/each}
+  {#if dogs.length <= 0}
+    <p>No puppy data is currently available.</p>
+  {:else}
+    {#if future}
+      <!-- recalc the expectation to only include weeks -->
+      <p>
+        The puppies are expected in {humanizeDuration(age, ['weeks']).text}.
+      </p>
+    {:else}
+      <p>The puppies are {humanizeDuration(age, ['weeks', 'days']).text} old.</p>
     {/if}
-  </tbody>
-</table>
-<div class="mt-2 meta">
-  <div>
-    Weight measured at {weightDate}.
-  </div>
-  <div>
-    Checked for updates at {checkDate}.
+
+    {#if !future || showFuture}
+      <table class="mt-4 table table-auto prose">
+        <thead>
+          <tr class="smaller">
+            <th class="text-left">nickname</th>
+            <th>collar</th>
+            <th>sex</th>
+            <th class="text-left">weight</th>
+          </tr>
+        </thead>
+        <tbody>
+          {#each dogs as dog}
+            {@const weightG = dog.weights.slice(-1)[0][1]}
+            <tr class={dog.collar}>
+              <td>{properName(dog)}</td>
+              <td class="smaller">{dog.collar}</td>
+              <td class="smaller text-center">{dog.sex}</td>
+              <td class="smaller"
+                >{formatPoundsOunces(gramsToPounds(weightG))}
+                <span class="smaller">({weightG}g)</span></td
+              >
+            </tr>
+          {/each}
+        </tbody>
+      </table>
+    {/if}
+  {/if}
+
+  <div class="mt-2 meta">
+    {#if measurementDate && (!future || showFuture)}
+      <div>
+        Measured: {measurementDate.toLocaleString(shortFmt)}
+      </div>
+    {/if}
+    <div>
+      Last checked: {puppyState.lastChecked?.toLocaleString(shortFmt) ?? '...'}
+    </div>
   </div>
 </div>
 
-<!-- <p>All puppies were born on Wednesday, January 13, 2021.</p> -->
 <style lang="postcss">
-  tr {
-    & > * {
-      text-align: left;
-    }
-
-    & > :nth-child(n + 2) {
-      padding-left: 0.5rem;
-    }
-
-    & > td:nth-child(n + 2) {
-      font-size: 80%;
-    }
-
-    & > td:nth-child(1) {
-      font-weight: 600;
-    }
-
-    & > :nth-child(3) {
-      text-align: center;
-    }
-
-    /*& > :nth-child(4) {
-      text-align: center;
-    }*/
-  }
-
-  th {
-    /* font-weight: 400; */
-    font-size: 80%;
-  }
-
 </style>

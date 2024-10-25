@@ -1,12 +1,12 @@
 <script lang="ts">
-  import { onMount } from "svelte";
-  import { DateTime } from "luxon";
+  import { onMount } from 'svelte';
+  import { DateTime } from 'luxon';
 
-  export let title: string = "Current puppy weather";
+  export let title: string = 'Current puppy weather';
 
   // try fetching from puppycam-sensor!
   // TODO: update to https://sensor.turehounds.com/sensors
-  const sensorApi = "https://puppycam-sensor.spudnoggin.com/sensor";
+  const sensorApi = 'https://puppycam-sensor.spudnoggin.com/sensor';
 
   let sample: any;
   let observed: string;
@@ -17,7 +17,7 @@
 
   const dateFmt = {
     ...DateTime.DATETIME_SHORT,
-    timeZoneName: "short",
+    timeZoneName: 'short',
   } as const;
 
   async function updateWeather() {
@@ -31,7 +31,7 @@
       humidity = sample.humidity;
       updateTimes();
     } catch (err) {
-      console.log("unable to fetch... no weather data");
+      console.log('unable to fetch... no weather data');
     }
   }
 
@@ -39,7 +39,7 @@
     if (sample) {
       const obs = DateTime.fromISO(sample.observed);
       observed = obs.toLocaleString(dateFmt);
-      observedRel = obs.toRelative({ unit: "seconds" });
+      observedRel = obs.toRelative({ unit: 'seconds' });
     }
   }
 
@@ -54,19 +54,23 @@
   });
 </script>
 
-{#if observed}
-  {#if title}
-    <h3>{title}</h3>
-  {/if}
+<div>
+  {#if observed}
+    {#if title}
+      <h3>{title}</h3>
+    {/if}
 
-  <div class="weather">
-    <div class="temperature">{temperature}</div>
-    <div class="humidity">{humidity}</div>
+    <div class="weather">
+      <div class="temperature">{temperature}</div>
+      <div class="humidity">{humidity}</div>
+    </div>
+    <div class="meta">
+    <div>Measured: {observed}</div>
+    <!-- <div>({observedRel})</div> -->
+    <div>Last checked: {checkDate}</div>
   </div>
-  <div class="note">Weather measured at {observed}</div>
-  <div class="note">({observedRel})</div>
-  <div class="note">Checked for updates at {checkDate}.</div>
-{/if}
+  {/if}
+</div>
 
 <style lang="postcss">
   .weather {
@@ -84,11 +88,11 @@
   }*/
 
   .temperature::after {
-    content: "°F";
+    content: '°F';
   }
 
   .humidity::after {
-    content: "% RH";
+    content: '% RH';
   }
 
   /*.observed {
