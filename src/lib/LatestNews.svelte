@@ -1,13 +1,6 @@
 <script lang="ts">
-  import { DateTime } from 'luxon';
   import { state } from '$lib/news.svelte.js';
-
-  const shortFmt = {
-    // ...DateTime.DATETIME_SHORT_WITH_SECONDS,
-    ...DateTime.DATETIME_SHORT,
-    timeZoneName: 'short',
-  } as const;
-  // const longFmt = { ...DateTime.DATETIME_HUGE, timeZoneName: "short" } as const;
+  import { shortFmt } from '$lib/datetime.js';
 
   let { title = 'Latest news' }: { title: string } = $props();
 
@@ -21,28 +14,16 @@
 
 <p><a href="/news">Read more…</a></p>
 
-<p class="note">
-  News from {item?.when?.toLocaleString(shortFmt) ?? '...'}
-  ({item?.when?.toRelative() ?? '...'}).
-</p>
-<p class="note">
-  Checked for updates at {state.lastChecked?.toLocaleString(shortFmt) ?? '...'}.
-</p>
+<div class="meta">
+  <div>
+    News from {item?.when?.toLocaleString(shortFmt) ?? '...'}
+    ({item?.when?.toRelative() ?? '...'}).
+  </div>
+  <div>
+    Checked for updates at {state.lastChecked?.toLocaleString(shortFmt) ??
+      '...'}.
+  </div>
+</div>
 
 <style lang="postcss">
-  /* p {
-    font-size: 80%;
-  } */
-
-  /*.note {
-    margin: 0;
-    font-size: 80%;
-    font-style: italic;
-    font-weight: 400;
-    color: hsl(0, 0%, 50%);
-  }
-
-  h3 .note {
-    font-size: 70%;
-  }*/
 </style>

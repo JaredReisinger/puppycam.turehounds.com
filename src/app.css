@@ -30,51 +30,7 @@
   .purple {
     @apply text-purple-500;
   }
-/*
-  .line.blue {
-    stroke: theme(colors.blue.600);
-  }
-  .line.red {
-    stroke: theme(colors.red.600);
-  }
-  .line.yellow {
-    stroke: theme(colors.yellow.500);
-  }
-  .line.white {
-    stroke: theme(colors.gray.400);
-  }
-  .line.green {
-    stroke: theme(colors.green.600);
-  }
-  .line.pink {
-    stroke: theme(colors.pink.400);
-  }
-  .line.purple {
-    stroke: theme(colors.purple.500);
-  }
 
-  .point.blue {
-    fill: theme(colors.blue.600);
-  }
-  .point.red {
-    fill: theme(colors.red.600);
-  }
-  .point.yellow {
-    fill: theme(colors.yellow.500);
-  }
-  .point.white {
-    fill: theme(colors.gray.400);
-  }
-  .point.green {
-    fill: theme(colors.green.600);
-  }
-  .point.pink {
-    fill: theme(colors.pink.400);
-  }
-  .point.purple {
-    fill: theme(colors.purple.500);
-  }
-*/
   /*
   blue
   red
@@ -106,5 +62,13 @@
     &::after {
       content: '';
     }
+  }
+
+  a:hover {
+    @apply text-sky-400 transition-colors duration-200;
+  }
+
+  .meta {
+    @apply text-[84%] font-light italic text-zinc-400
   }
 }

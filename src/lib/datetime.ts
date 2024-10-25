@@ -2,6 +2,18 @@
 import { DateTime, Duration, type DurationUnit } from 'luxon';
 import pluralize from 'pluralize';
 
+/** The standard short date formatting. */
+export const shortFmt = {
+  ...DateTime.DATETIME_SHORT,
+  timeZoneName: 'short',
+} as const;
+
+/** The standard long date formatting. */
+export const longFmt = {
+  ...DateTime.DATETIME_HUGE,
+  timeZoneName: 'short',
+} as const;
+
 /** A date/time in ISO representation, but *without* the year and offset. */
 export type ShortDateTime = string;
 
@@ -26,11 +38,11 @@ export function luxonifyShort(
 
     // should have "YYYY-MM-DDThh:mm" check for ":ss"
     if (toParse.length === 16) {
-      toParse = `${toParse}:00`
+      toParse = `${toParse}:00`;
     }
 
     if (toParse.length === 19) {
-      toParse = `${toParse}${defaultOffset}`
+      toParse = `${toParse}${defaultOffset}`;
     }
 
     return DateTime.fromISO(toParse);

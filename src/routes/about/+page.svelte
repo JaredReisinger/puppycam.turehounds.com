@@ -124,7 +124,7 @@
   </p>
 
   <div class="example not-prose auto">
-    <PuppyDetails />
+    <PuppyDetails title="" />
   </div>
 
   <p>
@@ -238,7 +238,7 @@
     news items as well.
   </p>
 
-  <p>
+<p>
     The “latest news” component leverages the same “auto-refresh” capabilities
     as the other components, checking every 30 minutes for any updated news.
   </p>
@@ -261,7 +261,7 @@
 
 <style lang="postcss">
   .example {
-    @apply w-56 lg:w-64 max-w-full mx-auto bg-zinc-200 border border-zinc-300  p-2 rounded-lg;
+    @apply w-56 lg:w-64 max-w-full mx-auto bg-zinc-100 border border-zinc-300  p-2 rounded-lg;
     /* width: 16em;
     max-width: 100%;
     margin: 1em auto;

@@ -107,12 +107,14 @@
     {/if}
   </tbody>
 </table>
-<p class="note first">
-  Weight measured at {weightDate}.
-</p>
-<p class="note">
-  Checked for updates at {checkDate}.
-</p>
+<div class="mt-2 meta">
+  <div>
+    Weight measured at {weightDate}.
+  </div>
+  <div>
+    Checked for updates at {checkDate}.
+  </div>
+</div>
 
 <!-- <p>All puppies were born on Wednesday, January 13, 2021.</p> -->
 <style lang="postcss">
@@ -147,14 +149,4 @@
     font-size: 80%;
   }
 
-  /*.note {
-    margin: 0;
-    font-size: 80%;
-    font-style: italic;
-    color: hsl(0, 0%, 50%);
-  }*/
-
-  .note.first {
-    margin-top: 0.5em;
-  }
 </style>
