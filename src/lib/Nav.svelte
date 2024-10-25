@@ -1,8 +1,9 @@
 <script lang="ts">
   import { page } from '$app/stores';
 
-  // @ts-expect-error no module definition for fa-svelte!
-  import Icon from 'fa-svelte';
+  // // @ts-expect-error no module definition for fa-svelte!
+  // import Icon from 'fa-svelte';
+  import Icon from 'svelte-fa';
   import {
     faFacebookF,
     faInstagram,
@@ -18,9 +19,9 @@
     ['/about', 'About'],
     // These aren't really routes, but make the UI easier to render!
     ['https://turehounds.com', 'Ture Hounds Home'],
-    ['https://www.facebook.com/TureHounds', '[FACEBOOK]', faFacebookF],
-    ['https://www.instagram.com/turehounds', '[INSTAGRAM]', faInstagram],
-    ['https://www.youtube.com/@turehounds', '[YOUTUBE]', faYoutube],
+    ['https://www.facebook.com/TureHounds', '[FACEBOOK]', faFacebookF, '#1877f2'],
+    ['https://www.instagram.com/turehounds', '[INSTAGRAM]', faInstagram, '#E1306C'],
+    ['https://www.youtube.com/@turehounds', '[YOUTUBE]', faYoutube, '#ff0000'],
   ] as const;
 </script>
 
@@ -40,16 +41,14 @@
 
   <ul class="md:ml-4 lg:ml-16 flex">
     {#each routeInfo as route}
-      {@const url = route[0]}
-      {@const name = route[1]}
-      {@const icon = route[2]}
+      {@const [url, name, icon, color] = route}
       <li>
         <a
           class="block p-2 decoration-2 underline-offset-4 hover:text-sky-500 aria-current-page:text-sky-500 aria-current-page:underline transition-colors duration-200"
           aria-current={$page.route.id === url ? 'page' : undefined}
           href={url}
           ><span class:icon
-            >{#if icon}<Icon {icon} />{:else}{name}{/if}</span
+            >{#if icon}<Icon {icon} size="lg" {color} />{:else}{name}{/if}</span
           ></a
         >
       </li>

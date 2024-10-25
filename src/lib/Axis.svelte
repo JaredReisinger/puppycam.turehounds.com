@@ -1,20 +1,9 @@
-<script module lang="ts">
-  // export type TickFormatter = (value: number, index: number) => string;
-</script>
-
 <script lang="ts">
   import { select /* , selectAll */ } from 'd3-selection';
   import { axisBottom, axisLeft } from 'd3-axis';
   import type { Axis, AxisDomain, AxisScale } from 'd3-axis';
 
   /*export*/ type TickFormatter = (value: number) => string;
-
-  // export let width: number = undefined;
-  // export let height: number | undefined = undefined;
-  // export let margin: number; // = undefined;
-  // export let position: 'bottom' | 'left'; // string;// = undefined;
-  // export let scale: AxisScale<AxisDomain>; // = undefined;
-  // export let tickFormatter: TickFormatter | undefined = undefined;
 
   let {
     height = 0,

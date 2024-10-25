@@ -42,8 +42,7 @@ export const state = createAutoFetchState(
   dataUrl,
   Duration.fromISO('PT30S'),
   undefined,
-  massageData,
-  true
+  massageData
 );
 
 function massageData(rawData?: RawData): Data {
@@ -51,7 +50,7 @@ function massageData(rawData?: RawData): Data {
     return {};
   }
 
-  const {temperature, humidity, observed} = rawData.puppyroom;
+  const { temperature, humidity, observed } = rawData.puppyroom;
   return {
     temperature,
     humidity,
