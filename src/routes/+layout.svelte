@@ -48,17 +48,12 @@
 
 <!-- <GoogleAnalytics trackingId={process.env.APP_GOOGLE_TRACKING_ID} /> -->
 
-<Nav />
-
-<main>
-  {@render children()}
-</main>
+<!-- <main> -->
+{@render children()}
+<!-- </main> -->
 
 <style lang="postcss">
-  main {
-    /* position: relative; */
-    /* max-width: 56em; */
-    /* background-color: hsl(194, 70%, 48%); */
+  /* main {
     padding: 2em;
     margin: 0 auto;
     box-sizing: border-box;
@@ -68,5 +63,5 @@
     main {
       padding: 0.5em;
     }
-  }
+  } */
 </style>

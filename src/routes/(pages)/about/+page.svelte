@@ -4,9 +4,11 @@
   import PuppyWeather from '$lib/PuppyWeather.svelte';
   import LatestNews from '$lib/LatestNews.svelte';
   import VideoYouTube from '$lib/VideoYouTube.svelte';
+
+  import { puppycam1_youtube } from '$lib/video-streams.js'
 </script>
 
-<div class="prose prose-sm md:prose-base lg:prose-lg prose-zinc">
+<div class="prose prose-sm md:prose-base lg:prose-lg">
   <h1>About PuppyCam</h1>
 
   <p>
@@ -92,7 +94,7 @@
   </p>
 
   <div class="example not-prose video">
-    <VideoYouTube videoId="i3bGrW4hRxc" controls={false} autoplay />
+    <VideoYouTube videoId={puppycam1_youtube} controls={false} autoplay />
   </div>
 
   <h4>First implementation...</h4>
@@ -265,7 +267,7 @@
 
   <p>I’ll admit it… I’m just having fun at this point.</p>
 
-  <div class="example not-prose">
+  <div class="example">
     <LatestNews />
   </div>
 
@@ -281,7 +283,7 @@
 
 <style lang="postcss">
   .example {
-    @apply w-48 lg:w-64 xl:w-96 max-w-full mx-auto bg-zinc-100 border border-zinc-300  p-2 rounded-lg;
+    @apply w-48 lg:w-64 xl:w-96 max-w-full mx-auto bg-gray-100 border border-gray-300  p-2 rounded-lg;
 
     :global(& > *:first-child) {
       @apply mt-0;

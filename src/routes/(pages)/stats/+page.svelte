@@ -4,7 +4,7 @@
   import { state as puppyState } from '$lib/puppy-data.svelte.js';
 </script>
 
-<div class="prose prose-sm md:prose-base lg:prose-lg prose-zinc">
+<div class="prose prose-sm md:prose-base lg:prose-lg">
   <h1>Statistics!</h1>
 
   <p>
@@ -45,7 +45,7 @@
     <PuppyDetails />
   {/if}
 
-  <p class="mt-5 bg-zinc-200 rounded-xl p-5 italic">
+  <p class="mt-5 bg-gray-200 rounded-xl p-5 italic">
     Have an idea for something else to chart? Drop me a line and let me know!
     (For the record, I’m already thinking about adding historical “puppy
     weather” data, since that information is/can-be available through the same

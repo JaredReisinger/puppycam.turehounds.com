@@ -3,13 +3,16 @@
   import PuppyDetails from '$lib/PuppyDetails.svelte';
   import PuppyWeather from '$lib/PuppyWeather.svelte';
   import LatestNews from '$lib/LatestNews.svelte';
+
+  import { puppycam1_youtube } from '$lib/video-streams.js'
+
 </script>
 
 <div class="w-full flex flex-col xl:flex-row gap-4">
   <div class="w-full">
     <div class="aspect-[16/9]">
       <!-- <VideoFramed title="Eye in the Sky" videoId="jqbAk2MNMd" /> -->
-      <VideoYouTube videoId="i3bGrW4hRxc" controls={false} autoplay />
+      <VideoYouTube videoId={puppycam1_youtube} controls={false} autoplay />
     </div>
   </div>
 

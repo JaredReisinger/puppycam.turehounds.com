@@ -11,7 +11,7 @@
   {#if title}<h3>{title}</h3>{/if}
 
   {#each item?.paragraphs ?? [] as paragraph}
-    <p>{@html paragraph}</p>
+    <p class:no-title={!title}>{@html paragraph}</p>
   {/each}
 
   <p><a href="/news">Read more…</a></p>
@@ -29,4 +29,7 @@
 </div>
 
 <style lang="postcss">
+  p.no-title:first-child {
+    @apply mt-0;
+  }
 </style>

@@ -4,6 +4,7 @@
     magicSiCode,
     autoplay = false,
     controls = true,
+    kioskMode = false,
     debug = false,
   }: {
     // see https://developers.google.com/youtube/player_parameters for params
@@ -11,6 +12,7 @@
     magicSiCode?: string; // not documented, unused?; use as si={magicSiCode}
     autoplay?: boolean;
     controls?: boolean; // controls=0 or absent (controls=1 okay too?)
+    kioskMode?: boolean;
     debug?: boolean;
   } = $props();
 
@@ -53,7 +55,8 @@
   }
 </script>
 
-<div class="relative w-full aspect-[16/9]">
+<!-- let parent decide size! -->
+<div class="relative w-full h-full">
   <div
     class="absolute m-2 px-1 bg-sky-400 text-white text-sm tracking-wider rounded z-50"
   >
@@ -61,7 +64,7 @@
   </div>
 
   <iframe
-    class="absolute aspect-video w-full h-full left-0 top-0 right-0 bottom-0"
+    class={`absolute ${kioskMode ? 'w-screen h-screen left-1/2 top-1/2 translate-x-[-50%] translate-y-[-50%] kiosk' : 'w-full aspect-[16/9] left-0 top-0 right-0 bottom-0'}`}
     src={videoUrl}
     title="need a title here"
     frameborder="0"
@@ -80,9 +83,20 @@
 {/if}
 
 <style lang="postcss">
-  /* video {
-    display: block;
-  } */
+  /* oversize iframe in kiosk mode */
+  @media (min-aspect-ratio: 16/9) {
+    iframe.kiosk {
+      /* height = 100 * (9 / 16) = 56.25 */
+      height: 56.25vw;
+    }
+  }
+
+  @media (max-aspect-ratio: 16/9) {
+    iframe.kiosk {
+      /* width = 100 / (9 / 16) = 177.777777 */
+      width: 177.78vh;
+    }
+  }
 
   .debug {
     background-color: hsl(0, 0%, 90%);

@@ -8,6 +8,72 @@
 
 /* customizations? */
 
+@layer components {
+  [type='checkbox'].btn-toggle {
+    --size: 1em;
+    --bg: theme(colors.gray.400);
+    --fg: theme(colors.gray.200);
+    --bg-active: theme(colors.sky.400); /*var(--bg);*/
+    --fg-active: var(--fg);
+    height: var(--size);
+    max-width: calc(2 * var(--size));
+    /* -webkit-appearance: none; */
+    /* -moz-appearance: none; */
+    appearance: none;
+    outline-offset: 2px;
+    border: transparent;
+    border-radius: 0.5em;
+    width: calc(100% - 0.6em);
+    position: relative;
+
+    &::before {
+      content: '';
+      border-radius: var(--size);
+      background: var(--bg);
+      box-sizing: border-box;
+      width: 100%;
+      height: 100%;
+      padding: 2px;
+      display: block;
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+
+    &::after {
+      content: '';
+      width: calc(var(--size) - 4px);
+      height: calc(var(--size) - 4px);
+      aspect-ratio: 1;
+      background: var(--fg);
+      border-radius: 50%;
+      transition:
+        background 0.2s ease-out,
+        left 0.2s ease-out;
+      display: block;
+      position: absolute;
+      top: 2px;
+      left: 2px;
+      box-shadow:
+        0 0 1px #0006,
+        0 4px 2px #0000001a;
+    }
+
+    &:checked {
+      background-image: none;
+
+      &::before {
+        background: var(--bg-active);
+      }
+
+      &::after {
+        background: var(--fg-active);
+        left: calc(100% - var(--size) + 2px);
+      }
+    }
+  }
+}
+
 @layer utilities {
   .blue {
     @apply text-blue-600;
@@ -43,7 +109,7 @@
 
   /* ideally, we'd have SCSS for this, so we're not re-defining the colors... */
   .was {
-    @apply text-zinc-400 text-[84%] italic;
+    @apply text-gray-500 text-[84%] italic;
   }
 
   .was::before {
@@ -69,7 +135,7 @@
   }
 
   .meta {
-    @apply text-[84%] font-light italic text-zinc-400
+    @apply text-[84%] font-light italic text-gray-500
   }
 
   .smaller {

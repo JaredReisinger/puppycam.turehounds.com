@@ -3,7 +3,7 @@
   import { shortFmt, longFmt } from '$lib/datetime.js';
 </script>
 
-<div class="prose prose-sm md:prose-base lg:prose-lg prose-zinc">
+<div class="prose prose-sm md:prose-base lg:prose-lg">
   <h1>News and updates</h1>
 
   <div class="mt-[-1.5em] meta">

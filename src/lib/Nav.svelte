@@ -26,7 +26,7 @@
 </script>
 
 <nav
-  class="border-b border-zinc-300 p-3 pb-1 text-sm font-light w-full flex flex-col md:flex-row items-center"
+  class="border-b border-gray-300 p-3 pb-1 text-sm font-light w-full flex flex-col md:flex-row items-center"
 >
   <div class="text-lg font-bold">
     <a href="/">

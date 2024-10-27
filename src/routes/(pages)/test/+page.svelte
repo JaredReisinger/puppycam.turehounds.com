@@ -2,6 +2,8 @@
   import VideoNest from '$lib/VideoNest.svelte';
   import VideoYouTube from '$lib/VideoYouTube.svelte';
 
+  import { puppycam1_youtube } from '$lib/video-streams.js'
+
   // get camera info (JSON)
   //  * https://video.nest.com/api/dropcam/cameras.get_by_public_token?token=dAYyHiFXJU&_=1611358588737
   //  * https://video.nest.com/api/dropcam/cameras.get_by_public_token?token=jqbAk2MNMd&_=1611358588945
@@ -33,7 +35,7 @@
 
 <div class="test">
   <!-- magicSiCode="xx-Q49iE4slkokun" -->
-  <VideoYouTube videoId="i3bGrW4hRxc" controls={false} autoplay debug />
+  <VideoYouTube videoId={puppycam1_youtube} controls={false} autoplay debug />
 </div>
 
 <!-- 
