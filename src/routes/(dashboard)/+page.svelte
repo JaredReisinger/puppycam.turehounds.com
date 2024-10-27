@@ -42,22 +42,24 @@
   <!--
     VIDEO SECTION
   -->
-  <div class="video-parent" class:kiosk={kioskMode} class:letterboxed>
-    {#if showVideo}
-      <!-- <VideoFramed title="Eye in the Sky" videoId="jqbAk2MNMd" /> -->
-      <VideoYouTube videoId={puppycam1_youtube} controls={false} autoplay />
-    {:else}
-      <!-- This has to act like YouTube and always 16:9 the inner part -->
-      <div class="w-full h-full bg-black">
-        <div
-          class="max-w-full max-h-full aspect-[16/9] mx-auto my-auto bg-gray-500 flex flex-wrap justify-around content-around text-white text-xl"
-        >
-          <div class="p-5 text-center italic">
-            No video available until after puppies have been born!
+  <div class="w-full h-full">
+    <div class="video-parent" class:kiosk={kioskMode} class:letterboxed>
+      {#if showVideo}
+        <!-- <VideoFramed title="Eye in the Sky" videoId="jqbAk2MNMd" /> -->
+        <VideoYouTube videoId={puppycam1_youtube} controls={false} autoplay />
+      {:else}
+        <!-- This has to act like YouTube and always 16:9 the inner part -->
+        <div class="w-full h-full bg-black">
+          <div
+            class="max-w-full max-h-full aspect-[16/9] mx-auto my-auto bg-gray-500 flex flex-wrap justify-around content-around text-white text-xl"
+          >
+            <div class="p-5 text-center italic">
+              No video available until after puppies have been born!
+            </div>
           </div>
         </div>
-      </div>
-    {/if}
+      {/if}
+    </div>
   </div>
 
   <!-- SIDEBAR -->
@@ -65,7 +67,9 @@
   <div
     class={`${kioskMode ? 'absolute top-0 right-0 max-h-[75%] overflow-y-auto bg-white/30 rounded-bl-lg backdrop-blur-md' : ''}`}
   >
-    <div class="p-5 flex flex-wrap xl:max-w-[25rem] gap-4 justify-stretch">
+    <div
+      class={`p-5 flex flex-col flex-wrap gap-4 ${kioskMode ? 'w-[27rem] min-h-full' : 'xl:w-[27rem] xl:min-h-full'}`}
+    >
       {#if dev}
         <div class="w-full flex flex-wrap gap-x-12 gap-y-1 order-first smaller">
           <label class="text-nowrap"
@@ -93,7 +97,7 @@
       {/if}
 
       <div
-        class={`w-full flex flex-wrap gap-x-12 gap-y-1 order-first smaller border-black/25 ${kioskMode && showInfo ? 'pb-2 border-b' : ''}`}
+        class={`xl:flex w-full flex-wrap gap-x-12 gap-y-1 order-first smaller border-black/25 ${kioskMode ? 'flex' : 'hidden justify-end pr-12'} ${!kioskMode || showInfo ? 'pb-2 border-b' : ''}`}
       >
         <label class="text-nowrap"
           ><input
@@ -111,7 +115,7 @@
               bind:checked={letterboxed}
             />letterboxed</label
           >
-          
+
           <label class="text-nowrap"
             ><input
               type="checkbox"
@@ -123,36 +127,44 @@
       </div>
 
       {#if !kioskMode || showInfo}
-        <div>
-          <PuppyDetails {showFuture} />
-          <a href="about#puppy-details" class="meta what">what?!</a>
-        </div>
+        <div
+          class="xl:grow flex flex-wrap gap-4 xl:min-h-full xl:items-center"
+          class:w-full={kioskMode}
+        >
+          <div>
+            <PuppyDetails {showFuture} />
+            <a href="about#puppy-details" class="meta what">what?!</a>
+          </div>
 
-        <div>
-          <PuppyWeather title="Current puppy weather" />
-          <a href="about#puppy-weather" class="meta what">what?!</a>
-        </div>
+          <div>
+            <PuppyWeather title="Current puppy weather" />
+            <a href="about#puppy-weather" class="meta what">what?!</a>
+          </div>
 
-        <div class="w-[33vw] grow" class:order-first={future}>
-          {#if devExtraNews}
-            <div class="prose">
-              <p>
-                Showing extra news to make it long and force scrolling. Lorem
-                ipsum dolor sic amet, forescore and twenty years ago our
-                forefathers brought forth onto this continent a new nation.
-                Lorem ipsum dolor sic amet, forescore and twenty years ago our
-                forefathers brought forth onto this continent a new nation.
-              </p>
-              <p>
-                Lorem ipsum dolor sic amet, forescore and twenty years ago our
-                forefathers brought forth onto this continent a new nation.
-                Lorem ipsum dolor sic amet, forescore and twenty years ago our
-                forefathers brought forth onto this continent a new nation.
-              </p>
-            </div>
-          {/if}
-          <LatestNews />
-          <a href="about#news" class="meta what">what?!</a>
+          <div
+            class="w-[33vw] xl:w-full min-w-96 grow"
+            class:order-first={future}
+          >
+            {#if devExtraNews}
+              <div class="prose">
+                <p>
+                  Showing extra news to make it long and force scrolling. Lorem
+                  ipsum dolor sic amet, forescore and twenty years ago our
+                  forefathers brought forth onto this continent a new nation.
+                  Lorem ipsum dolor sic amet, forescore and twenty years ago our
+                  forefathers brought forth onto this continent a new nation.
+                </p>
+                <p>
+                  Lorem ipsum dolor sic amet, forescore and twenty years ago our
+                  forefathers brought forth onto this continent a new nation.
+                  Lorem ipsum dolor sic amet, forescore and twenty years ago our
+                  forefathers brought forth onto this continent a new nation.
+                </p>
+              </div>
+            {/if}
+            <LatestNews />
+            <a href="about#news" class="meta what">what?!</a>
+          </div>
         </div>
       {/if}
     </div>
