@@ -2,7 +2,7 @@
   export let title: string;
   export let videoId: string;
 
-  export let dummy = process.env.NODE_ENV === "development";
+  export let dummy = process.env.NODE_ENV === 'development';
   // uncomment to force on/off
   // dummy = true;
   // export let dummy = false;

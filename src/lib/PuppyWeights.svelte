@@ -196,7 +196,10 @@
         />
         {#each series.points as point}
           <g transform="translate({xScale(point.date)}, {yScale(point.value)})">
-            <path d={symbolGenerator()} class="point fill-current {series.collar}" />
+            <path
+              d={symbolGenerator()}
+              class="point fill-current {series.collar}"
+            />
           </g>
         {/each}
       {/each}

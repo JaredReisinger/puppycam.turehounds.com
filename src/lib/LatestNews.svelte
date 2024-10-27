@@ -22,8 +22,7 @@
       ({item?.when?.toRelative() ?? '...'})
     </div>
     <div>
-      Last checked: {state.lastChecked?.toLocaleString(shortFmt) ??
-        '...'}
+      Last checked: {state.lastChecked?.toLocaleString(shortFmt) ?? '...'}
     </div>
   </div>
 </div>

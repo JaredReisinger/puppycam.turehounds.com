@@ -2,7 +2,7 @@
   import { page } from '$app/stores';
   import { PUBLIC_GOOGLE_TRACKING_ID } from '$env/static/public';
 
-  import GoogleAnalytics from "$lib/GoogleAnalytics.svelte";
+  import GoogleAnalytics from '$lib/GoogleAnalytics.svelte';
 
   import '../app.css';
 

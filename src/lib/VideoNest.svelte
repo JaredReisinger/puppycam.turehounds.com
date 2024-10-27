@@ -1,5 +1,5 @@
 <script lang="ts">
-  import Hls from "hls.js";
+  import Hls from 'hls.js';
 
   export let publicId: string;
   export let uuid: string;
@@ -52,21 +52,21 @@
   $: {
     if (video && Hls) {
       const canPlayNative =
-        video.canPlayType("application/x-mpegURL") ||
-        video.canPlayType("application/vnd.apple.mpegurl");
+        video.canPlayType('application/x-mpegURL') ||
+        video.canPlayType('application/vnd.apple.mpegurl');
 
       log(`canPlayNative? ${JSON.stringify(canPlayNative)}`);
       log(`HLS? ${JSON.stringify(Hls.isSupported())}`);
 
       if (canPlayNative) {
-        log("native supported, nothing else to do");
+        log('native supported, nothing else to do');
         // video.src = src;
         // video.addEventListener("loadedmetadata", () => {
         //   log("native loaded metadata, playing!");
         //   video.play();
         // });
       } else if (Hls.isSupported()) {
-        log("hls is supported, using that in lieu of native");
+        log('hls is supported, using that in lieu of native');
         const hls = new Hls();
 
         // The loadSource() line seems necessary, even if the <video> element
@@ -76,11 +76,11 @@
 
         // start playing as soon as the manifest is parsed
         hls.on(Hls.Events.MANIFEST_PARSED, () => {
-          log("hls manifest parsed, playing!");
+          log('hls manifest parsed, playing!');
           video.play();
         });
       } else {
-        log("cannot play at all");
+        log('cannot play at all');
       }
     }
   }

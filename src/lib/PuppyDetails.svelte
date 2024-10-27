@@ -50,7 +50,9 @@
         The puppies are expected in {humanizeDuration(age, ['weeks']).text}.
       </p>
     {:else}
-      <p>The puppies are {humanizeDuration(age, ['weeks', 'days']).text} old.</p>
+      <p>
+        The puppies are {humanizeDuration(age, ['weeks', 'days']).text} old.
+      </p>
     {/if}
 
     {#if !future || showFuture}

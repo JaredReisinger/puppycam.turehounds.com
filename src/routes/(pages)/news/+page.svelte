@@ -21,9 +21,7 @@
   {#each state.data as item}
     <h3>
       {item.when.toLocaleString(longFmt)}
-      <span class="meta"
-        >({item.when.toRelative()})</span
-      >
+      <span class="meta">({item.when.toRelative()})</span>
     </h3>
     {#each item.paragraphs as paragraph}
       <p>{@html paragraph}</p>

@@ -4,8 +4,7 @@
   import PuppyWeather from '$lib/PuppyWeather.svelte';
   import LatestNews from '$lib/LatestNews.svelte';
 
-  import { puppycam1_youtube } from '$lib/video-streams.js'
-
+  import { puppycam1_youtube } from '$lib/video-streams.js';
 </script>
 
 <div class="w-full flex flex-col xl:flex-row gap-4">

@@ -6,7 +6,6 @@ import {
   gramsToPounds,
 } from './puppy-data-utils';
 
-
 test('gramsToOunces()', () => {
   [
     [0, 0],
@@ -56,4 +55,3 @@ test('formatPoundsOunces()', () => {
     ).toBe(s);
   });
 });
-

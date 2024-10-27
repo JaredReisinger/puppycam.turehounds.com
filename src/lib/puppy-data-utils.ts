@@ -98,7 +98,11 @@ export function massageData(rawData: RawPuppyData) {
   const dogs: DogInfo[] = rawData.birthInfo.map(
     ([shortBirthdate, sex, color, birthweight, collar, nickname], i) => {
       // get *this* dog's weights...
-      const birthdate = luxonifyShort(shortBirthdate, defaultYear, defaultOffset);
+      const birthdate = luxonifyShort(
+        shortBirthdate,
+        defaultYear,
+        defaultOffset
+      );
       const weights: Weighing[] = rawData.weighings.map(([shortDate, ...w]) => [
         luxonifyShort(shortDate, defaultYear, defaultOffset),
         w[i],
@@ -239,4 +243,3 @@ export function properName(dog: DogInfo): string {
 
   return `${dog.sex === Sex.M ? 'Mr.' : 'Miss'} ${capitalize(dog.collar)}`;
 }
-

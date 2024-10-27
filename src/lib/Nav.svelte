@@ -19,8 +19,18 @@
     ['/about', 'About'],
     // These aren't really routes, but make the UI easier to render!
     ['https://turehounds.com', 'Ture Hounds Home'],
-    ['https://www.facebook.com/TureHounds', '[FACEBOOK]', faFacebookF, '#1877f2'],
-    ['https://www.instagram.com/turehounds', '[INSTAGRAM]', faInstagram, '#E1306C'],
+    [
+      'https://www.facebook.com/TureHounds',
+      '[FACEBOOK]',
+      faFacebookF,
+      '#1877f2',
+    ],
+    [
+      'https://www.instagram.com/turehounds',
+      '[INSTAGRAM]',
+      faInstagram,
+      '#E1306C',
+    ],
     ['https://www.youtube.com/@turehounds', '[YOUTUBE]', faYoutube, '#ff0000'],
   ] as const;
 </script>
