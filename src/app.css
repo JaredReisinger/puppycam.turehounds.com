@@ -107,19 +107,6 @@
   purple
   */
 
-  /* ideally, we'd have SCSS for this, so we're not re-defining the colors... */
-  .was {
-    @apply text-gray-500 text-[84%] italic;
-  }
-
-  .was::before {
-    content: '(';
-  }
-
-  .was::after {
-    content: ')';
-  }
-
   /* stop <code> in prose from getting backticks... */
   .prose code {
     &::before {
@@ -135,8 +122,21 @@
   }
 
   .meta {
-    @apply text-[84%] font-light italic text-gray-500
+    @apply text-[84%] font-light italic text-black/50;
   }
+
+  .was {
+    @apply meta;
+
+    &::before {
+      content: '(';
+    }
+  
+    &::after {
+      content: ')';
+    }
+  }
+
 
   .smaller {
     font-size: 84%

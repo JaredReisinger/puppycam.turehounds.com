@@ -38,34 +38,31 @@
 <div
   class={`${kioskMode ? 'w-screen h-screen overflow-hidden relative' : 'w-full flex flex-col xl:flex-row'}`}
 >
-
-  <!-- VIDEO SECTION -->
-
-  <div class={`${kioskMode ? 'absolute w-screen h-screen' : 'w-full'}`}>
+  <!--
+    VIDEO SECTION
+  -->
+  <div class="video-parent" class:kiosk={kioskMode} class:letterboxed>
     {#if showVideo}
       <!-- <VideoFramed title="Eye in the Sky" videoId="jqbAk2MNMd" /> -->
-      <VideoYouTube
-        videoId={puppycam1_youtube}
-        controls={false}
-        autoplay
-        kioskMode={kioskMode && !letterboxed}
-      />
+      <VideoYouTube videoId={puppycam1_youtube} controls={false} autoplay />
     {:else}
-      <div
-        class={`${kioskMode ? 'w-screen h-screen' : 'w-full aspect-[16/9]'} bg-gray-500 flex flex-wrap justify-around content-around text-white text-xl`}
-      >
-        <div class="p-5 text-center italic">
-          No video available until after puppies have been born!
+      <!-- This has to act like YouTube and always 16:9 the inner part -->
+      <div class="w-full h-full bg-black">
+        <div
+          class="max-w-full max-h-full aspect-[16/9] mx-auto my-auto bg-gray-500 flex flex-wrap justify-around content-around text-white text-xl"
+        >
+          <div class="p-5 text-center italic">
+            No video available until after puppies have been born!
+          </div>
         </div>
       </div>
     {/if}
   </div>
 
   <!-- SIDEBAR -->
-
   <!-- we *could invert in kiosk mode, if that would help -->
   <div
-    class={`${kioskMode ? 'absolute top-0 right-0 max-h-[75%] zzz-m-5 overflow-auto bg-white/80 backdrop-blur-md zzz-rounded-lg' : ''}`}
+    class={`${kioskMode ? 'absolute top-0 right-0 max-h-[75%] overflow-auto bg-white/30 rounded-bl-lg backdrop-blur-md' : ''}`}
   >
     <div class="p-5 flex flex-wrap xl:max-w-[25rem] gap-4 justify-stretch">
       {#if dev}
@@ -94,7 +91,9 @@
         </div>
       {/if}
 
-      <div class="w-full flex flex-wrap gap-x-12 gap-y-1 order-first pb-2 border-b border-gray-300">
+      <div
+        class="w-full flex flex-wrap gap-x-12 gap-y-1 order-first pb-2 border-b border-black/25"
+      >
         <label class="text-nowrap"
           ><input
             type="checkbox"
@@ -113,7 +112,7 @@
         {/if}
       </div>
 
-      <div class="">
+      <div class="prose-black">
         <PuppyDetails {showFuture} />
         <a href="about#puppy-details" class="meta what">what?!</a>
       </div>
@@ -149,6 +148,33 @@
 </div>
 
 <style lang="postcss">
+  .video-parent {
+    @apply w-full aspect-[16/9];
+
+    &.kiosk {
+      @apply absolute w-screen h-screen;
+
+      &:not(.letterboxed) {
+        @apply left-1/2 top-1/2 translate-x-[-50%] translate-y-[-50%];
+      }
+    }
+  }
+
+  /* oversize video parent in kiosk mode */
+  @media (min-aspect-ratio: 16/9) {
+    .video-parent.kiosk:not(.letterboxed) {
+      /* height = 100 * (9 / 16) = 56.25 */
+      height: 56.25vw;
+    }
+  }
+
+  @media (max-aspect-ratio: 16/9) {
+    .video-parent.kiosk:not(.letterboxed) {
+      /* width = 100 / (9 / 16) = 177.777777 */
+      width: 177.78vh;
+    }
+  }
+
   .what {
     @apply mt-2 underline decoration-dotted hover:decoration-solid hover:text-sky-400;
   }

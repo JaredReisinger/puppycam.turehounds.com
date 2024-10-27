@@ -35,7 +35,7 @@
 
 <div class="test">
   <!-- magicSiCode="xx-Q49iE4slkokun" -->
-  <VideoYouTube videoId={puppycam1_youtube} controls={false} autoplay debug />
+  <VideoYouTube videoId={puppycam1_youtube} controls={false} autoplay />
 </div>
 
 <!-- 
