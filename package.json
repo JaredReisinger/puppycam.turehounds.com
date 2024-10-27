@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite dev",
+    "prebuild": "cp static/",
     "build": "vite build",
     "clean": "rimraf .svelte-kit build",
     "preview": "vite preview",
