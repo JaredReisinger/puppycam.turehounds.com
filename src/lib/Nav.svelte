@@ -1,18 +1,20 @@
 <script lang="ts">
   import { page } from '$app/stores';
 
-  // // @ts-expect-error no module definition for fa-svelte!
-  // import Icon from 'fa-svelte';
   import Icon from 'svelte-fa';
   import {
     faFacebookF,
     faInstagram,
     faYoutube,
+    type IconDefinition,
   } from '@fortawesome/free-brands-svg-icons';
 
   import tureHoundsLogo from '$lib/images/ture-hounds-logo.png';
 
-  const routeInfo = [
+  /** Information about a navigation item/route. */
+  type RouteInfo = [string, string, IconDefinition?, string?];
+
+  const routeInfo: RouteInfo[] = [
     ['/', 'Live'],
     ['/stats', 'Stats'],
     ['/news', 'News'],
@@ -32,7 +34,7 @@
       '#E1306C',
     ],
     ['https://www.youtube.com/@turehounds', '[YOUTUBE]', faYoutube, '#ff0000'],
-  ] as const;
+  ];
 </script>
 
 <nav
@@ -55,7 +57,7 @@
       <li>
         <a
           class="block p-2 decoration-2 underline-offset-4 hover:text-sky-500 aria-current-page:text-sky-500 aria-current-page:underline transition-colors duration-200"
-          aria-current={$page.route.id === url ? 'page' : undefined}
+          aria-current={$page.url.pathname === url ? 'page' : undefined}
           href={url}
           ><span class:icon
             >{#if icon}<Icon {icon} size="lg" {color} />{:else}{name}{/if}</span
