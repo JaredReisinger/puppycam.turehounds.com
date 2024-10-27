@@ -16,9 +16,6 @@ const gitignorePath = path.resolve(__dirname, '.gitignore');
 
 export default [
   includeIgnoreFile(gitignorePath),
-  // {
-  //   ignores: ['**/*.cjs'],
-  // },
   js.configs.recommended,
   ...ts.configs.recommended,
   ...svelte.configs['flat/recommended'],
@@ -29,8 +26,6 @@ export default [
       globals: {
         ...globals.browser,
         ...globals.node,
-        // CLIENT_VERSION: true,
-        // CLIENT_COMMIT_HASH: true,
       },
     },
   },
@@ -57,13 +52,8 @@ export default [
         parser: ts.parser,
       },
     },
-    // rules: {
-    //   'no-irregular-whitespace': 'off',
-    //   // figure out how to protect these values?
-    //   'svelte/no-at-html-tags': 'off',
-    // },
   },
   {
-    ignores: ['build/', '.svelte-kit/', 'dist/']
+    ignores: ['build/', '.svelte-kit/', 'dist/'],
   },
 ];
