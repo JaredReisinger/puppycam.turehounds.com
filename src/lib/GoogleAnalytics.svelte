@@ -7,7 +7,22 @@
   function gtag() { dataLayer.push(arguments); }
   gtag("js", new Date());
   gtag("config", "${trackingId}");
-\x3C/script>`);
+
+  // gtag("consent", "default", {
+  //   "ad_storage": "denied",
+  //   "ad_user_data": "denied",
+  //   "ad_personalization": "denied",
+  //   "analytics_storage": "denied",
+  //   "regions":[<list of ISO 3166-2 region codes>]
+  // });
+
+  gtag("consent", "default", {
+    "ad_storage": "denied",
+    "ad_user_data": "denied",
+    "ad_personalization": "denied",
+    "analytics_storage": "denied"
+  });
+  \x3C/script>`);
 
   // Note that we *don't* have to manually kick the `config` or `page_view`
   // event when the page changes; gtag.js detects URL/history changes
