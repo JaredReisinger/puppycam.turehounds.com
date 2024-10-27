@@ -5,7 +5,7 @@
   import LatestNews from '$lib/LatestNews.svelte';
   import VideoYouTube from '$lib/VideoYouTube.svelte';
 
-  import { puppycam1_youtube } from '$lib/video-streams.js'
+  import { puppycam1_youtube } from '$lib/video-streams.js';
 </script>
 
 <div class="prose prose-sm md:prose-base lg:prose-lg">
@@ -250,7 +250,12 @@
     <PuppyWeather />
   </div>
 
-  <p>Wooo! 🎉 <em>And yes, that’s a live and accurate reading, assuming that everything is working as it should.</em></p>
+  <p>
+    Wooo! 🎉 <em
+      >And yes, that’s a live and accurate reading, assuming that everything is
+      working as it should.</em
+    >
+  </p>
 
   <h3 id="news">Latest news</h3>
 

@@ -35,7 +35,7 @@
   </p>
 
   <p>
-    The analogous data for Disa’s previous litter was recorded in an Excel file,
+    The analogous data for Disa’s first litter was recorded in an Excel file,
     and was only for us. Since this site is an excuse to play with some
     technology, I’m playing with some data-visualization tools purely for the
     sake of building a pretty chart from the raw data.
