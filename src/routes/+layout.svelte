@@ -1,8 +1,8 @@
 <script lang="ts">
   import { page } from '$app/stores';
+  import { PUBLIC_GOOGLE_TRACKING_ID } from '$env/static/public';
 
-  // import GoogleAnalytics from "$lib/GoogleAnalytics.svelte";
-  import Nav from '$lib/Nav.svelte';
+  import GoogleAnalytics from "$lib/GoogleAnalytics.svelte";
 
   import '../app.css';
 
@@ -46,22 +46,9 @@
   <meta property="twitter:data2" content="" /> -->
 </svelte:head>
 
-<!-- <GoogleAnalytics trackingId={process.env.APP_GOOGLE_TRACKING_ID} /> -->
+<GoogleAnalytics trackingId={PUBLIC_GOOGLE_TRACKING_ID} />
 
-<!-- <main> -->
 {@render children()}
-<!-- </main> -->
 
 <style lang="postcss">
-  /* main {
-    padding: 2em;
-    margin: 0 auto;
-    box-sizing: border-box;
-  }
-
-  @media (max-width: 1024px) {
-    main {
-      padding: 0.5em;
-    }
-  } */
 </style>

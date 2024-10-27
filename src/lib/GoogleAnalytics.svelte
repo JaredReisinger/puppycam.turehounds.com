@@ -1,49 +1,30 @@
-<script module lang="ts">
-  let headInjected = false;
-</script>
-
 <script lang="ts">
-  import { page } from '$app/stores';
+  let { trackingId }: { trackingId: string } = $props();
 
-  export let trackingId: string | undefined;
-
-  // only inject if it hasn't been done yet!
-  const injectHead = !headInjected;
-  headInjected = true;
-
-  // helpers for <script> injection, so that Svelte doesn't attempt to interpret
-  // the <script>!
-  const scriptOpen = "\x3Cscript\x3E";
-  const scriptClose = "\x3C/script\x3E";
-
-  // kick the 'gtag()' function on page-change...
-  $: {
-    //@ts-ignore gtag
-    if (trackingId && $page && typeof gtag !== 'undefined') {
-      // REVIEW: why is this not an "event" of "page_view"?
-      //@ts-ignore gtag
-      gtag("config", trackingId, { page_path: $page.path });
-    }
-  }
-</script>
-
-<!--
-  Svelte will not do variable replacements inside of <script> tags (apparently?)
-  so we have to encapsulate the entire script inside a bogus {@html} block, *and*
-  avoid a bare <script> tag.  (The <script src=...> seems to work, 
-  interestingly.)
--->
-<svelte:head>
-  {#if injectHead}
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script
-      async
-      src="https://www.googletagmanager.com/gtag/js?id={trackingId}"></script>
-      {@html `${scriptOpen}
+  // another approach to injection?
+  let script = $derived(`\x3Cscript>
   window.dataLayer = window.dataLayer || [];
   function gtag() { dataLayer.push(arguments); }
   gtag("js", new Date());
   gtag("config", "${trackingId}");
-${scriptClose}`}
-  {/if}
+\x3C/script>`);
+
+  // Note that we *don't* have to manually kick the `config` or `page_view`
+  // event when the page changes; gtag.js detects URL/history changes
+  // automatically, and records a new page view.
+</script>
+
+<!--
+  Svelte will not do variable replacements inside of <script> tags (apparently?)
+  so we have to encapsulate the entire script inside a bogus {@html} block,
+  *and* avoid a bare <script> tag.  (The <script src=...> seems to work,
+  interestingly.)
+-->
+<svelte:head>
+  <script
+    async
+    src="https://www.googletagmanager.com/gtag/js?id={trackingId}"
+  ></script>
+
+  {@html script}
 </svelte:head>
