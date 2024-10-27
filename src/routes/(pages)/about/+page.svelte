@@ -93,7 +93,7 @@
     enough layout control for what I want.
   </p>
 
-  <div class="example not-prose video">
+  <div class="example not-prose aspect-[16/9]">
     <VideoYouTube videoId={puppycam1_youtube} controls={false} autoplay />
   </div>
 
@@ -113,12 +113,13 @@
     you can embed the video on your own site:
   </p>
 
-  <div class="example not-prose video">
-    <VideoNest
+  <div class="example not-prose aspect-[16/9]">
+    <!-- <VideoNest
       publicId="dAYyHiFXJU"
       uuid="3ed3fea78dfc4f86968ab2ae9f616443"
       streamHost="stream-ue1-charlie.dropcam.com"
-    />
+    /> -->
+    (no longer in use)
   </div>
 
   <p>
@@ -249,7 +250,7 @@
     <PuppyWeather />
   </div>
 
-  <p>Wooo! 🎉 <em>(And yes, that’s a live and accurate reading!)</em></p>
+  <p>Wooo! 🎉 <em>And yes, that’s a live and accurate reading, assuming that everything is working as it should.</em></p>
 
   <h3 id="news">Latest news</h3>
 

@@ -4,10 +4,10 @@
     "tzOffset": "-0700"
   },
   "birthInfo": [
-    ["12-15T16:00", "M", "Red", 200, "blue", "Mr/Miss Blue"],
-    ["12-15T17:00", "F", "Red", 250, "red", "Mr/Miss Red"]
+    ["12-15T16:00", "M", "Red", 210, "blue", "Example Blue"],
+    ["12-15T17:00", "F", "Red", 240, "red", "Example Red"]
   ],
   "weighings": [
-    ["12-16T12:00",  210,  265]
+    ["12-16T12:00",  240,  265]
   ]
 }
