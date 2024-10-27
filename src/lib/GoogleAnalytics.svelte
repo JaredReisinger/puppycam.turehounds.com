@@ -25,6 +25,13 @@
     async
     src="https://www.googletagmanager.com/gtag/js?id={trackingId}"
   ></script>
-
   {@html script}
+
+  <!-- also include consent banner, via cookieyes -->
+  <!-- TODO: make this a component prop? -->
+  <script
+    id="cookieyes"
+    type="text/javascript"
+    src="https://cdn-cookieyes.com/client_data/aa4cd36c8fff4ea90c61e337/script.js"
+  ></script>
 </svelte:head>
