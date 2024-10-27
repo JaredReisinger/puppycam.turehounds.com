@@ -5,8 +5,6 @@
   let script = $derived(`\x3Cscript>
   window.dataLayer = window.dataLayer || [];
   function gtag() { dataLayer.push(arguments); }
-  gtag("js", new Date());
-  gtag("config", "${trackingId}");
 
   // gtag("consent", "default", {
   //   "ad_storage": "denied",
@@ -22,6 +20,9 @@
     "ad_personalization": "denied",
     "analytics_storage": "denied"
   });
+
+  gtag("js", new Date());
+  gtag("config", "${trackingId}");
   \x3C/script>`);
 
   // Note that we *don't* have to manually kick the `config` or `page_view`
