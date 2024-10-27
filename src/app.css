@@ -11,7 +11,7 @@
 @layer components {
   [type='checkbox'].btn-toggle {
     --size: 1em;
-    --bg: theme(colors.gray.400);
+    --bg: rgb(0 0 0 / 30%); /*theme(colors.gray.400);*/
     --fg: theme(colors.gray.200);
     --bg-active: theme(colors.sky.400); /*var(--bg);*/
     --fg-active: var(--fg);

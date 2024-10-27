@@ -12,21 +12,22 @@
 
   import { puppycam1_youtube } from '$lib/video-streams.js';
 
-  let showVideoOverride: boolean | undefined = $state(undefined);
-  let showFutureOverride: boolean | undefined = $state(undefined);
-  let showExtraNews: boolean | undefined = $state(undefined);
+  let devVideoOverride: boolean | undefined = $state(undefined);
+  let devFutureOverride: boolean | undefined = $state(undefined);
+  let devExtraNews: boolean | undefined = $state(undefined);
 
   let kioskMode = $state(false);
   let letterboxed = $state(false);
+  let showInfo = $state(false);
 
   let future = $derived(puppyState.data.future);
-  let showFuture = $derived(showFutureOverride ?? false);
-  let showVideo = $derived(showVideoOverride ?? !future);
+  let showFuture = $derived(devFutureOverride ?? false);
+  let showVideo = $derived(devVideoOverride ?? !future);
 
-  export const snapshot: Snapshot<[boolean, boolean]> = {
-    capture: () => [kioskMode, letterboxed],
+  export const snapshot: Snapshot<[boolean, boolean, boolean]> = {
+    capture: () => [kioskMode, letterboxed, showInfo],
     restore: (value) => {
-      [kioskMode, letterboxed] = value;
+      [kioskMode, letterboxed, showInfo] = value;
     },
   };
 </script>
@@ -62,37 +63,37 @@
   <!-- SIDEBAR -->
   <!-- we *could invert in kiosk mode, if that would help -->
   <div
-    class={`${kioskMode ? 'absolute top-0 right-0 max-h-[75%] overflow-auto bg-white/30 rounded-bl-lg backdrop-blur-md' : ''}`}
+    class={`${kioskMode ? 'absolute top-0 right-0 max-h-[75%] overflow-y-auto bg-white/30 rounded-bl-lg backdrop-blur-md' : ''}`}
   >
     <div class="p-5 flex flex-wrap xl:max-w-[25rem] gap-4 justify-stretch">
       {#if dev}
-        <div class="w-full flex flex-wrap gap-x-12 gap-y-1 order-first">
+        <div class="w-full flex flex-wrap gap-x-12 gap-y-1 order-first smaller">
           <label class="text-nowrap"
             ><input
               type="checkbox"
               class="mr-2 btn-toggle"
-              bind:checked={showVideoOverride}
+              bind:checked={devVideoOverride}
             />show video</label
           >
           <label class="text-nowrap"
             ><input
               type="checkbox"
               class="mr-2 btn-toggle"
-              bind:checked={showFutureOverride}
+              bind:checked={devFutureOverride}
             />show future</label
           >
           <label class="text-nowrap"
             ><input
               type="checkbox"
               class="mr-2 btn-toggle"
-              bind:checked={showExtraNews}
+              bind:checked={devExtraNews}
             />extra news</label
           >
         </div>
       {/if}
 
       <div
-        class="w-full flex flex-wrap gap-x-12 gap-y-1 order-first pb-2 border-b border-black/25"
+        class={`w-full flex flex-wrap gap-x-12 gap-y-1 order-first smaller border-black/25 ${kioskMode && showInfo ? 'pb-2 border-b' : ''}`}
       >
         <label class="text-nowrap"
           ><input
@@ -101,6 +102,7 @@
             bind:checked={kioskMode}
           />kiosk mode</label
         >
+
         {#if kioskMode}
           <label class="text-nowrap"
             ><input
@@ -109,40 +111,50 @@
               bind:checked={letterboxed}
             />letterboxed</label
           >
+          
+          <label class="text-nowrap"
+            ><input
+              type="checkbox"
+              class="mr-2 btn-toggle"
+              bind:checked={showInfo}
+            />show info</label
+          >
         {/if}
       </div>
 
-      <div class="prose-black">
-        <PuppyDetails {showFuture} />
-        <a href="about#puppy-details" class="meta what">what?!</a>
-      </div>
+      {#if !kioskMode || showInfo}
+        <div>
+          <PuppyDetails {showFuture} />
+          <a href="about#puppy-details" class="meta what">what?!</a>
+        </div>
 
-      <div class="">
-        <PuppyWeather title="Current puppy weather" />
-        <a href="about#puppy-weather" class="meta what">what?!</a>
-      </div>
+        <div>
+          <PuppyWeather title="Current puppy weather" />
+          <a href="about#puppy-weather" class="meta what">what?!</a>
+        </div>
 
-      <div class="w-[33vw] grow" class:order-first={future}>
-        {#if showExtraNews}
-          <div class="prose">
-            <p>
-              Showing extra news to make it long and force scrolling. Lorem
-              ipsum dolor sic amet, forescore and twenty years ago our
-              forefathers brought forth onto this continent a new nation. Lorem
-              ipsum dolor sic amet, forescore and twenty years ago our
-              forefathers brought forth onto this continent a new nation.
-            </p>
-            <p>
-              Lorem ipsum dolor sic amet, forescore and twenty years ago our
-              forefathers brought forth onto this continent a new nation. Lorem
-              ipsum dolor sic amet, forescore and twenty years ago our
-              forefathers brought forth onto this continent a new nation.
-            </p>
-          </div>
-        {/if}
-        <LatestNews />
-        <a href="about#news" class="meta what">what?!</a>
-      </div>
+        <div class="w-[33vw] grow" class:order-first={future}>
+          {#if devExtraNews}
+            <div class="prose">
+              <p>
+                Showing extra news to make it long and force scrolling. Lorem
+                ipsum dolor sic amet, forescore and twenty years ago our
+                forefathers brought forth onto this continent a new nation.
+                Lorem ipsum dolor sic amet, forescore and twenty years ago our
+                forefathers brought forth onto this continent a new nation.
+              </p>
+              <p>
+                Lorem ipsum dolor sic amet, forescore and twenty years ago our
+                forefathers brought forth onto this continent a new nation.
+                Lorem ipsum dolor sic amet, forescore and twenty years ago our
+                forefathers brought forth onto this continent a new nation.
+              </p>
+            </div>
+          {/if}
+          <LatestNews />
+          <a href="about#news" class="meta what">what?!</a>
+        </div>
+      {/if}
     </div>
   </div>
 </div>
