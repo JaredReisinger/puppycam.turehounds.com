@@ -3,3 +3,5 @@ node_modules/
 build/
 .svelte-kit/
 .env*
+src/lib/news.json
+src/lib/puppy-data.json
