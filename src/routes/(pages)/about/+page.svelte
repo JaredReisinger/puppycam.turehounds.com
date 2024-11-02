@@ -5,7 +5,7 @@
   import LatestNews from '$lib/LatestNews.svelte';
   import VideoYouTube from '$lib/VideoYouTube.svelte';
 
-  import { puppycam1_youtube } from '$lib/video-streams.js';
+  import { puppycam1_youtube, nestcamOffice } from '$lib/video-streams.js';
 </script>
 
 <div class="prose prose-sm md:prose-base lg:prose-lg">
@@ -114,12 +114,7 @@
   </p>
 
   <div class="example not-prose aspect-[16/9]">
-    <!-- <VideoNest
-      publicId="dAYyHiFXJU"
-      uuid="3ed3fea78dfc4f86968ab2ae9f616443"
-      streamHost="stream-ue1-charlie.dropcam.com"
-    /> -->
-    (no longer in use)
+    <VideoNest publicId={nestcamOffice} />
   </div>
 
   <p>

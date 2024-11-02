@@ -1,5 +1,6 @@
 <script lang="ts">
   import { dev } from '$app/environment';
+  import { page } from '$app/stores';
   import type { Snapshot } from './$types';
 
   import Nav from '$lib/Nav.svelte';
@@ -9,7 +10,6 @@
   import LatestNews from '$lib/LatestNews.svelte';
 
   import { state as puppyState } from '$lib/puppy-data.svelte.js';
-
   import { puppycam1_youtube } from '$lib/video-streams.js';
 
   let devVideoOverride: boolean | undefined = $state(undefined);
@@ -20,9 +20,18 @@
   let letterboxed = $state(false);
   let showInfo = $state(false);
 
+  // a couple of magic flags
+  let flags = $derived.by(() => {
+    const devFlags = $page.url.searchParams.get('dev')?.split('|') ?? [];
+    return {
+      dev: dev && !devFlags.includes('false'),
+      video: devFlags.includes('video'),
+    };
+  });
+
   let future = $derived(puppyState.data.future);
   let showFuture = $derived(devFutureOverride ?? false);
-  let showVideo = $derived(devVideoOverride ?? !future);
+  let showVideo = $derived(devVideoOverride ?? (flags.video || !future));
 
   export const snapshot: Snapshot<[boolean, boolean, boolean]> = {
     capture: () => [kioskMode, letterboxed, showInfo],
@@ -70,7 +79,7 @@
     <div
       class={`p-5 flex flex-col flex-wrap gap-4 ${kioskMode ? 'w-[27rem] min-h-full' : 'xl:w-[27rem] xl:min-h-full'}`}
     >
-      {#if dev}
+      {#if flags.dev}
         <div class="w-full flex flex-wrap gap-x-12 gap-y-1 order-first smaller">
           <label class="text-nowrap"
             ><input
