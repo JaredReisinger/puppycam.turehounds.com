@@ -11,6 +11,7 @@
 
   import { state as puppyState } from '$lib/puppy-data.svelte.js';
   import { puppycam1_youtube } from '$lib/video-streams.js';
+  import { onMount } from 'svelte';
 
   let devVideoOverride: boolean | undefined = $state(undefined);
   let devFutureOverride: boolean | undefined = $state(undefined);
@@ -20,10 +21,12 @@
   let letterboxed = $state(false);
   let showInfo = $state(false);
 
-  // a couple of magic flags
-  let flags = $derived.by(() => {
+  let flags: { dev?: boolean; video?: boolean } = $state({});
+
+  onMount(() => {
     const devFlags = $page.url.searchParams.get('dev')?.split('|') ?? [];
-    return {
+
+    flags = {
       dev: dev && !devFlags.includes('false'),
       video: devFlags.includes('video'),
     };
