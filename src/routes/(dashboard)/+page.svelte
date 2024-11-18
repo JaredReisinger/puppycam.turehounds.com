@@ -21,7 +21,7 @@
   let letterboxed = $state(false);
   let showInfo = $state(false);
 
-  let flags: { dev?: boolean; video?: boolean } = $state({});
+  let flags: { dev?: boolean; video?: boolean; kiosk?: boolean } = $state({});
 
   onMount(() => {
     const devFlags = $page.url.searchParams.get('dev')?.split('|') ?? [];
@@ -29,12 +29,14 @@
     flags = {
       dev: dev && !devFlags.includes('false'),
       video: devFlags.includes('video'),
+      kiosk: devFlags.includes('kiosk'),
     };
   });
 
   let future = $derived(puppyState.data.future);
   let showFuture = $derived(devFutureOverride ?? false);
   let showVideo = $derived(devVideoOverride ?? (flags.video || !future));
+  let showKiosk = $derived(kioskMode || flags.kiosk);
 
   export const snapshot: Snapshot<[boolean, boolean, boolean]> = {
     capture: () => [kioskMode, letterboxed, showInfo],
@@ -44,18 +46,18 @@
   };
 </script>
 
-{#if !kioskMode}
+{#if !showKiosk}
   <Nav />
 {/if}
 
 <div
-  class={`${kioskMode ? 'w-screen h-screen overflow-hidden relative' : 'w-full flex flex-col xl:flex-row'}`}
+  class={`${showKiosk ? 'w-screen h-screen overflow-hidden relative' : 'w-full flex flex-col xl:flex-row'}`}
 >
   <!--
     VIDEO SECTION
   -->
   <div class="w-full h-full">
-    <div class="video-parent" class:kiosk={kioskMode} class:letterboxed>
+    <div class="video-parent" class:kiosk={showKiosk} class:letterboxed>
       {#if showVideo}
         <!-- <VideoFramed title="Eye in the Sky" videoId="jqbAk2MNMd" /> -->
         <VideoYouTube videoId={puppycam1_youtube} controls={false} autoplay />
@@ -77,10 +79,10 @@
   <!-- SIDEBAR -->
   <!-- we *could invert in kiosk mode, if that would help -->
   <div
-    class={`${kioskMode ? 'absolute top-0 right-0 max-h-[75%] overflow-y-auto bg-white/30 rounded-bl-lg backdrop-blur-md' : ''}`}
+    class={`${showKiosk ? 'absolute top-0 right-0 max-h-[75%] overflow-y-auto bg-white/30 rounded-bl-lg backdrop-blur-md' : ''}`}
   >
     <div
-      class={`p-5 flex flex-col flex-wrap gap-4 ${kioskMode ? 'w-[27rem] min-h-full' : 'xl:w-[27rem] xl:min-h-full'}`}
+      class={`p-5 flex flex-col flex-wrap gap-4 ${showKiosk ? 'w-[27rem] min-h-full' : 'xl:w-[27rem] xl:min-h-full'}`}
     >
       {#if flags.dev}
         <div class="w-full flex flex-wrap gap-x-12 gap-y-1 order-first smaller">
@@ -109,7 +111,7 @@
       {/if}
 
       <div
-        class={`xl:flex w-full flex-wrap gap-x-12 gap-y-1 order-first smaller border-black/25 ${kioskMode ? 'flex' : 'hidden justify-end pr-12'} ${!kioskMode || showInfo ? 'pb-2 border-b' : ''}`}
+        class={`xl:flex w-full flex-wrap gap-x-12 gap-y-1 order-first smaller border-black/25 ${showKiosk ? 'flex' : 'hidden justify-end pr-12'} ${!showKiosk || showInfo ? 'pb-2 border-b' : ''}`}
       >
         <label class="text-nowrap"
           ><input
@@ -119,7 +121,7 @@
           />kiosk mode</label
         >
 
-        {#if kioskMode}
+        {#if showKiosk}
           <label class="text-nowrap"
             ><input
               type="checkbox"
@@ -138,10 +140,10 @@
         {/if}
       </div>
 
-      {#if !kioskMode || showInfo}
+      {#if !showKiosk || showInfo}
         <div
           class="xl:grow flex flex-wrap gap-4 xl:min-h-full xl:items-center"
-          class:w-full={kioskMode}
+          class:w-full={showKiosk}
         >
           <div>
             <PuppyDetails {showFuture} />
