@@ -19,6 +19,7 @@
   function updateAgeCheckNow() {
     ageCheckNow = DateTime.local();
   }
+
   onMount(() => {
     updateAgeCheckNow();
     const interval = setInterval(
@@ -47,7 +48,7 @@
     {#if future}
       <!-- recalc the expectation to only include weeks -->
       <p>
-        The puppies are expected in {humanizeDuration(age, ['weeks']).text}.
+        The puppies are expected in {humanizeDuration(age, ['weeks', 'days']).text}, give or take.
       </p>
     {:else}
       <p>
