@@ -126,6 +126,7 @@ async function fetchRaw<RawData>(url: string, debugLogging = false) {
       raw = await res.json();
       break;
     case 'text/yaml':
+    case 'application/x-yaml':
       raw = YAML.parse(await res.text());
       break;
   }
