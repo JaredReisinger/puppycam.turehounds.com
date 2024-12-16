@@ -52,7 +52,7 @@
       </p>
     {:else}
       <p>
-        The puppies are {humanizeDuration(age, ['weeks', 'days']).text} old.
+        The puppies are {humanizeDuration(age, ['weeks', 'days', 'hours', 'minutes'], 2).text} old.
       </p>
     {/if}
 

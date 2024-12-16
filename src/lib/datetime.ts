@@ -52,25 +52,41 @@ export function luxonifyShort(
   return DateTime.invalid('unrecognized input');
 }
 
-export function humanizeDuration(duration: Duration, units: DurationUnit[]) {
-  let dur = duration;
+/**
+ * Humanizes a duration as text. If "limit" is provided, no more than limit units, starting from the first non-zero one, will be used.
+ * @param duration value to humanize
+ * @param units units to consider
+ * @param limit maximum units to show
+ * @returns
+ */
+export function humanizeDuration(
+  duration: Duration,
+  units: DurationUnit[],
+  limit?: number
+) {
+  let d = duration;
   let reversed = false;
 
-  if (dur.valueOf() < 0) {
-    dur = dur.negate();
+  if (d.valueOf() < 0) {
+    d = d.negate();
     reversed = true;
   }
 
-  // const units: DurationUnit[] = ["months", "weeks", "days", "hours"];
   const parts: string[] = [];
+  let firstUnit: number | undefined;
 
-  units.forEach((unit) => {
+  units.forEach((unit, i) => {
+    if (limit && firstUnit && i - firstUnit >= limit) {
+      return;
+    }
+
     // TODO: perform rounding when we're within 90% of the unit?
-    let amount = dur.as(unit);
+    let amount = d.as(unit);
     if (amount >= 1) {
+      firstUnit = firstUnit ?? i;
       amount = Math.floor(amount);
       parts.push(pluralize(unit, amount, true));
-      dur = dur.minus({ [unit]: amount });
+      d = d.minus({ [unit]: amount });
     }
   });
 

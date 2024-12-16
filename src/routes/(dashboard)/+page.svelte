@@ -13,9 +13,10 @@
   import { puppycam1_youtube } from '$lib/video-streams.js';
   import { onMount } from 'svelte';
 
-  let devVideoOverride: boolean | undefined = $state(undefined);
-  let devFutureOverride: boolean | undefined = $state(undefined);
-  let devExtraNews: boolean | undefined = $state(undefined);
+  // FUTURE: support undefined as "indeterminate" state... for now, only bool
+  let devVideoOverride: boolean | undefined = $state(false);
+  let devFutureOverride: boolean | undefined = $state(false);
+  let devExtraNews: boolean | undefined = $state(false);
 
   let kioskMode = $state(false);
   let letterboxed = $state(false);
@@ -34,8 +35,8 @@
   });
 
   let future = $derived(puppyState.data.future);
-  let showFuture = $derived(devFutureOverride ?? false);
-  let showVideo = $derived(devVideoOverride ?? (flags.video || !future));
+  let showFuture = $derived(devFutureOverride || false);
+  let showVideo = $derived(devVideoOverride || (flags.video || !future));
   let showKiosk = $derived(kioskMode || flags.kiosk);
 
   export const snapshot: Snapshot<[boolean, boolean, boolean]> = {

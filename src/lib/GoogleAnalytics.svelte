@@ -45,9 +45,11 @@
 
   <!-- also include consent banner, via cookieyes -->
   <!-- TODO: make this a component prop? -->
-  <script
-    id="cookieyes"
-    type="text/javascript"
-    src="https://cdn-cookieyes.com/client_data/aa4cd36c8fff4ea90c61e337/script.js"
-  ></script>
+  {#if process.env.NODE_ENV !== 'development'}
+    <script
+      id="cookieyes"
+      type="text/javascript"
+      src="https://cdn-cookieyes.com/client_data/aa4cd36c8fff4ea90c61e337/script.js"
+    ></script>
+  {/if}
 </svelte:head>

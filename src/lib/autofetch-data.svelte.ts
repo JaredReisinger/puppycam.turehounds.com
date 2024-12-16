@@ -2,6 +2,7 @@
 // puppy data.  (Maybe it could also front the weather?)
 import { browser } from '$app/environment';
 import { DateTime, Duration } from 'luxon';
+import YAML from 'yaml';
 
 // At a high level, it takes a data URL and refresh frequency, and returns a
 // $state that contains the fetched data and lastCheck/lastUpdate times.  It
@@ -32,13 +33,14 @@ declare global {
 export function createAutoFetchState<RawData, Data = RawData>(
   url: string,
   refreshInterval: Duration,
-  seedData: RawData,
-  massager?: (_: RawData) => Data,
+  seedData: RawData | undefined,
+  massager?: (_: RawData | undefined) => Data,
   debugLogging = false
 ) {
   if (debugLogging) {
     console.log('AUTO-FETCH - CREATING', {
       url,
+      seedData,
       interval: refreshInterval.toISO(),
     });
   }
@@ -84,11 +86,11 @@ export function createAutoFetchState<RawData, Data = RawData>(
 async function refreshData<RawData, Data>(
   state: StateData<Data>,
   url: string,
-  massager?: (_: RawData) => Data,
+  massager?: (_: RawData | undefined) => Data,
   debugLogging = false
 ) {
   const lastChecked = DateTime.local();
-  const { lastModified, raw } = await fetchRaw<RawData>(url);
+  const { lastModified, raw } = await fetchRaw<RawData>(url, debugLogging);
 
   state.data = massager?.(raw) ?? (raw as unknown as Data);
   state.lastChecked = lastChecked;
@@ -104,7 +106,7 @@ async function refreshData<RawData, Data>(
   }
 }
 
-async function fetchRaw<RawData>(url: string) {
+async function fetchRaw<RawData>(url: string, debugLogging = false) {
   const res = await fetch(url);
 
   const lastModifiedHeader = res.headers.get('Last-Modified') ?? undefined;
@@ -115,7 +117,22 @@ async function fetchRaw<RawData>(url: string) {
     lastModified = undefined;
   }
 
-  const raw: RawData = await res.json();
+  const contentType = res.headers.get('Content-Type');
+
+  let raw: RawData | undefined = undefined;
+  switch (contentType) {
+    case 'text/plain; charset=utf-8': // hack for sensors
+    case 'application/json':
+      raw = await res.json();
+      break;
+    case 'text/yaml':
+      raw = YAML.parse(await res.text());
+      break;
+  }
+
+  if (debugLogging) {
+    console.log('AUTO_FETCH - GOT', { url, contentType, raw });
+  }
 
   return { lastModified, raw };
 }

@@ -1,5 +1,4 @@
-import { DateTime, Duration } from 'luxon';
-import type { DurationUnit } from 'luxon';
+import { DateTime } from 'luxon';
 import pluralize from 'pluralize';
 
 import { luxonifyShort, type ShortDateTime } from '$lib/datetime.js';
@@ -28,7 +27,7 @@ export enum Sex {
 /** Sex as a string value. */
 export type SexKey = keyof typeof Sex;
 
-/** Known colors */
+/** Known colors (that we care about) */
 export enum Color {
   Red = 'Red & White',
   // Tri = "Tri-colored (Black, White, & Tan)",
@@ -81,7 +80,7 @@ export interface RawPuppyData {
   };
 
   birthInfo: [ShortDateTime, SexKey, ColorKey, Weight, CollarKey, Nickname][];
-  weighings: [ShortDateTime, ...Array<Weight>][];
+  weighings?: [ShortDateTime, ...Array<Weight>][];
 }
 
 export interface PuppyData {
@@ -90,7 +89,11 @@ export interface PuppyData {
   future: boolean;
 }
 
-export function massageData(rawData: RawPuppyData) {
+export function massageData(rawData?: RawPuppyData): PuppyData {
+  if (!rawData) {
+    return { dogs: [], latestDate: DateTime.now(), future: true };
+  }
+
   const defaultYear = rawData.defaults?.year;
   const defaultOffset = rawData.defaults?.tzOffset;
 
@@ -103,10 +106,11 @@ export function massageData(rawData: RawPuppyData) {
         defaultYear,
         defaultOffset
       );
-      const weights: Weighing[] = rawData.weighings.map(([shortDate, ...w]) => [
-        luxonifyShort(shortDate, defaultYear, defaultOffset),
-        w[i],
-      ]);
+      const weights: Weighing[] =
+        rawData.weighings?.map(([shortDate, ...w]) => [
+          luxonifyShort(shortDate, defaultYear, defaultOffset),
+          w[i],
+        ]) ?? [];
       // unshift the birth weight onto the front...
       weights.unshift([birthdate, birthweight]);
 
@@ -132,7 +136,7 @@ export function massageData(rawData: RawPuppyData) {
   // // do we ever really use "byCollar"?
   // const byCollar = Object.fromEntries(dogs.map((dog) => [dog.collar, dog]));
 
-  const future = latestDate.diffNow().toMillis() > 0;
+  const future = dogs[0].birthdate.diffNow().toMillis() > 0;
 
   const data: PuppyData = {
     dogs,
@@ -140,6 +144,7 @@ export function massageData(rawData: RawPuppyData) {
     future,
   };
 
+  // console.log('PUPPY-DATA', data);
   return data;
 }
 

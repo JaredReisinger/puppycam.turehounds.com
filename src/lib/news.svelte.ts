@@ -8,11 +8,10 @@ import { DateTime, Duration } from 'luxon';
 
 import { luxonifyShort, type ShortDateTime } from '$lib/datetime.js';
 
-// $lib/news.json is a symlink to the *real* static/news.json because vite
-// doesn't allow imports of static files
-import initialRawNews from '$lib/news.json';
+// @ts-expect-error - ts2307 - no type on YAML
+import initialRawNews from '$lib/news.yaml';
 
-const dataUrl = 'news.json'; // need full path?
+const dataUrl = 'news.yaml'; // need full path?
 
 type Paragraph = string;
 
@@ -21,7 +20,7 @@ interface RawNews {
     year?: string;
     tzOffset?: string;
   };
-  news: Record<ShortDateTime, Paragraph[]>[];
+  news: Record<ShortDateTime, Paragraph[]>;
 }
 
 export interface NewsItem {
@@ -36,14 +35,16 @@ export const state = createAutoFetchState(
   massageRawNews
 );
 
-function massageRawNews(rawData: RawNews): NewsItem[] {
+function massageRawNews(rawData?: RawNews): NewsItem[] {
+  if (!rawData) {
+    return [];
+  }
+  
   const defaultYear = rawData.defaults?.year;
   const defaultOffset = rawData.defaults?.tzOffset;
 
-  return rawData.news.flatMap((obj) =>
-    Object.entries(obj).map(([when, ps]) => ({
-      when: luxonifyShort(when, defaultYear, defaultOffset),
-      paragraphs: ps,
-    }))
-  );
+  return Object.entries(rawData.news).map(([when, paragraphs]) => ({
+    when: luxonifyShort(when, defaultYear, defaultOffset),
+    paragraphs,
+  }));
 }

@@ -42,7 +42,8 @@ export const state = createAutoFetchState(
   dataUrl,
   Duration.fromISO('PT30S'),
   undefined,
-  massageData
+  massageData,
+  true
 );
 
 function massageData(rawData?: RawData): Data {
