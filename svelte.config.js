@@ -13,10 +13,16 @@ const config = {
     //   name: process.env.npm_package_version,
     // },
 
+    paths: {
+      base: '',
+      // assets: '/',
+      relative: false,
+    },
+
     adapter: adapter({
       pages: 'build',
       assets: 'build',
-      // fallback: 'index.html',
+      fallback: 'fallback.html',
       precompress: true,
       strict: true,
     }),
