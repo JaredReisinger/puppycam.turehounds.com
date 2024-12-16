@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite dev",
     "build": "vite build",
+    "build:netlify": "cp -f static/news.yaml src/lib/news.yaml && cp -f static/puppy-data.yaml src/lib/puppy-data.yaml && npm run build",
     "clean": "rimraf --glob .svelte-kit build",
     "preview": "vite preview",
     "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
