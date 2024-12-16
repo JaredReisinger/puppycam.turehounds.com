@@ -26,7 +26,17 @@
     logMsgs = logMsgs;
   }
 
+  let videoPrev: HTMLVideoElement | undefined;
+
   $effect(() => {
+    // console.log('VIDEO-HLS effect', { video, videoPrev });
+
+    if (videoPrev === video) {
+      // console.log('VIDEO-HLS no change effect', { video, videoPrev});
+      return;
+    }
+    videoPrev = video;
+
     if (video && Hls) {
       const canPlayNative =
         video.canPlayType('application/x-mpegURL') ||

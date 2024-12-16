@@ -30,10 +30,12 @@
 
   let infoUrlPrev: string | undefined;
   $effect(() => {
-    if (infoUrl !== infoUrlPrev) {
-      infoUrlPrev = infoUrl;
-      getInfo(infoUrl);
+    // console.log('VIDEO-NEST effect', { infoUrl, infoUrlPrev });
+    if (infoUrl === infoUrlPrev) {
+      return;
     }
+    infoUrlPrev = infoUrl;
+    getInfo(infoUrl);
   });
 
   let urlPrev: string;
