@@ -4,7 +4,7 @@ import markdownit from 'markdown-it';
 // import { attrs } from '@mdit/plugin-attrs';
 // import { container } from '@mdit/plugin-container';
 // import { stylize } from '@mdit/plugin-stylize';
-import color from 'markdown-it-color';
+import { colorPlugin as color } from 'markdown-it-color';
 
 import { createAutoFetchState } from '$lib/autofetch-data.svelte.js';
 import { luxonifyShort, type ShortDateTime } from '$lib/datetime.js';
@@ -53,8 +53,7 @@ export const state = createAutoFetchState(
   dataUrl,
   Duration.fromISO('PT30M'),
   initialRawNews as unknown as RawNews,
-  massageRawNews,
-  true
+  massageRawNews
 );
 
 function massageRawNews(rawData?: RawNews): NewsItem[] {
