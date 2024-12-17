@@ -23,9 +23,8 @@
       {item.when.toLocaleString(longFmt)}
       <span class="meta">({item.when.toRelative()})</span>
     </h3>
-    {#each item.paragraphs as paragraph}
-      <p>{@html paragraph}</p>
-    {/each}
+
+    {@html item?.html}
   {/each}
 </div>
 

@@ -1,18 +1,16 @@
 <script lang="ts">
-  import { state } from '$lib/news.svelte.js';
+  import { state as news } from '$lib/news.svelte.js';
   import { shortFmt } from '$lib/datetime.js';
 
   let { title }: { title?: string } = $props();
 
-  let item = $derived(state.data.length > 0 ? state.data[0] : undefined);
+  let item = $derived(news.data.length > 0 ? news.data[0] : undefined);
 </script>
 
 <div class="prose">
   {#if title}<h3>{title}</h3>{/if}
 
-  {#each item?.paragraphs ?? [] as paragraph}
-    <p class:no-title={!title}>{@html paragraph}</p>
-  {/each}
+  {@html item?.html}
 
   <p><a href="/news">Read more…</a></p>
 
@@ -22,13 +20,10 @@
       ({item?.when?.toRelative() ?? '...'})
     </div>
     <div>
-      Last checked: {state.lastChecked?.toLocaleString(shortFmt) ?? '...'}
+      Last checked: {news.lastChecked?.toLocaleString(shortFmt) ?? '...'}
     </div>
   </div>
 </div>
 
 <style lang="postcss">
-  p.no-title:first-child {
-    @apply mt-0;
-  }
 </style>

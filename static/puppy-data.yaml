@@ -3,11 +3,11 @@ defaults:
   tzOffset: '-0700'
 
 birthInfo:
-  - [12-15T17:41, F, Tri, 250, blue, Miss Blue]
-  - [12-15T17:55, F, Red, 228, red, Miss Red]
-  - [12-15T18:42, F, Red, 244, yellow, Miss Yellow]
-  - [12-15T19:42, F, Red, 224, white, Miss White]
-  - [12-15T20:01, M, Tri, 244, green, Mr. Green]
+  - [12-15T17:41, F, Tri, 250, blue, Beatrix]
+  - [12-15T17:55, F, Red, 228, red, Rye]
+  - [12-15T18:42, F, Red, 244, yellow, Yarrow]
+  - [12-15T19:42, F, Red, 224, white, Wren]
+  - [12-15T20:01, M, Tri, 244, green, George]
 
 weighings:
-  # - [12-17T12:00, 245, 265, 200, 200, 200]
+  - [12-16T17:00, 293, 266, 280, 263, 290]

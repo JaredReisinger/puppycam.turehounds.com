@@ -75,25 +75,25 @@
 }
 
 @layer utilities {
-  .blue {
+  .blue, .color--blue {
     @apply text-blue-600;
   }
-  .red {
+  .red, .color--red {
     @apply text-red-600;
   }
-  .yellow {
+  .yellow, .color--yellow {
     @apply text-yellow-500;
   }
-  .white {
+  .white, .color--white {
     @apply text-gray-400;
   }
-  .green {
+  .green, .color--green {
     @apply text-green-600;
   }
-  .pink {
+  .pink, .color--pink {
     @apply text-pink-400;
   }
-  .purple {
+  .purple, .color--purple {
     @apply text-purple-500;
   }
 
