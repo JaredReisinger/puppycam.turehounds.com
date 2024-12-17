@@ -143,7 +143,7 @@
 
       {#if !showKiosk || showInfo}
         <div
-          class="xl:grow flex flex-wrap gap-4 xl:min-h-full xl:items-center"
+          class="xl:grow flex xl:flex-col flex-wrap gap-4 xl:min-h-full"
           class:w-full={showKiosk}
         >
           <div>

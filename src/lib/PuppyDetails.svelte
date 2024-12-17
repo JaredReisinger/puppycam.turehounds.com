@@ -57,13 +57,13 @@
     {/if}
 
     {#if !future || showFuture}
-      <table class="mt-4 table table-auto prose">
+      <table class="mt-4 w-full table table-auto prose">
         <thead>
           <tr class="smaller">
-            <th class="text-left">nickname</th>
+            <th>nickname</th>
             <th>collar</th>
-            <th>sex</th>
-            <th class="text-left">weight</th>
+            <th class="text-center">sex</th>
+            <th>weight</th>
           </tr>
         </thead>
         <tbody>
