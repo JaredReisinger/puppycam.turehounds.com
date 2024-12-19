@@ -1,9 +1,12 @@
 <script lang="ts">
+  import { PUBLIC_TWITCH_PARENT } from '$env/static/public';
+
   import VideoNest from '$lib/VideoNest.svelte';
   import PuppyDetails from '$lib/PuppyDetails.svelte';
   import PuppyWeather from '$lib/PuppyWeather.svelte';
   import LatestNews from '$lib/LatestNews.svelte';
-  import VideoYouTube from '$lib/VideoYouTube.svelte';
+  // import VideoYouTube from '$lib/VideoYouTube.svelte';
+  import VideoTwitch from '$lib/VideoTwitch.svelte';
 
   import { puppycam1_youtube, nestcamOffice } from '$lib/video-streams.js';
 </script>
@@ -84,18 +87,41 @@
     <a href="https://docs.datarhei.com/restreamer">datarhei Restreamer</a>
     running on my local Linux server. Restreamer takes care of pulling the live video
     stream from the camera (an RSTP stream), and publishes it to the
-    <a href="https://youtube.com" target="_blank">Ture Hound YouTube channel</a
+    <del
+      ><a
+        href="https://www.youtube.com/channel/UCMul01WRsW2CkNfTOquFq0A"
+        target="_blank">Ture Hound YouTube channel</a
+      ></del
+    >
+    <a href="https://www.twitch.tv/turehounds" target="_blank"
+      >Ture Hound Twitch channel</a
     >. I previously spent a fair amount of effort getting HLS video to stream
     into the page <em>without</em> using an <code>iframe</code> so that I could
-    have more control over the exact rendering and layout. Using YouTube as the
-    streaming source, however, puts me right back into using an
+    have more control over the exact rendering and layout. Using YouTube/Twitch
+    as the streaming source, however, puts me right back into using an
     <code>iframe</code> again. Fortunately, there are some CSS tricks that give me
     enough layout control for what I want.
   </p>
 
   <div class="example not-prose aspect-[16/9]">
-    <VideoYouTube videoId={puppycam1_youtube} controls={false} autoplay />
+    <!-- <VideoYouTube videoId={puppycam1_youtube} controls={false} autoplay /> -->
+    <VideoTwitch
+      parent={PUBLIC_TWITCH_PARENT}
+      channel="turehounds"
+      autoplay
+      muted
+    />
   </div>
+
+  <p>
+    As noted, I first switched to YouTube, but as a platform that’s more focused
+    on individual videos, it insists on changing the video ID <em>every time</em
+    > it thinks the stream ends… which includes any time the feed gets interrupted.
+    When the ID changes, I have to change the reference that this site uses, and
+    that’s a pain! Twitch, however, was designed for gamers/creators who have a persistent
+    “channel”, and the channel name itself does not change no matter how many times
+    to stop/restart streaming.
+  </p>
 
   <h4>First implementation...</h4>
 

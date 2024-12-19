@@ -45,7 +45,7 @@
 
   <!-- also include consent banner, via cookieyes -->
   <!-- TODO: make this a component prop? -->
-  {#if process.env.NODE_ENV !== 'development'}
+  {#if import.meta.env.PROD}
     <script
       id="cookieyes"
       type="text/javascript"

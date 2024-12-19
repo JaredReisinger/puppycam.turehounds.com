@@ -1,7 +1,7 @@
 import { DateTime, Duration } from 'luxon';
 import markdownit from 'markdown-it';
 // import { alert } from '@mdit/plugin-alert';
-// import { attrs } from '@mdit/plugin-attrs';
+import { attrs } from '@mdit/plugin-attrs';
 // import { container } from '@mdit/plugin-container';
 // import { stylize } from '@mdit/plugin-stylize';
 import { colorPlugin as color } from 'markdown-it-color';
@@ -16,9 +16,10 @@ const dataUrl = 'news.yaml'; // need full path?
 
 const md = markdownit({
   typographer: true,
-}).use(color, { defaultClassName: 'color' });
-// .use(alert)
-// .use(attrs)
+})
+  .use(color, { defaultClassName: 'color' })
+  // .use(alert)
+  .use(attrs);
 // .use(container)
 // .use(stylize, {
 //   config: [

@@ -1,21 +1,27 @@
 <script lang="ts">
-  import VideoNest from '$lib/VideoNest.svelte';
-  import VideoYouTube from '$lib/VideoYouTube.svelte';
+  import { PUBLIC_TWITCH_PARENT } from '$env/static/public';
 
-  import { puppycam1_youtube, nestcamOffice } from '$lib/video-streams.js';
+  // import VideoNest from '$lib/VideoNest.svelte';
+  // import VideoYouTube from '$lib/VideoYouTube.svelte';
+  import VideoTwitch from "$lib/VideoTwitch.svelte";
+
+  // import { puppycam1_youtube, nestcamOffice } from '$lib/video-streams.js';
 </script>
 
 <h1>TEST PAGE</h1>
 
 <p>This is a test page for a streaming video player.</p>
 
-<div class="test">
-  <!-- magicSiCode="xx-Q49iE4slkokun" -->
+<!-- <div class="test">
   <VideoYouTube videoId={puppycam1_youtube} controls={false} autoplay />
-</div>
+</div> -->
+
+<!-- <div class="test">
+  <VideoNest publicId={nestcamOffice} debug />
+</div> -->
 
 <div class="test">
-  <VideoNest publicId={nestcamOffice} debug />
+  <VideoTwitch parent={PUBLIC_TWITCH_PARENT} channel="turehounds" />
 </div>
 
 <!-- 

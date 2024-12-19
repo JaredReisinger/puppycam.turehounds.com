@@ -1,16 +1,16 @@
 <script lang="ts">
   import { dev } from '$app/environment';
-  import { page } from '$app/stores';
+  import { page } from '$app/state';
+  import { PUBLIC_TWITCH_PARENT } from '$env/static/public';
   import type { Snapshot } from './$types';
 
   import Nav from '$lib/Nav.svelte';
-  import VideoYouTube from '$lib/VideoYouTube.svelte';
+  import VideoTwitch from '$lib/VideoTwitch.svelte';
   import PuppyDetails from '$lib/PuppyDetails.svelte';
   import PuppyWeather from '$lib/PuppyWeather.svelte';
   import LatestNews from '$lib/LatestNews.svelte';
 
   import { state as puppyState } from '$lib/puppy-data.svelte.js';
-  import { puppycam1_youtube } from '$lib/video-streams.js';
   import { onMount } from 'svelte';
 
   // FUTURE: support undefined as "indeterminate" state... for now, only bool
@@ -25,7 +25,7 @@
   let flags: { dev?: boolean; video?: boolean; kiosk?: boolean } = $state({});
 
   onMount(() => {
-    const devFlags = $page.url.searchParams.get('dev')?.split('|') ?? [];
+    const devFlags = page.url.searchParams.get('dev')?.split('|') ?? [];
 
     flags = {
       dev: dev && !devFlags.includes('false'),
@@ -36,7 +36,7 @@
 
   let future = $derived(puppyState.data.future);
   let showFuture = $derived(devFutureOverride || false);
-  let showVideo = $derived(devVideoOverride || (flags.video || !future));
+  let showVideo = $derived(devVideoOverride || flags.video || !future);
   let showKiosk = $derived(kioskMode || flags.kiosk);
 
   export const snapshot: Snapshot<[boolean, boolean, boolean]> = {
@@ -45,6 +45,14 @@
       [kioskMode, letterboxed, showInfo] = value;
     },
   };
+
+  // $effect(() => {
+  //   if (kioskMode) {
+  //     document.body.requestFullscreen();
+  //   } else {
+  //     document.exitFullscreen();
+  //   }
+  // });
 </script>
 
 {#if !showKiosk}
@@ -61,7 +69,13 @@
     <div class="video-parent" class:kiosk={showKiosk} class:letterboxed>
       {#if showVideo}
         <!-- <VideoFramed title="Eye in the Sky" videoId="jqbAk2MNMd" /> -->
-        <VideoYouTube videoId={puppycam1_youtube} controls={false} autoplay />
+        <!-- <VideoYouTube videoId={puppycam1_youtube} controls={false} autoplay /> -->
+        <VideoTwitch
+          parent={PUBLIC_TWITCH_PARENT}
+          channel="turehounds"
+          autoplay
+          muted
+        />
       {:else}
         <!-- This has to act like YouTube and always 16:9 the inner part -->
         <div class="w-full h-full bg-black">

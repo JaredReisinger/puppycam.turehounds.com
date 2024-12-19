@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { page } from '$app/stores';
+  import { page } from '$app/state';
 
   import Icon from 'svelte-fa';
   import {
@@ -57,7 +57,7 @@
       <li>
         <a
           class="block p-2 decoration-2 underline-offset-4 hover:text-sky-500 aria-current-page:text-sky-500 aria-current-page:underline transition-colors duration-200"
-          aria-current={$page.url.pathname === url ? 'page' : undefined}
+          aria-current={page.url.pathname === url ? 'page' : undefined}
           href={url}
           ><span class:icon
             >{#if icon}<Icon {icon} size="lg" {color} />{:else}{name}{/if}</span

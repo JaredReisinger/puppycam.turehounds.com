@@ -60,10 +60,10 @@
       <table class="mt-4 w-full table table-auto prose">
         <thead>
           <tr class="smaller">
-            <th>nickname</th>
-            <th>collar</th>
+            <th class="text-left">nickname</th>
+            <th class="text-left">collar</th>
             <th class="text-center">sex</th>
-            <th>weight</th>
+            <th class="text-left">weight</th>
           </tr>
         </thead>
         <tbody>
