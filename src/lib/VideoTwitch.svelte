@@ -42,7 +42,7 @@
     `https://player.twitch.tv/?${videoQuerystring}`
   );
 
-  $inspect(parent, channel, params, videoQuerystring, videoUrl);
+  // $inspect(parent, channel, params, videoQuerystring, videoUrl);
 </script>
 
 <!-- let parent decide size! -->
