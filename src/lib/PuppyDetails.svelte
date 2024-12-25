@@ -48,11 +48,11 @@
     {#if future}
       <!-- recalc the expectation to only include weeks -->
       <p>
-        The puppies are expected in {humanizeDuration(age, ['weeks', 'days']).text}, give or take.
+        The puppies are expected in {humanizeDuration(age, ['years', 'months', 'weeks', 'days'], 2).text}, give or take.
       </p>
     {:else}
       <p>
-        The puppies are {humanizeDuration(age, ['weeks', 'days', 'hours', 'minutes'], 2).text} old.
+        The puppies are {humanizeDuration(age, ['years', 'months', 'weeks', 'days', 'hours', 'minutes'], 3).text} old.
       </p>
     {/if}
 

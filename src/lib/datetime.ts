@@ -76,7 +76,8 @@ export function humanizeDuration(
   let firstUnit: number | undefined;
 
   units.forEach((unit, i) => {
-    if (limit && firstUnit && i - firstUnit >= limit) {
+    // console.log('HUMANIZE', {unit, i, firstUnit, limit});
+    if (limit && firstUnit !== undefined && i - firstUnit >= limit) {
       return;
     }
 

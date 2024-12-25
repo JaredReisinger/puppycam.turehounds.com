@@ -37,3 +37,20 @@ test('humanizeDuration()', () => {
     expect(reversed, label).toBe(expectedReversed);
   });
 });
+
+test("humanizeDuration() limits", (t) => {
+  const cases: [string, DurationUnit[], number, string][] = [
+    ['P1DT2H3M', ['day', 'hour', 'minute'], 1, '1 day'],
+    ['P1DT2H3M', ['day', 'hour', 'minute'], 2, '1 day, 2 hours'],
+    ['P1DT2H3M', ['day', 'hour', 'minute'], 3, '1 day, 2 hours, 3 minutes'],
+
+    // ['P1DT23H', ['day', 'hour', 'minute'], 1, '2 days'], // rounding?
+    ['P50DT2H3M', ['month', 'week', 'day', 'hour', 'minute'], 2, '1 month, 3 weeks'],
+  ];
+
+  cases.forEach(([iso, units, limit, expected], i) => {
+    const {text} = humanizeDuration(Duration.fromISO(iso), units, limit)
+    const label = `test ${i + 1}: [${iso}, ${JSON.stringify(expected)}]`;
+    expect(text, label).toBe(expected);
+  });
+});
