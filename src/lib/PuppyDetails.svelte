@@ -51,8 +51,9 @@
         The puppies are expected in {humanizeDuration(age, ['years', 'months', 'weeks', 'days'], 2).text}, give or take.
       </p>
     {:else}
+      <!-- need a way to switch units based on a cutoff (weeks/days/... under 16-18 weeks, and then years/months/weeks after that) -->
       <p>
-        The puppies are {humanizeDuration(age, ['years', 'months', 'weeks', 'days', 'hours', 'minutes'], 3).text} old.
+        The puppies are {humanizeDuration(age, ['weeks', 'days', 'hours', 'minutes'], 2).text} old.
       </p>
     {/if}
 
