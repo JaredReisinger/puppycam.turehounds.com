@@ -46,7 +46,7 @@
     <p>No puppy data is currently available.</p>
   {:else}
     {#if future}
-      <!-- recalc the expectation to only include weeks -->
+      <!-- recalculate the expectation to only include weeks? -->
       <p>
         The puppies are expected in {humanizeDuration(age, ['years', 'months', 'weeks', 'days'], 2).text}, give or take.
       </p>

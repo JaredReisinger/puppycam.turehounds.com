@@ -3,11 +3,11 @@ defaults:
   tzOffset: '-0700'
 
 birthInfo:
-  - [2024-12-15T17:41, F, Tri, 250, blue, Beatrix]
-  - [2024-12-15T17:55, F, Red, 228, red, Rye]
-  - [2024-12-15T18:42, F, Red, 244, yellow, Yarrow]
-  - [2024-12-15T19:42, F, Red, 224, white, Wren]
-  - [2024-12-15T20:01, M, Tri, 244, green, Arturito]
+  - [2024-12-15T17:41, F, Tri, 250, blue, Miley (Beatrix)]
+  - [2024-12-15T17:55, F, Red, 228, red, Isis (Rye)]
+  - [2024-12-15T18:42, F, Red, 244, yellow, Simia (Yarrow)]
+  - [2024-12-15T19:42, F, Red, 224, white, Edina (Wren)]
+  - [2024-12-15T20:01, M, Tri, 244, green, Arturito (George)]
 
 weighings:
   - [2024-12-16T17:00, 293, 266, 280, 263, 290]
