@@ -160,14 +160,14 @@
           class="xl:grow flex xl:flex-col flex-wrap gap-4 xl:min-h-full"
           class:w-full={showKiosk}
         >
-          <div>
+          <div class="w-full">
             <PuppyDetails {showFuture} />
             <div class="meta">
               <a href="about#puppy-details" class="what">what?!</a>
             </div>
           </div>
 
-          <div>
+          <div class="w-full">
             <PuppyWeather title="Current puppy weather" />
             <div class="meta">
               <a href="about#puppy-weather" class="what">what?!</a>
