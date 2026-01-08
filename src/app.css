@@ -1,152 +1,160 @@
-/* @import 'tailwind/base';
-@import 'tailwind/components';
-@import 'tailwind/utilities'; */
+@import 'tailwindcss';
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@plugin "@tailwindcss/typography";
+@plugin "@tailwindcss/aspect-ratio";
+/* @plugin "tailwindcss-aria-attributes"; */
 
-/* customizations? */
+@theme {
+  --font-sans: 'Encode Sans', Arial, Helvetica, sans-serif;
+  --font-serif: serif;
 
-@layer components {
-  [type='checkbox'].btn-toggle {
-    --size: 1em;
-    --bg: rgb(0 0 0 / 30%); /*theme(colors.gray.400);*/
-    --fg: theme(colors.gray.200);
-    --bg-active: theme(colors.sky.400); /*var(--bg);*/
-    --fg-active: var(--fg);
-    height: var(--size);
-    max-width: calc(2 * var(--size));
-    /* -webkit-appearance: none; */
-    /* -moz-appearance: none; */
-    appearance: none;
-    outline-offset: 2px;
-    border: transparent;
-    border-radius: 0.5em;
-    width: calc(100% - 0.6em);
-    position: relative;
-
-    &::before {
-      content: '';
-      border-radius: var(--size);
-      background: var(--bg);
-      box-sizing: border-box;
-      width: 100%;
-      height: 100%;
-      padding: 2px;
-      display: block;
-      position: absolute;
-      top: 0;
-      left: 0;
-    }
-
-    &::after {
-      content: '';
-      width: calc(var(--size) - 4px);
-      height: calc(var(--size) - 4px);
-      aspect-ratio: 1;
-      background: var(--fg);
-      border-radius: 50%;
-      transition:
-        background 0.2s ease-out,
-        left 0.2s ease-out;
-      display: block;
-      position: absolute;
-      top: 2px;
-      left: 2px;
-      box-shadow:
-        0 0 1px #0006,
-        0 4px 2px #0000001a;
-    }
-
-    &:checked {
-      background-image: none;
-
-      &::before {
-        background: var(--bg-active);
-      }
-
-      &::after {
-        background: var(--fg-active);
-        left: calc(100% - var(--size) + 2px);
-      }
-    }
-  }
-
-  .prose :where(blockquote p:first-of-type):not(:where([class~="not-prose"],[class~="not-prose"] *))::before {
-    content: '';
-  }
-
-  .prose :where(blockquote p:last-of-type):not(:where([class~="not-prose"],[class~="not-prose"] *))::after {
-    content: '';
-  }
-
+  --color-collar-blue: var(--color-blue-600);
+  --color-collar-red: var(--color-red-600);
+  --color-collar-yellow: var(--color-yellow-500);
+  --color-collar-white: var(--color-gray-400);
+  --color-collar-green: var(--color-green-600);
+  --color-collar-pink: var(--color-pink-400);
+  --color-collar-purple: var(--color-purple-500);
 }
 
-@layer utilities {
-  .blue, .color--blue {
-    @apply text-blue-600;
-  }
-  .red, .color--red {
-    @apply text-red-600;
-  }
-  .yellow, .color--yellow {
-    @apply text-yellow-500;
-  }
-  .white, .color--white {
-    @apply text-gray-400;
-  }
-  .green, .color--green {
-    @apply text-green-600;
-  }
-  .pink, .color--pink {
-    @apply text-pink-400;
-  }
-  .purple, .color--purple {
-    @apply text-purple-500;
+@custom-variant aria-current-page (&[aria-current="page"]);
+
+/* customizations */
+
+[type='checkbox'].btn-toggle {
+  --size: 1em;
+  --bg: rgb(0 0 0 / 30%); /*theme(colors.gray.400);*/
+  --fg: theme(colors.gray.200);
+  --bg-active: theme(colors.sky.400); /*var(--bg);*/
+  --fg-active: var(--fg);
+  height: var(--size);
+  max-width: calc(2 * var(--size));
+  /* -webkit-appearance: none; */
+  /* -moz-appearance: none; */
+  appearance: none;
+  outline-offset: 2px;
+  border: transparent;
+  border-radius: 0.5em;
+  width: calc(100% - 0.6em);
+  position: relative;
+
+  &::before {
+    content: '';
+    border-radius: var(--size);
+    background: var(--bg);
+    box-sizing: border-box;
+    width: 100%;
+    height: 100%;
+    padding: 2px;
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
   }
 
-  /*
-  blue
-  red
-  yellow
-  white
-  green
-  pink
-  purple
-  */
+  &::after {
+    content: '';
+    width: calc(var(--size) - 4px);
+    height: calc(var(--size) - 4px);
+    aspect-ratio: 1;
+    background: var(--fg);
+    border-radius: 50%;
+    transition:
+      background 0.2s ease-out,
+      left 0.2s ease-out;
+    display: block;
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    box-shadow:
+      0 0 1px #0006,
+      0 4px 2px #0000001a;
+  }
 
-  /* stop <code> in prose from getting backticks... */
-  .prose code {
+  &:checked {
+    background-image: none;
+
     &::before {
-      content: '';
-    }
-    &::after {
-      content: '';
-    }
-  }
-
-  a:hover {
-    @apply text-sky-400 transition-colors duration-200;
-  }
-
-  .meta {
-    @apply text-[84%] font-light italic text-black/50;
-  }
-
-  .was {
-    @apply meta;
-
-    &::before {
-      content: '(';
+      background: var(--bg-active);
     }
 
     &::after {
-      content: ')';
+      background: var(--fg-active);
+      left: calc(100% - var(--size) + 2px);
     }
   }
+}
 
-  .smaller {
-    font-size: 84%;
+.prose
+  :where(blockquote p:first-of-type):not(
+    :where([class~='not-prose'], [class~='not-prose'] *)
+  )::before {
+  content: '';
+}
+
+.prose
+  :where(blockquote p:last-of-type):not(
+    :where([class~='not-prose'], [class~='not-prose'] *)
+  )::after {
+  content: '';
+}
+
+/*
+  not marked as @utility because content is dynamic, classes need to always be
+  available
+*/
+.md-collar--blue {
+  @apply text-collar-blue;
+}
+.md-collar--red {
+  @apply text-collar-red;
+}
+.md-collar--yellow {
+  @apply text-collar-yellow;
+}
+.md-collar--white {
+  @apply text-collar-white;
+}
+.md-collar--green {
+  @apply text-collar-green;
+}
+.md-collar--pink {
+  @apply text-collar-pink;
+}
+.md-collar--purple {
+  @apply text-collar-purple;
+}
+
+/* stop <code> in prose from getting backticks... */
+.prose code {
+  &::before {
+    content: '';
   }
+  &::after {
+    content: '';
+  }
+}
+
+a:hover {
+  @apply text-sky-400 transition-colors duration-200;
+}
+
+@utility meta {
+  @apply text-[84%] font-light italic text-black/50;
+}
+
+@utility was {
+  @apply meta;
+
+  &::before {
+    content: '(';
+  }
+
+  &::after {
+    content: ')';
+  }
+}
+
+@utility smaller {
+  font-size: 84%;
 }

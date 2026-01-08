@@ -17,7 +17,7 @@ const dataUrl = 'news.yaml'; // need full path?
 const md = markdownit({
   typographer: true,
 })
-  .use(color, { defaultClassName: 'color' })
+  .use(color, { defaultClassName: 'md-collar' })
   // .use(alert)
   .use(attrs);
 // .use(container)

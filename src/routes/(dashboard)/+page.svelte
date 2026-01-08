@@ -201,6 +201,8 @@
 </div>
 
 <style lang="postcss">
+  @reference "../../app.css";
+
   .video-parent {
     @apply w-full aspect-[16/9];
 

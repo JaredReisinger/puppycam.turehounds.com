@@ -11,13 +11,13 @@
   import { puppycam1_youtube, nestcamOffice } from '$lib/video-streams.js';
 </script>
 
-<div class="prose prose-sm md:prose-base lg:prose-lg">
+<div class="prose prose-sm md:prose-base lg:prose-lg xl:prose-xl">
   <h1>About PuppyCam</h1>
 
   <p>
-    Having puppies in the house is <em>ridiculously</em> fun, especially as they
-    get bigger and start to play. The next best thing to having them in your house
-    is at least being able to check in on them at any time. We had a puppycam available
+    Having puppies in the house is <em>ridiculously</em> fun, especially as they get
+    bigger and start to play. The next best thing to having them in your house is
+    at least being able to check in on them at any time. We had a puppycam available
     for Disa's first litter and decided to do it again for this one.
   </p>
 
@@ -117,8 +117,8 @@
     As noted, I first switched to YouTube, but as a platform that’s more focused
     on individual videos, it insists on changing the video ID <em>every time</em
     > it thinks the stream ends… which includes any time the feed gets interrupted.
-    When the ID changes, I have to change the reference that this site uses, and
-    that’s a pain! Twitch, however, was designed for gamers/creators who have a persistent
+    When the ID changes, I have to change the reference that this site uses, and that’s
+    a pain! Twitch, however, was designed for gamers/creators who have a persistent
     “channel”, and the channel name itself does not change no matter how many times
     to stop/restart streaming.
   </p>
@@ -130,9 +130,9 @@
     <a href="https://nest.com" target="_blank">Nest</a>
     cameras, for security. We use them so that we can easily keep an eye on things,
     including being able to peek in at the pups at night-time—the cameras use infrared
-    in low-light situations so we don’t need to turn on a light just to check on
-    them. One can also, as a camera owner, choose to make the feed from the camera
-    “public”, which allows you to share a public link to the feed on the
+    in low-light situations so we don’t need to turn on a light just to check on them.
+    One can also, as a camera owner, choose to make the feed from the camera “public”,
+    which allows you to share a public link to the feed on the
     <code>nest.com</code>
     site,
     <em>or</em>
@@ -222,9 +222,9 @@
     most-recent temperature/humidity reading, and (c) when the PuppyCam goes
     viral it could start requesting the information
     <em>millions</em>
-    of times 😉, the “most sane” thing to do is to run a tiny one-off web server
-    whose job is to periodically poke the SensorPush API to get the latest reading,
-    and to also serve that information publicly.
+    of times 😉, the “most sane” thing to do is to run a tiny one-off web server whose
+    job is to periodically poke the SensorPush API to get the latest reading, and
+    to also serve that information publicly.
   </p>
 
   <p>All of which means it’s a…</p>
@@ -283,8 +283,8 @@
   <p>
     Realizing that some significant milestones were coming up soon, I thought it
     would be good to have a way to highlight these on the main page. And, just
-    in case you miss one, you should be able to see <em>all</em> of the previous
-    news items as well.
+    in case you miss one, you should be able to see <em>all</em> of the previous news
+    items as well.
   </p>
 
   <p>
@@ -309,6 +309,8 @@
 </div>
 
 <style lang="postcss">
+  @reference "../../../app.css";
+
   .example {
     @apply w-48 lg:w-64 xl:w-96 max-w-full mx-auto bg-gray-100 border border-gray-300  p-2 rounded-lg;
 

@@ -70,7 +70,7 @@
         <tbody>
           {#each dogs as dog}
             {@const weightG = dog.weights.slice(-1)[0][1]}
-            <tr class={dog.collar}>
+            <tr class="text-collar-{dog.collar}">
               <td>{properName(dog)}</td>
               <td class="smaller">{dog.collar}</td>
               <td class="smaller text-center">{dog.sex}</td>

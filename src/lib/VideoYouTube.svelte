@@ -32,7 +32,7 @@
 <!-- let parent decide size! -->
 <div class="relative w-full h-full">
   <div
-    class="absolute m-2 px-1 bg-sky-400 text-white text-sm tracking-wider rounded z-50"
+    class="absolute m-2 px-1 bg-sky-400 text-white text-sm tracking-wider rounded-sm z-50"
   >
     LIVE
   </div>

@@ -104,7 +104,7 @@
 
 <div class="relative w-full h-full">
   <div
-    class="absolute m-3 px-2 bg-cyan-500 text-zinc-50 rounded font-sans not-italic text-sm tracking-wider"
+    class="absolute m-3 px-2 bg-cyan-500 text-zinc-50 rounded-sm font-sans not-italic text-sm tracking-wider"
   >
     LIVE
   </div>

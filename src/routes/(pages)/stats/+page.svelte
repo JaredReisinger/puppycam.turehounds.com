@@ -4,7 +4,7 @@
   import { state as puppyState } from '$lib/puppy-data.svelte.js';
 </script>
 
-<div class="prose prose-sm md:prose-base lg:prose-lg">
+<div class="prose prose-sm md:prose-base lg:prose-lg xl:prose-xl">
   <h1>Statistics!</h1>
 
   <p>
