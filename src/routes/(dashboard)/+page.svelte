@@ -80,7 +80,7 @@
         <!-- This has to act like YouTube and always 16:9 the inner part -->
         <div class="w-full h-full bg-black">
           <div
-            class="max-w-full max-h-full aspect-[16/9] mx-auto my-auto bg-gray-500 flex flex-wrap justify-around content-around text-white text-xl"
+            class="max-w-full max-h-full aspect-16/9 mx-auto my-auto bg-gray-500 flex flex-wrap justify-around content-around text-white text-xl"
           >
             <div class="p-5 text-center italic">
               No video available until after puppies have been born!
@@ -97,7 +97,7 @@
     class={`${showKiosk ? 'absolute top-0 right-0 max-h-[75%] overflow-y-auto bg-white/30 rounded-bl-lg backdrop-blur-md' : ''}`}
   >
     <div
-      class={`p-5 flex flex-col flex-wrap gap-4 ${showKiosk ? 'w-[27rem] min-h-full' : 'xl:w-[27rem] xl:min-h-full'}`}
+      class={`p-5 flex flex-col flex-wrap gap-4 ${showKiosk ? 'w-108 min-h-full' : 'xl:w-108 xl:min-h-full'}`}
     >
       {#if flags.dev}
         <div class="w-full flex flex-wrap gap-x-12 gap-y-1 order-first smaller">
@@ -162,18 +162,19 @@
         >
           <div>
             <PuppyDetails {showFuture} />
-            <a href="about#puppy-details" class="meta what">what?!</a>
+            <div class="meta">
+              <a href="about#puppy-details" class="what">what?!</a>
+            </div>
           </div>
 
           <div>
             <PuppyWeather title="Current puppy weather" />
-            <a href="about#puppy-weather" class="meta what">what?!</a>
+            <div class="meta">
+              <a href="about#puppy-weather" class="what">what?!</a>
+            </div>
           </div>
 
-          <div
-            class="w-[33vw] xl:w-full min-w-96 grow"
-            class:order-first={future}
-          >
+          <div class="w-[33vw] xl:w-full min-w-96 grow">
             {#if devExtraNews}
               <div class="prose">
                 <p>
@@ -192,7 +193,9 @@
               </div>
             {/if}
             <LatestNews />
-            <a href="about#news" class="meta what">what?!</a>
+            <div class="meta">
+              <a href="about#news" class="what">what?!</a>
+            </div>
           </div>
         </div>
       {/if}
@@ -204,7 +207,7 @@
   @reference "../../app.css";
 
   .video-parent {
-    @apply w-full aspect-[16/9];
+    @apply w-full aspect-16/9;
 
     &.kiosk {
       @apply absolute w-screen h-screen;
@@ -228,9 +231,5 @@
       /* width = 100 / (9 / 16) = 177.777777 */
       width: 177.78vh;
     }
-  }
-
-  .what {
-    @apply mt-2 underline decoration-dotted hover:decoration-solid hover:text-sky-400;
   }
 </style>

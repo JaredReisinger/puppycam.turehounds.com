@@ -34,11 +34,3 @@
     </div>
   </div>
 </div>
-
-<style lang="postcss">
-  @reference "../../../app.css";
-
-  .what {
-    @apply mt-2 underline decoration-dotted hover:decoration-solid hover:text-sky-400;
-  }
-</style>

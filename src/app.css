@@ -140,8 +140,14 @@ a:hover {
 }
 
 @utility meta {
-  @apply text-[84%] font-light italic text-black/50;
+  @apply text-[75%] font-light italic text-black/30 text-right;
+
+  a.what {
+    @apply mt-2 underline decoration-dotted hover:decoration-solid hover:text-sky-400;
+  }
 }
+
+
 
 @utility was {
   @apply meta;
